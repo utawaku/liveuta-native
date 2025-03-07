@@ -17,6 +17,7 @@
       }
     }
   ],
+  "svelteAllowShorthand": false,
   "tailwindStylesheet": "./src/app.css",
   "tailwindFunctions": [
     "cx"
