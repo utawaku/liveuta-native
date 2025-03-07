@@ -19,9 +19,7 @@
   ],
   "svelteAllowShorthand": false,
   "tailwindStylesheet": "./src/app.css",
-  "tailwindFunctions": [
-    "cx"
-  ],
+  "tailwindFunctions": ["cx"],
   "plugins": [
     "prettier-plugin-svelte",
     "@ianvs/prettier-plugin-sort-imports",

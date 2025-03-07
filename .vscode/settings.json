@@ -1,3 +1,13 @@
 {
-  "svelte.enable-ts-plugin": true
+  "svelte.enable-ts-plugin": true,
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "[css][typescript][svelte]": {
+    "editor.defaultFormatter": "svelte.svelte-vscode"
+  },
+  "[rust]": {
+    "editor.defaultFormatter": "rust-lang.rust-analyzer"
+  },
+  "files.associations": {
+    "*.css": "tailwindcss"
+  }
 }
