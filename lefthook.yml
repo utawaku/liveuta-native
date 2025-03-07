@@ -1,14 +1,17 @@
 pre-commit:
   jobs:
-    - name: format
+    - name: format-js
       run: bun prettier --write {staged_files}
-    - name: lint
+      glob: "*.{js,ts,css,json,yml,svelte}"
+    - name: lint-js
       run: bun oxlint {staged_files}
+      glob: "*.{js,ts,svelte}"
 
 pre-push:
   jobs:
-    - name: lint
+    - name: lint-js
       run: bun oxlint {push_files}
+      glob: "*.{js,ts,svelte}"
       
 # EXAMPLE USAGE:
 #
