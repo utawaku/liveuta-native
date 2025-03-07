@@ -1,7 +1,34 @@
-# Tauri + SvelteKit + TypeScript
+# Liveuta Native
 
-This template should help get you started developing with Tauri, SvelteKit and TypeScript in Vite.
+## 빌드하기
 
-## Recommended IDE Setup
+### 준비물
 
-[VS Code](https://code.visualstudio.com/) + [Svelte](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer).
+1. [rust](https://www.rust-lang.org/) 컴파일러
+
+[rustup](https://rustup.rs/) 설치 후 nightly 설치
+
+2021 에디션 `1.85.0-nightly` 이상
+
+```sh
+rustup install nightly
+```
+
+2. [bun](https://bun.sh/)
+
+```sh
+curl -fsSL https://bun.sh/install | bash     # linux & macOS
+powershell -c "irm bun.sh/install.ps1 | iex" # windows
+```
+
+### 프로젝트 빌드
+
+```sh
+bun run tauri build
+```
+
+## 개발
+
+```sh
+bun run tauri dev
+```
