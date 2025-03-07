@@ -5,9 +5,17 @@
     "<TYPES>",
     "<TYPES>^[.]",
     "<THIRD_PARTY_MODULES>",
-    "^~/(.*)$",
+    "^$/(.*)$",
     "^[.]",
     ".css$"
+  ],
+  "overrides": [
+    {
+      "files": "*.svelte",
+      "options": {
+        "parser": "svelte"
+      }
+    }
   ],
   "tailwindStylesheet": "./src/app.css",
   "tailwindFunctions": [
