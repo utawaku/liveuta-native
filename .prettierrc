@@ -1,0 +1,21 @@
+{
+  "printWidth": 100,
+  "importOrder": [
+    "<BUILTIN_MODULES>",
+    "<TYPES>",
+    "<TYPES>^[.]",
+    "<THIRD_PARTY_MODULES>",
+    "^~/(.*)$",
+    "^[.]",
+    ".css$"
+  ],
+  "tailwindStylesheet": "./src/app.css",
+  "tailwindFunctions": [
+    "cx"
+  ],
+  "plugins": [
+    "prettier-plugin-svelte",
+    "@ianvs/prettier-plugin-sort-imports",
+    "prettier-plugin-tailwindcss"
+  ]
+}
