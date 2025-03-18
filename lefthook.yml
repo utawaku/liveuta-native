@@ -12,7 +12,6 @@ pre-push:
     - name: lint-js
       run: bun oxlint {push_files}
       glob: "*.{js,ts,svelte}"
-      
 # EXAMPLE USAGE:
 #
 #   Refer for explanation to following link:

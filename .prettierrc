@@ -5,23 +5,16 @@
     "<TYPES>",
     "<TYPES>^[.]",
     "<THIRD_PARTY_MODULES>",
-    "^$/(.*)$",
+    "^~/(.*)$",
     "^[.]",
     ".css$"
   ],
-  "overrides": [
-    {
-      "files": "*.svelte",
-      "options": {
-        "parser": "svelte"
-      }
-    }
-  ],
   "svelteAllowShorthand": false,
   "tailwindStylesheet": "./src/app.css",
-  "tailwindFunctions": ["cx"],
+  "tailwindFunctions": [
+    "cx"
+  ],
   "plugins": [
-    "prettier-plugin-svelte",
     "@ianvs/prettier-plugin-sort-imports",
     "prettier-plugin-tailwindcss"
   ]

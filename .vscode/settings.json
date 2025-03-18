@@ -1,13 +1,21 @@
 {
-  "svelte.enable-ts-plugin": true,
   "typescript.tsdk": "node_modules/typescript/lib",
-  "[css][typescript][svelte]": {
-    "editor.defaultFormatter": "svelte.svelte-vscode"
+  "[css][typescript][typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[rust]": {
     "editor.defaultFormatter": "rust-lang.rust-analyzer"
   },
   "files.associations": {
     "*.css": "tailwindcss"
+  },
+    "files.watcherExclude": {
+    "**/routeTree.gen.ts": true
+  },
+  "search.exclude": {
+    "**/routeTree.gen.ts": true
+  },
+  "files.readonlyInclude": {
+    "**/routeTree.gen.ts": true
   }
 }
