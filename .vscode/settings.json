@@ -38,6 +38,6 @@
     "*.mts": "$(capture).mts.map, $(capture).*.mts, $(capture)_*.mts",
     "*.ts": "$(capture).js, $(capture).d.ts.map, $(capture).*.ts, $(capture)_*.js, $(capture)_*.ts",
     "*.tsx": "$(capture).ts, $(capture).*.tsx, $(capture)_*.ts, $(capture)_*.tsx, $(capture).css, $(capture).module.css, $(capture).less, $(capture).module.less, $(capture).module.less.d.ts, $(capture).scss, $(capture).module.scss, $(capture).module.scss.d.ts, $(capture).css.ts",
-    "ui.config.json": "components.json",
-  },
+    "ui.config.json": "components.json"
+  }
 }
