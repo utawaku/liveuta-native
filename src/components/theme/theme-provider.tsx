@@ -1,12 +1,4 @@
-import {
-  Accessor,
-  createContext,
-  createEffect,
-  createSignal,
-  JSX,
-  onMount,
-  useContext,
-} from "solid-js";
+import { Accessor, createContext, createEffect, createSignal, JSX, useContext } from "solid-js";
 
 export type Theme = "light" | "dark" | "system";
 
