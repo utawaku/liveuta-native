@@ -94,12 +94,6 @@ const splitSchedule = (scheduleList: readonly ScheduleJSON[]) => {
     }
   }
 
-  console.log(`${endedLiveStreams.length} - ${endedLiveStreams[0]}`);
-  console.log(`${liveStreams.length} - ${liveStreams[0]}`);
-  console.log(`${scheduledLiveStreams.length} - ${scheduledLiveStreams[0]}`);
-  console.log(`${videos.length} - ${videos[0]}`);
-  console.log(`${scheduledVideos.length} - ${scheduledVideos[0]}`);
-
   return { endedLiveStreams, liveStreams, scheduledLiveStreams, videos, scheduledVideos };
 };
 
@@ -107,8 +101,6 @@ export const getSchedule = Effect.gen(function* (_) {
   const response = yield* _(fetchSchedule);
   const scheduleJSON = yield* _(parseJSON(response));
   const scheduleList = yield* _(Schema.decodeUnknownEither(ScheduleList)(scheduleJSON));
-
-  console.log(`${scheduleList.length} - ${scheduleList[0]}`);
 
   return splitSchedule(scheduleList);
 });
