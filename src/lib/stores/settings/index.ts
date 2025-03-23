@@ -4,8 +4,8 @@ import { load } from "@tauri-apps/plugin-store";
 import { Effect } from "effect";
 import { toast } from "solid-sonner";
 import { siteConfig } from "~/site-config";
-import { env } from "./env";
-import { FSReadError, FSWriteError } from "./error";
+import { env } from "../../env";
+import { FSReadError, FSWriteError } from "../../error";
 
 const getSettingsFile = Effect.tryPromise({
   try: () => load(env.settingsFile),
@@ -39,7 +39,7 @@ const getInitialSettings = Effect.gen(function* (_) {
   }
 });
 
-const saveSettings2 = (settings: Settings) =>
+const saveSettings = (settings: Settings) =>
   Effect.gen(function* (_) {
     const file = yield* _(getSettingsFile);
     if (file !== null) {
@@ -103,6 +103,6 @@ const saveSettings2 = (settings: Settings) =>
 
 export const settingsStore = new Store<Settings>(await Effect.runPromise(getInitialSettings), {
   onUpdate: async () => {
-    await Effect.runPromise(saveSettings2(settingsStore.state));
+    await Effect.runPromise(saveSettings(settingsStore.state));
   },
 });
