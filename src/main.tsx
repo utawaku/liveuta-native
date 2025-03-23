@@ -2,7 +2,9 @@ import { createRouter, RouterProvider } from "@tanstack/solid-router";
 import { render } from "solid-js/web";
 import { routeTree } from "./routeTree.gen";
 import "./styles.css";
-import { ThemeProvider } from "./components/theme/theme-provider";
+import { QueryClient, QueryClientProvider } from "@tanstack/solid-query";
+import { ThemeProvider } from "./components/contexts/theme-provider";
+import { SidebarProvider } from "./components/ui/sidebar";
 
 const router = createRouter({
   routeTree,
@@ -21,7 +23,11 @@ function App() {
   return (
     <>
       <ThemeProvider>
-        <RouterProvider router={router} />
+        <SidebarProvider>
+          <QueryClientProvider client={new QueryClient()}>
+            <RouterProvider router={router} />
+          </QueryClientProvider>
+        </SidebarProvider>
       </ThemeProvider>
     </>
   );

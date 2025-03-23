@@ -2,7 +2,7 @@ import { createRootRouteWithContext, Outlet } from "@tanstack/solid-router";
 import { TanStackRouterDevtools } from "@tanstack/solid-router-devtools";
 import { Navbar } from "~/components/navbar";
 import { AppSidebar } from "~/components/sidebar";
-import { SidebarInset, SidebarProvider } from "~/components/ui/sidebar";
+import { SidebarInset } from "~/components/ui/sidebar";
 
 export const Route = createRootRouteWithContext()({
   component: RootComponent,
@@ -11,14 +11,12 @@ export const Route = createRootRouteWithContext()({
 function RootComponent() {
   return (
     <>
-      <SidebarProvider>
-        <AppSidebar />
-        <SidebarInset>
-          <Navbar />
-          <Outlet />
-        </SidebarInset>
-      </SidebarProvider>
-      <TanStackRouterDevtools />
+      <AppSidebar />
+      <SidebarInset>
+        <Navbar />
+        <TanStackRouterDevtools />
+        <Outlet />
+      </SidebarInset>
     </>
   );
 }
