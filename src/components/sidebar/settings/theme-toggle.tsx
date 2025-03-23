@@ -9,7 +9,7 @@ import { TablerDeviceDesktop } from "~/icons/tabler/device-desktop";
 import { TablerMoon } from "~/icons/tabler/moon";
 import { TablerSun } from "~/icons/tabler/sun";
 import { themeToLabel } from "~/lib/utils";
-import { useTheme } from "../../theme/theme-provider";
+import { useTheme } from "../../contexts/theme-provider";
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
