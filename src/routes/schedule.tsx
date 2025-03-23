@@ -1,69 +1,38 @@
+import { createQuery } from "@tanstack/solid-query";
 import { createFileRoute } from "@tanstack/solid-router";
+import { useStore } from "@tanstack/solid-store";
 import { Effect } from "effect";
-import { createResource, For, Match, Show, Suspense, Switch } from "solid-js";
+import { Match, Suspense, Switch } from "solid-js";
+import { ScheduleList } from "~/components/route-components/schedule/list";
 import { getSchedule } from "~/lib/client/schedule";
+import { settingsStore } from "~/lib/stores/settings";
 
 export const Route = createFileRoute("/schedule")({
   component: RouteComponent,
 });
 
-async function fetchSchedule() {
-  return await Effect.runPromise(getSchedule);
-  // return 1;
-}
-
 function RouteComponent() {
-  const [schedule] = createResource(fetchSchedule);
+  const settings = useStore(settingsStore);
+  const schedule = createQuery(() => ({
+    queryKey: ["schedule"],
+    queryFn: () => Effect.runPromise(getSchedule),
+    gcTime: settings().syncPeriod * 60 * 1000,
+    staleTime: settings().syncPeriod * 60 * 1000,
+  }));
 
   return (
     <div class="grid place-content-center">
       <div>
         <Suspense>
-          <Show when={schedule.loading}>
-            <div>Loading...</div>
-          </Show>
           <Switch>
-            <Match when={schedule.error}>
-              <span>Error: {schedule.error}</span>
+            <Match when={schedule.isLoading}>
+              <div>Loading...</div>
             </Match>
-            <Match when={schedule()}>
-              <div>
-                <For each={schedule()?.liveStreams}>
-                  {(item) => (
-                    <div>
-                      <div>{item.title}</div>
-                    </div>
-                  )}
-                </For>
-                <For each={schedule()?.endedLiveStreams}>
-                  {(item) => (
-                    <div>
-                      <div>{item.title}</div>
-                    </div>
-                  )}
-                </For>
-                <For each={schedule()?.scheduledLiveStreams}>
-                  {(item) => (
-                    <div>
-                      <div>{item.title}</div>
-                    </div>
-                  )}
-                </For>
-                <For each={schedule()?.videos}>
-                  {(item) => (
-                    <div>
-                      <div>{item.title}</div>
-                    </div>
-                  )}
-                </For>
-                <For each={schedule()?.scheduledVideos}>
-                  {(item) => (
-                    <div>
-                      <div>{item.title}</div>
-                    </div>
-                  )}
-                </For>
-              </div>
+            <Match when={schedule.isError}>
+              <div>Error: {schedule.error?.message}</div>
+            </Match>
+            <Match when={schedule.data}>
+              <ScheduleList schedule={schedule.data!} />
             </Match>
           </Switch>
         </Suspense>
