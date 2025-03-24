@@ -26,8 +26,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip
 import { cn } from "~/lib/utils";
 
 const MOBILE_BREAKPOINT = 768;
-const SIDEBAR_COOKIE_NAME = "sidebar:state";
-const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
+const LOCAL_STORAGE_KEY = "sidebar-state";
 const SIDEBAR_WIDTH = "16rem";
 const SIDEBAR_WIDTH_MOBILE = "18rem";
 const SIDEBAR_WIDTH_ICON = "3rem";
@@ -77,6 +76,28 @@ type SidebarProviderProps = Omit<ComponentProps<"div">, "style"> & {
   style?: JSX.CSSProperties;
 };
 
+function getSidebarState() {
+  if (!window.localStorage) {
+    return true;
+  }
+
+  const initialState = localStorage.getItem(LOCAL_STORAGE_KEY);
+
+  if (!initialState) {
+    return true;
+  }
+
+  return initialState === "true";
+}
+
+function setSidebarState(openState: boolean) {
+  if (!window.localStorage) {
+    return;
+  }
+
+  localStorage.setItem(LOCAL_STORAGE_KEY, openState.toString());
+}
+
 const SidebarProvider: Component<SidebarProviderProps> = (rawProps) => {
   const props = mergeProps({ defaultOpen: true }, rawProps);
   const [local, others] = splitProps(props, [
@@ -93,16 +114,14 @@ const SidebarProvider: Component<SidebarProviderProps> = (rawProps) => {
 
   // This is the internal state of the sidebar.
   // We use open and onOpenChange for control from outside the component.
-  const [_open, _setOpen] = createSignal(local.defaultOpen);
+  const [_open, _setOpen] = createSignal(getSidebarState());
   const open = () => local.open ?? _open();
   const setOpen = (value: boolean | ((value: boolean) => boolean)) => {
     if (local.onOpenChange) {
       return local.onOpenChange?.(typeof value === "function" ? value(open()) : value);
     }
     _setOpen(value);
-
-    // This sets the cookie to keep the sidebar state.
-    document.cookie = `${SIDEBAR_COOKIE_NAME}=${open()}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE}`;
+    setSidebarState(open());
   };
 
   // Helper to toggle the sidebar.
@@ -187,7 +206,7 @@ const Sidebar: Component<SidebarProps> = (rawProps) => {
       <Match when={local.collapsible === "none"}>
         <div
           class={cn(
-            "test bg-sidebar text-sidebar-foreground flex h-full w-[--sidebar-width] flex-col",
+            "bg-sidebar text-sidebar-foreground flex h-full w-[--sidebar-width] flex-col",
             local.class,
           )}
           {...others}
@@ -225,27 +244,27 @@ const Sidebar: Component<SidebarProps> = (rawProps) => {
               "group-data-[collapsible=offcanvas]:w-0",
               "group-data-[side=right]:rotate-180",
               local.variant === "floating" || local.variant === "inset"
-                ? "group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)_+_theme(spacing.4))]"
-                : "group-data-[collapsible=icon]:w-[--sidebar-width-icon]",
+                ? "group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+(--spacing(4)))]"
+                : "group-data-[collapsible=icon]:w-(--sidebar-width-icon)",
             )}
           />
           <div
             class={cn(
-              "ease-expo-in-out-custom fixed inset-y-0 z-10 hidden h-svh w-[--sidebar-width] transition-[left,right,width] duration-200 md:flex",
+              "ease-expo-in-out-custom w-(--sidebar-width) fixed inset-y-0 z-10 hidden h-svh transition-[left,right,width] duration-200 md:flex",
               local.side === "left"
                 ? "left-0 group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-1)]"
                 : "right-0 group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)]",
               // Adjust the padding for floating and inset variants.
               local.variant === "floating" || local.variant === "inset"
-                ? "p-2 group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)_+_theme(spacing.4)_+2px)]"
-                : "group-data-[collapsible=icon]:w-[--sidebar-width-icon] group-data-[side=left]:border-r group-data-[side=right]:border-l",
+                ? "p-2 group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+(--spacing(4))+2px)]"
+                : "group-data-[collapsible=icon]:w-(--sidebar-width-icon) group-data-[side=left]:border-r group-data-[side=right]:border-l",
               local.class,
             )}
             {...others}
           >
             <div
               data-sidebar="sidebar"
-              class="bg-sidebar group-data-[variant=floating]:border-sidebar-border flex size-full flex-col group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:border group-data-[variant=floating]:shadow"
+              class="bg-sidebar group-data-[variant=floating]:border-sidebar-border flex h-full w-full flex-col group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:border group-data-[variant=floating]:shadow-sm"
             >
               {local.children}
             </div>
@@ -322,9 +341,10 @@ const SidebarInset: Component<ComponentProps<"main">> = (props) => {
   const [local, others] = splitProps(props, ["class"]);
   return (
     <main
+      data-slot="sidebar-inset"
       class={cn(
-        "bg-background relative flex min-h-svh flex-1 flex-col",
-        "peer-data-[variant=inset]:min-h-[calc(100svh-theme(spacing.4))] md:peer-data-[variant=inset]:m-2 md:peer-data-[state=collapsed]:peer-data-[variant=inset]:ml-2 md:peer-data-[variant=inset]:ml-0 md:peer-data-[variant=inset]:rounded-xl md:peer-data-[variant=inset]:shadow",
+        "bg-background relative flex w-full flex-1 flex-col",
+        "md:peer-data-[variant=inset]:m-2 md:peer-data-[variant=inset]:ml-0 md:peer-data-[variant=inset]:peer-data-[state=collapsed]:ml-2 md:peer-data-[variant=inset]:rounded-xl md:peer-data-[variant=inset]:shadow-sm",
         local.class,
       )}
       {...others}
@@ -531,7 +551,7 @@ const SidebarMenuButton = <T extends ValidComponent = "button">(
 
   return (
     <Show when={local.tooltip} fallback={button}>
-      <Tooltip placement="right">
+      <Tooltip placement="right" openDelay={0} closeDelay={0}>
         <TooltipTrigger class="w-full">{button}</TooltipTrigger>
         <TooltipContent hidden={state() !== "collapsed" || isMobile()}>
           {local.tooltip}

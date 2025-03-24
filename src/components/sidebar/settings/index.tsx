@@ -1,4 +1,9 @@
-import { SidebarGroup, SidebarGroupContent, SidebarGroupLabel } from "../../ui/sidebar";
+import {
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarMenu,
+} from "~/components/ui/sidebar";
 import { ThemeToggle } from "./theme-toggle";
 
 export function Settings() {
@@ -6,7 +11,9 @@ export function Settings() {
     <SidebarGroup>
       <SidebarGroupLabel>설정</SidebarGroupLabel>
       <SidebarGroupContent>
-        <ThemeToggle />
+        <SidebarMenu>
+          <ThemeToggle />
+        </SidebarMenu>
       </SidebarGroupContent>
     </SidebarGroup>
   );

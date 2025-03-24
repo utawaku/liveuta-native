@@ -4,7 +4,6 @@ import { routeTree } from "./routeTree.gen";
 import "./styles.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/solid-query";
 import { ThemeProvider } from "./components/contexts/theme-provider";
-import { SidebarProvider } from "./components/ui/sidebar";
 
 const router = createRouter({
   routeTree,
@@ -21,15 +20,11 @@ declare module "@tanstack/solid-router" {
 
 function App() {
   return (
-    <>
+    <QueryClientProvider client={new QueryClient()}>
       <ThemeProvider>
-        <SidebarProvider>
-          <QueryClientProvider client={new QueryClient()}>
-            <RouterProvider router={router} />
-          </QueryClientProvider>
-        </SidebarProvider>
+        <RouterProvider router={router} />
       </ThemeProvider>
-    </>
+    </QueryClientProvider>
   );
 }
 
