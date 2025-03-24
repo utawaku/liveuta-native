@@ -1,4 +1,4 @@
-import type { ScheduleItem } from "~/lib/client/schedule";
+import type { ScheduleItem } from "~/types/mongodb";
 import { For } from "solid-js";
 import { ScheduleItemCard } from "./item-card";
 

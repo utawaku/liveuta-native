@@ -1,42 +1,22 @@
-import type { ScheduleItem } from "~/types/schedule";
 import { Effect, Schema } from "effect";
-import dayjs from "~/lib/dayjs";
+import Dayjs from "~/lib/dayjs";
 import { env } from "~/lib/env";
 import { fetch, parseJSON } from "~/lib/fetch";
-import { RawScheduleJSON, RawScheduleJSONSchema } from "~/types/mongodb";
+import { RawScheduleItemSchema, ScheduleItem } from "~/types/mongodb";
 
-const ScheduleList = Schema.Array(RawScheduleJSONSchema);
+const ScheduleList = Schema.Array(RawScheduleItemSchema);
 
 const fetchSchedule = fetch(`${env.backendUrl}/schedule/get`);
-
-const transformSchedule = (scheduleList: readonly RawScheduleJSON[]) => {
-  return scheduleList.map((item) => {
-    const datetime = dayjs(item.scheduledTime);
-    return {
-      title: item.title,
-      channelName: item.channelName,
-      scheduledTime: datetime,
-      hide: item.hide,
-      concurrentViewers: item.concurrentViewers ?? 0,
-      videoId: item.videoId,
-      channelId: item.channelId,
-      tag: item.tag,
-      type: item.isVideo
-        ? "video"
-        : item.broadcastStatus === true
-          ? "stream"
-          : datetime.isBefore(dayjs())
-            ? "ended-stream"
-            : "scheduled-stream",
-    };
-  }) as ScheduleItem[];
-};
 
 export const getSchedule = Effect.gen(function* (_) {
   const response = yield* _(fetchSchedule);
   const scheduleJSON = yield* _(parseJSON(response));
   const scheduleList = yield* _(Schema.decodeUnknownEither(ScheduleList)(scheduleJSON));
 
-  return transformSchedule(scheduleList);
+  console.log(scheduleList);
+
+  return scheduleList.map((item) => ({
+    ...item,
+    scheduledTime: Dayjs(item.scheduledTime),
+  })) as ScheduleItem[];
 });
-export { ScheduleItem };

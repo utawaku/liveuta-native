@@ -1,4 +1,4 @@
-import type { ScheduleItem } from "~/types/schedule";
+import type { ScheduleItem } from "~/types/mongodb";
 import { Card, CardContent, CardHeader } from "~/components/ui/card";
 
 type ScheduleItemCardProps = {

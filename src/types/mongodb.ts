@@ -1,7 +1,8 @@
 import type { YoutubeChannelData } from "./youtube";
+import { Dayjs } from "dayjs";
 import { Schema } from "effect";
 
-export const RawChannelJSONSchema = Schema.Struct({
+export const RawChannelItemSchema = Schema.Struct({
   channelId: Schema.String,
   nameKor: Schema.String,
   names: Schema.Array(Schema.String),
@@ -11,8 +12,8 @@ export const RawChannelJSONSchema = Schema.Struct({
   waiting: Schema.Boolean,
   alive: Schema.Boolean,
 });
-export type RawChannel = typeof RawChannelJSONSchema.Type;
-export type RawChannelListData = Record<string, RawChannel>;
+export type RawChannelItem = typeof RawChannelItemSchema.Type;
+export type RawChannelList = Record<string, RawChannelItem>;
 
 export type RawChannelsWithYoutubeData = {
   contents: YoutubeChannelData[];
@@ -20,7 +21,7 @@ export type RawChannelsWithYoutubeData = {
   totalPage: number;
 };
 
-export const RawScheduleJSONSchema = Schema.Struct({
+export const RawScheduleItemSchema = Schema.Struct({
   title: Schema.String,
   channelName: Schema.String,
   scheduledTime: Schema.Date,
@@ -31,19 +32,9 @@ export const RawScheduleJSONSchema = Schema.Struct({
   videoId: Schema.String,
   channelId: Schema.String,
   tag: Schema.UndefinedOr(Schema.String),
+  type: Schema.Literal("video", "scheduled-video", "stream", "ended-stream", "scheduled-stream"),
 });
-export type RawScheduleJSON = typeof RawScheduleJSONSchema.Type;
-
-export const RawScheduleSchema = Schema.Struct({
-  title: Schema.String,
-  channelName: Schema.String,
-  scheduledTime: Schema.Date,
-  broadcastStatus: Schema.UndefinedOr(Schema.Boolean),
-  hide: Schema.Boolean,
-  isVideo: Schema.Boolean,
-  concurrentViewers: Schema.Number,
-  videoId: Schema.String,
-  channelId: Schema.String,
-  tag: Schema.UndefinedOr(Schema.String),
-});
-export type RawSchedule = typeof RawScheduleSchema.Type;
+export type RawScheduleItem = typeof RawScheduleItemSchema.Type;
+export type ScheduleItem = Omit<RawScheduleItem, "scheduledTime"> & {
+  scheduledTime: Dayjs;
+};
