@@ -16,10 +16,6 @@
         }
       ]
     },
-    "sql:default",
-    {
-      "identifier": "fs:default"
-    },
-    "store:default"
+    "sql:default"
   ]
 }

@@ -520,10 +520,8 @@ checksum = "1a7964611d71df112cb1730f2ee67324fcf4d0fc6606acbbe9bfe06df124637c"
 dependencies = [
  "android-tzdata",
  "iana-time-zone",
- "js-sys",
  "num-traits",
  "serde",
- "wasm-bindgen",
  "windows-link",
 ]
 
@@ -2230,20 +2228,15 @@ checksum = "b4ce301924b7887e9d637144fdade93f9dfff9b60981d4ac161db09720d39aa5"
 name = "liveuta-native"
 version = "0.0.1"
 dependencies = [
- "anyhow",
- "chrono",
- "dotenvy",
  "serde",
  "serde_json",
  "specta",
  "specta-typescript",
  "tauri",
  "tauri-build",
- "tauri-plugin-fs",
  "tauri-plugin-http",
  "tauri-plugin-opener",
  "tauri-plugin-sql",
- "tauri-plugin-store",
  "tauri-specta",
 ]
 
@@ -4580,22 +4573,6 @@ dependencies = [
  "thiserror 2.0.12",
  "time",
  "tokio",
-]
-
-[[package]]
-name = "tauri-plugin-store"
-version = "2.2.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1c0c08fae6995909f5e9a0da6038273b750221319f2c0f3b526d6de1cde21505"
-dependencies = [
- "dunce",
- "serde",
- "serde_json",
- "tauri",
- "tauri-plugin",
- "thiserror 2.0.12",
- "tokio",
- "tracing",
 ]
 
 [[package]]
