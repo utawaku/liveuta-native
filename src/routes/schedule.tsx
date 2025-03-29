@@ -5,7 +5,7 @@ import { Effect } from "effect";
 import { Match, Suspense, Switch } from "solid-js";
 import { ScheduleList } from "~/components/route-components/schedule/list";
 import { getSchedule } from "~/lib/client/schedule";
-import { settingsStore } from "~/lib/stores/settings";
+import { settingsStore } from "~/stores/settings";
 
 export const Route = createFileRoute("/schedule")({
   component: RouteComponent,
