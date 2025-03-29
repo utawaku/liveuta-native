@@ -8,7 +8,7 @@ type ScheduleListProps = {
 
 export function ScheduleList(props: ScheduleListProps) {
   return (
-    <div class="grid grid-cols-2 gap-4">
+    <div class="flex flex-wrap gap-4">
       <For each={props.schedule}>{(item) => <ScheduleItemCard item={item} />}</For>
     </div>
   );
