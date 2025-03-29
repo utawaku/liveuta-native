@@ -21,7 +21,7 @@ export function MainNav() {
           </SidebarMenuButton>
         </SidebarMenuItem>
         <SidebarMenuItem>
-          <SidebarMenuButton tooltip="채널" as={Link} to="/channel">
+          <SidebarMenuButton tooltip="채널" as={Link} to="/channels">
             <MaterialSymbolsYoutubeTvOutline class="mr-1 size-6" />
             <span>채널</span>
           </SidebarMenuButton>
