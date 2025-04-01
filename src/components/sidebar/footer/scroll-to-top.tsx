@@ -1,5 +1,5 @@
 import { TablerArrowBigUpLinesFilled } from "~/icons/tabler/arrow-big-up-lines.filled";
-import { SidebarMenuButton, SidebarMenuItem } from "../ui/sidebar";
+import { SidebarMenuButton, SidebarMenuItem } from "../../ui/sidebar";
 
 export function ScrollToTop() {
   return (

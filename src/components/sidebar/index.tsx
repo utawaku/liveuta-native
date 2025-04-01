@@ -1,30 +1,14 @@
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarHeader,
-  SidebarRail,
-} from "~/components/ui/sidebar";
-import { Logo } from "./logo";
-import { MainNav } from "./main-nav";
-import { ScrollToTop } from "./scroll-to-top";
-import { Settings } from "./settings";
-import { SidebarUtils } from "./utils";
+import { Sidebar, SidebarRail } from "~/components/ui/sidebar";
+import { AppSidebarContents } from "./contents";
+import { AppSidebarFooter } from "./footer";
+import { AppSidebarHeader } from "./header";
 
 export function AppSidebar() {
   return (
     <Sidebar collapsible="icon">
-      <SidebarHeader>
-        <Logo />
-      </SidebarHeader>
-      <SidebarContent>
-        <SidebarUtils />
-        <Settings />
-        <MainNav />
-      </SidebarContent>
-      <SidebarFooter>
-        <ScrollToTop />
-      </SidebarFooter>
+      <AppSidebarHeader />
+      <AppSidebarContents />
+      <AppSidebarFooter />
       <SidebarRail />
     </Sidebar>
   );

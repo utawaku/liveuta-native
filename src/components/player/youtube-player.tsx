@@ -38,12 +38,63 @@ limitations under the License.
 */
 
 import "lite-youtube-embed/src/lite-yt-embed.css";
-import { createSignal, JSX, mergeProps, Show } from "solid-js";
-import { Dynamic } from "solid-js/web";
-import { YoutubeThumbnailQuality } from "~/lib/utils";
+import {
+  Accessor,
+  createContext,
+  createEffect,
+  createSignal,
+  JSX,
+  mergeProps,
+  onMount,
+  Show,
+  useContext,
+} from "solid-js";
+import { cn, YoutubeThumbnailQuality } from "~/lib/utils";
 import "./youtube-player.css";
+import YouTubeIFrameCtrl from "./youtube-iframe-controller";
 
 type Rel = "prefetch" | "preload";
+
+export type iframeStatus = "off" | "on";
+
+type YoutubePlayerContextType = {
+  iframeState: Accessor<iframeStatus>;
+  setIframeState: (status: iframeStatus) => void;
+  controller: Accessor<YouTubeIFrameCtrl | null>;
+  setController: (controller: YouTubeIFrameCtrl | null) => void;
+};
+
+const YoutubePlayerControllerContext = createContext<YoutubePlayerContextType | null>(null);
+
+export function useYoutubePlayerControllerContext() {
+  const context = useContext(YoutubePlayerControllerContext);
+
+  if (!context) {
+    throw new Error(
+      "useYoutubePlayerControllerContext must be used within a PlayerControllerProvider",
+    );
+  }
+
+  return context;
+}
+
+export function YoutubePlayerControllerProvider(props: { children: JSX.Element }) {
+  const [controller, setController] = createSignal<YouTubeIFrameCtrl | null>(null);
+  const [iframeState, setIframeState] = createSignal<iframeStatus>("off");
+
+  return (
+    <YoutubePlayerControllerContext.Provider
+      value={{
+        controller,
+        setController,
+        iframeState,
+        setIframeState,
+      }}
+    >
+      {props.children}
+    </YoutubePlayerControllerContext.Provider>
+  );
+}
 
 export type YoutubePlayerProps = {
   videoId: string;
@@ -52,8 +103,8 @@ export type YoutubePlayerProps = {
   announce?: string;
   aspectWidth?: number;
   aspectHeight?: number;
-  autoPlay?: boolean;
-  containerElement?: keyof JSX.IntrinsicElements;
+  autoLoad?: boolean;
+  fullPage?: boolean;
   iframeClass?: string;
   isPlaylist?: boolean;
   muted?: boolean;
@@ -75,8 +126,8 @@ export function YoutubePlayer(props: YoutubePlayerProps) {
       aspectWidth: 16,
       aspectHeight: 9,
       autoPlay: false,
+      fullPage: false,
       isPlaylist: false,
-      containerElement: "div" as keyof JSX.IntrinsicElements,
       muted: false,
       playerClass: "lty-playbtn",
       rel: "prefetch" as Rel,
@@ -92,8 +143,8 @@ export function YoutubePlayer(props: YoutubePlayerProps) {
 
   let iframeRef: HTMLIFrameElement | undefined;
 
+  const { setController, iframeState, setIframeState } = useYoutubePlayerControllerContext();
   const [preConnected, setPreConnected] = createSignal(false);
-  const [iframe, setIframe] = createSignal(merged.autoPlay);
   const vi = () => (merged.thumbnailWebp ? "vi_webp" : "vi");
   const videoPlaylistCoverId = () =>
     merged.playlistCoverId ? encodeURIComponent(merged.playlistCoverId) : null;
@@ -107,8 +158,8 @@ export function YoutubePlayer(props: YoutubePlayerProps) {
   const params = () => (merged.params ? `&${merged.params}` : "");
   const iframeSource = () =>
     merged.isPlaylist
-      ? `${youtubeUrl}/embed/videoseries?autoplay=1${muted()}&list=${videoId()}${params()}`
-      : `${youtubeUrl}/embed/${videoId()}?autoplay=1&state=1${muted()}${params()}`;
+      ? `${youtubeUrl}/embed/videoseries?enablejsapi=1&autoplay=1${muted()}&list=${videoId()}${params()}`
+      : `${youtubeUrl}/embed/${videoId()}?enablejsapi=1&autoplay=1&state=1${muted()}${params()}`;
 
   const warmConnections = () => {
     if (preConnected()) return;
@@ -116,10 +167,29 @@ export function YoutubePlayer(props: YoutubePlayerProps) {
   };
 
   const addIframe = () => {
-    if (iframe()) return;
-    setIframe(true);
-    merged.onIframeAdded();
+    if (iframeState() === "on") return;
+    setIframeState("on");
   };
+
+  const onPlayerScroll = (e: WheelEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    console.log(1);
+  };
+
+  onMount(() => {
+    if (merged.autoLoad) {
+      setIframeState("on");
+    }
+  });
+
+  createEffect(() => {
+    if (iframeState() === "on") {
+      setController(new YouTubeIFrameCtrl(iframeRef!));
+    } else if (iframeState() === "off") {
+      setController(null);
+    }
+  });
 
   return (
     <>
@@ -128,9 +198,8 @@ export function YoutubePlayer(props: YoutubePlayerProps) {
         <link rel="preconnect" href={youtubeUrl} />
         <link rel="preconnect" href="https://www.google.com" />
       </Show>
-      <Dynamic
-        component={merged.containerElement}
-        class={`${merged.wrapperClass} ${iframe() ? merged.activatedClass : ""}`}
+      <div
+        class={`${merged.wrapperClass} ${iframeState() === "on" ? merged.activatedClass : ""}`}
         data-title={merged.title}
         onPointerOver={warmConnections}
         onClick={addIframe}
@@ -144,21 +213,21 @@ export function YoutubePlayer(props: YoutubePlayerProps) {
           class={merged.playerClass}
           aria-label={`${merged.announce} ${merged.title}`}
         />
-        <Show when={iframe()}>
-          <iframe
-            ref={iframeRef}
-            class={merged.iframeClass}
-            title={merged.title}
-            width="560"
-            height="315"
-            // @ts-expect-error youtube-embed
-            frameBorder="0"
-            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-            src={iframeSource()}
-          />
-        </Show>
-      </Dynamic>
+        <iframe
+          id="youtube-player"
+          ref={iframeRef}
+          title={merged.title}
+          width="560"
+          height="315"
+          // @ts-expect-error youtube-embed
+          frameBorder="0"
+          allow={`accelerometer; ${merged.autoLoad ? "autoplay;" : ""} encrypted-media; gyroscope; picture-in-picture`}
+          allowFullScreen
+          src={iframeSource()}
+          class={cn(iframeState() === "on" ? "" : "invisible hidden", merged.iframeClass)}
+          onWheel={(e) => onPlayerScroll(e)}
+        />
+      </div>
     </>
   );
 }

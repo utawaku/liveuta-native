@@ -16,10 +16,10 @@ export function ScheduleItemCard(props: ScheduleItemCardProps) {
     <Card
       class="hover:ring-ring p-4 transition-all duration-100 hover:cursor-pointer hover:ring-1"
       onClick={() => {
-        pip?.setVideoState({
+        pip?.setVideoData({
           title: props.item.title,
           videoId: props.item.videoId,
-          autoPlay: true,
+          autoLoad: true,
         });
         pip?.setPipState("on");
       }}

@@ -28,13 +28,15 @@ function App() {
   //   await migrate();
   // });
   return (
-    <EffectProvider>
-      <QueryClientProvider client={new QueryClient()}>
-        <ThemeProvider>
-          <RouterProvider router={router} />
-        </ThemeProvider>
-      </QueryClientProvider>
-    </EffectProvider>
+    <>
+      <EffectProvider>
+        <QueryClientProvider client={new QueryClient()}>
+          <ThemeProvider>
+            <RouterProvider router={router} />
+          </ThemeProvider>
+        </QueryClientProvider>
+      </EffectProvider>
+    </>
   );
 }
 

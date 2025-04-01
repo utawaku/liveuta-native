@@ -12,7 +12,7 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as ScheduleImport } from './routes/schedule'
-import { Route as ChannelImport } from './routes/channel'
+import { Route as ChannelsImport } from './routes/channels'
 import { Route as IndexImport } from './routes/index'
 
 // Create/Update Routes
@@ -23,9 +23,9 @@ const ScheduleRoute = ScheduleImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const ChannelRoute = ChannelImport.update({
-  id: '/channel',
-  path: '/channel',
+const ChannelsRoute = ChannelsImport.update({
+  id: '/channels',
+  path: '/channels',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -46,11 +46,11 @@ declare module '@tanstack/solid-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
-    '/channel': {
-      id: '/channel'
-      path: '/channel'
-      fullPath: '/channel'
-      preLoaderRoute: typeof ChannelImport
+    '/channels': {
+      id: '/channels'
+      path: '/channels'
+      fullPath: '/channels'
+      preLoaderRoute: typeof ChannelsImport
       parentRoute: typeof rootRoute
     }
     '/schedule': {
@@ -67,41 +67,41 @@ declare module '@tanstack/solid-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/channel': typeof ChannelRoute
+  '/channels': typeof ChannelsRoute
   '/schedule': typeof ScheduleRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/channel': typeof ChannelRoute
+  '/channels': typeof ChannelsRoute
   '/schedule': typeof ScheduleRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
-  '/channel': typeof ChannelRoute
+  '/channels': typeof ChannelsRoute
   '/schedule': typeof ScheduleRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/channel' | '/schedule'
+  fullPaths: '/' | '/channels' | '/schedule'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/channel' | '/schedule'
-  id: '__root__' | '/' | '/channel' | '/schedule'
+  to: '/' | '/channels' | '/schedule'
+  id: '__root__' | '/' | '/channels' | '/schedule'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  ChannelRoute: typeof ChannelRoute
+  ChannelsRoute: typeof ChannelsRoute
   ScheduleRoute: typeof ScheduleRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  ChannelRoute: ChannelRoute,
+  ChannelsRoute: ChannelsRoute,
   ScheduleRoute: ScheduleRoute,
 }
 
@@ -116,15 +116,15 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/channel",
+        "/channels",
         "/schedule"
       ]
     },
     "/": {
       "filePath": "index.tsx"
     },
-    "/channel": {
-      "filePath": "channel.tsx"
+    "/channels": {
+      "filePath": "channels.tsx"
     },
     "/schedule": {
       "filePath": "schedule.tsx"
