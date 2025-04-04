@@ -1,11 +1,11 @@
 import { useNavigate } from "@tanstack/solid-router";
-import { Accessor, createContext, createSignal, JSX, useContext } from "solid-js";
+import { Accessor, createContext, createSignal, JSX, Show, useContext } from "solid-js";
 import {
   CommandDialog,
   CommandEmpty,
   CommandGroup,
   CommandInput,
-  CommandItem,
+  CommandItem as CommandItemPrimitive,
   CommandList,
   CommandSeparator,
   CommandShortcut,
@@ -33,6 +33,25 @@ export function useCommandPalette() {
   return context;
 }
 
+type CommandItemProps = {
+  onSelect: () => void;
+  label: string;
+  labelEnglish: string;
+  shortcut?: string;
+};
+
+function CommandItem(props: CommandItemProps) {
+  return (
+    <CommandItemPrimitive onSelect={props.onSelect}>
+      <span>{props.label}</span>
+      <span class="hidden">{props.labelEnglish}</span>
+      <Show when={props.shortcut}>
+        <CommandShortcut>{props.shortcut}</CommandShortcut>
+      </Show>
+    </CommandItemPrimitive>
+  );
+}
+
 function CommandPalette(props: { isCmdOpen: boolean; setIsCmdOpen: (value: boolean) => void }) {
   const { setTheme } = useTheme();
   const { toggleSidebar } = useSidebar();
@@ -49,68 +68,60 @@ function CommandPalette(props: { isCmdOpen: boolean; setIsCmdOpen: (value: boole
       <CommandList>
         <CommandEmpty>검색 결과가 없습니다</CommandEmpty>
         <CommandGroup heading="커맨드">
-          <CommandItem onSelect={() => props.setIsCmdOpen(false)}>
-            <span>커맨드 팔레트 토글</span>
-            <span class="hidden">Toggle Command Palette</span>
-            <CommandShortcut>Ctrl-P</CommandShortcut>
-          </CommandItem>
-          <CommandItem onSelect={() => onSelect(() => toggleSidebar())}>
-            <span>사이드바 토글</span>
-            <span class="hidden">Toggle Sidebar</span>
-            <CommandShortcut>Ctrl-S</CommandShortcut>
-          </CommandItem>
+          <CommandItem
+            onSelect={() => props.setIsCmdOpen(false)}
+            label="커맨드 팔레트 토글"
+            labelEnglish="Close Command Palette"
+            shortcut="Ctrl-P"
+          />
+          <CommandItem
+            onSelect={() => onSelect(() => toggleSidebar())}
+            label="사이드바 토글"
+            labelEnglish="Toggle Sidebar"
+            shortcut="Ctrl-S"
+          />
         </CommandGroup>
         <CommandSeparator />
         <CommandGroup heading="이동">
-          <CommandItem onSelect={() => onSelect(() => navigate({ to: "/" }))}>
-            <span>홈</span>
-            <span class="hidden">Home</span>
-            <CommandShortcut>Ctrl-Shift-H</CommandShortcut>
-          </CommandItem>
           <CommandItem
-            onSelect={() =>
-              onSelect(() =>
-                navigate({
-                  to: "/schedule",
-                }),
-              )
-            }
-          >
-            <span>스케줄</span>
-            <span class="hidden">Schedule</span>
-            <CommandShortcut>Ctrl-Shift-A</CommandShortcut>
-          </CommandItem>
+            onSelect={() => onSelect(() => navigate({ to: "/" }))}
+            label="홈"
+            labelEnglish="Home"
+            shortcut="Ctrl-Shift-H"
+          />
           <CommandItem
-            onSelect={() =>
-              onSelect(() =>
-                navigate({
-                  to: "/channels",
-                }),
-              )
-            }
-          >
-            <span>채널</span>
-            <span class="hidden">Channel</span>
-            <CommandShortcut>Ctrl-Shift-C</CommandShortcut>
-          </CommandItem>
+            onSelect={() => onSelect(() => navigate({ to: "/schedule" }))}
+            label="스케줄"
+            labelEnglish="Schedule"
+            shortcut="Ctrl-Shift-A"
+          />
+          <CommandItem
+            onSelect={() => onSelect(() => navigate({ to: "/channels" }))}
+            label="채널"
+            labelEnglish="Channels"
+            shortcut="Ctrl-Shift-C"
+          />
         </CommandGroup>
         <CommandSeparator />
         <CommandGroup heading="설정">
-          <CommandItem onSelect={() => onSelect(() => setTheme("light"))}>
-            <span>라이트 테마</span>
-            <span class="hidden">Light Theme</span>
-            <CommandShortcut>Ctrl-T-1</CommandShortcut>
-          </CommandItem>
-          <CommandItem onSelect={() => onSelect(() => setTheme("dark"))}>
-            <span>다크 테마</span>
-            <span class="hidden">Dark Theme</span>
-            <CommandShortcut>Ctrl-T-2</CommandShortcut>
-          </CommandItem>
-          <CommandItem onSelect={() => onSelect(() => setTheme("system"))}>
-            <span>시스템 테마 사용</span>
-            <span class="hidden">Use System Theme</span>
-            <CommandShortcut>Ctrl-T-3</CommandShortcut>
-          </CommandItem>
+          <CommandItem
+            onSelect={() => onSelect(() => setTheme("light"))}
+            label="라이트 테마"
+            labelEnglish="Light Theme"
+            shortcut="Ctrl-T-1"
+          />
+          <CommandItem
+            onSelect={() => onSelect(() => setTheme("dark"))}
+            label="다크 테마"
+            labelEnglish="Dark Theme"
+            shortcut="Ctrl-T-2"
+          />
+          <CommandItem
+            onSelect={() => onSelect(() => setTheme("system"))}
+            label="시스템 테마 사용"
+            labelEnglish="Use System Theme"
+            shortcut="Ctrl-T-3"
+          />
         </CommandGroup>
       </CommandList>
     </CommandDialog>
