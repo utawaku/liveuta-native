@@ -1,5 +1,6 @@
 import { createRootRouteWithContext, Outlet } from "@tanstack/solid-router";
-import { TanStackRouterDevtools } from "@tanstack/solid-router-devtools";
+import { CommandPaletteProvider } from "~/components/contexts/command-palette";
+import { ShortcutProvider } from "~/components/contexts/shortcut-provider";
 import { YoutubePipProvider } from "~/components/contexts/youtube-pip-provider";
 import { Navbar } from "~/components/navbar";
 import { AppSidebar } from "~/components/sidebar";
@@ -13,12 +14,16 @@ function RootComponent() {
   return (
     <YoutubePipProvider>
       <SidebarProvider>
-        <AppSidebar />
-        <SidebarInset>
-          <Navbar />
-          <Outlet />
-          {/* <TanStackRouterDevtools /> */}
-        </SidebarInset>
+        <CommandPaletteProvider>
+          <ShortcutProvider>
+            <AppSidebar />
+            <SidebarInset>
+              <Navbar />
+              <Outlet />
+              {/* <TanStackRouterDevtools /> */}
+            </SidebarInset>
+          </ShortcutProvider>
+        </CommandPaletteProvider>
       </SidebarProvider>
     </YoutubePipProvider>
   );

@@ -18,8 +18,6 @@ import { Button } from "~/components/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip";
 import { FluentMaximize24Filled } from "~/icons/fluent/maximize-24-filled";
 import { FluentMinimize24Regular } from "~/icons/fluent/minimize-24-regular";
-import { MingcuteExpandPlayerLine } from "~/icons/mingcute/expand-player-line";
-import { MingcuteMinimizeFill } from "~/icons/mingcute/minimize-fill";
 import { TablerBoxAlignBottomLeftFilled } from "~/icons/tabler/box-align-bottom-left-filled";
 import { TablerBoxAlignBottomRightFilled } from "~/icons/tabler/box-align-bottom-right-filled";
 import { TablerBoxAlignTopLeftFilled } from "~/icons/tabler/box-align-top-left-filled";
@@ -174,7 +172,7 @@ function PipPlayer() {
             </div>
           </div>
           <div class="h-[180px] w-[320px]">
-            <YoutubePlayer {...videoData()} />
+            <YoutubePlayer {...videoData()} autoLoad={true} />
           </div>
         </div>
       </Portal>

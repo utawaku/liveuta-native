@@ -240,7 +240,7 @@ const Sidebar: Component<SidebarProps> = (rawProps) => {
           {/* This is what handles the sidebar gap on desktop */}
           <div
             class={cn(
-              "ease-expo-in-out-custom relative h-svh w-[--sidebar-width] bg-transparent transition-[width] duration-200",
+              "ease-expo-in-out-custom w-(--sidebar-width) relative h-svh bg-transparent transition-[width] duration-200",
               "group-data-[collapsible=offcanvas]:w-0",
               "group-data-[side=right]:rotate-180",
               local.variant === "floating" || local.variant === "inset"

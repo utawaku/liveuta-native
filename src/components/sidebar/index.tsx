@@ -5,7 +5,7 @@ import { AppSidebarHeader } from "./header";
 
 export function AppSidebar() {
   return (
-    <Sidebar collapsible="icon">
+    <Sidebar collapsible="icon" id="sidebar">
       <AppSidebarHeader />
       <AppSidebarContents />
       <AppSidebarFooter />

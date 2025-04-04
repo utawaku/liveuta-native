@@ -40,8 +40,8 @@ limitations under the License.
 import "lite-youtube-embed/src/lite-yt-embed.css";
 import {
   Accessor,
+  batch,
   createContext,
-  createEffect,
   createSignal,
   JSX,
   mergeProps,
@@ -49,7 +49,7 @@ import {
   Show,
   useContext,
 } from "solid-js";
-import { cn, YoutubeThumbnailQuality } from "~/lib/utils";
+import { YoutubeThumbnailQuality } from "~/lib/utils";
 import "./youtube-player.css";
 import YouTubeIFrameCtrl from "./youtube-iframe-controller";
 
@@ -145,6 +145,7 @@ export function YoutubePlayer(props: YoutubePlayerProps) {
 
   const { setController, iframeState, setIframeState } = useYoutubePlayerControllerContext();
   const [preConnected, setPreConnected] = createSignal(false);
+  const [iframeAdded, setIframeAdded] = createSignal(false);
   const vi = () => (merged.thumbnailWebp ? "vi_webp" : "vi");
   const videoPlaylistCoverId = () =>
     merged.playlistCoverId ? encodeURIComponent(merged.playlistCoverId) : null;
@@ -167,8 +168,12 @@ export function YoutubePlayer(props: YoutubePlayerProps) {
   };
 
   const addIframe = () => {
-    if (iframeState() === "on") return;
-    setIframeState("on");
+    if (iframeAdded()) return;
+    batch(() => {
+      setIframeAdded(true);
+      setIframeState("on");
+    });
+    merged.onIframeAdded();
   };
 
   const onPlayerScroll = (e: WheelEvent) => {
@@ -179,15 +184,7 @@ export function YoutubePlayer(props: YoutubePlayerProps) {
 
   onMount(() => {
     if (merged.autoLoad) {
-      setIframeState("on");
-    }
-  });
-
-  createEffect(() => {
-    if (iframeState() === "on") {
-      setController(new YouTubeIFrameCtrl(iframeRef!));
-    } else if (iframeState() === "off") {
-      setController(null);
+      addIframe();
     }
   });
 
@@ -213,20 +210,26 @@ export function YoutubePlayer(props: YoutubePlayerProps) {
           class={merged.playerClass}
           aria-label={`${merged.announce} ${merged.title}`}
         />
-        <iframe
-          id="youtube-player"
-          ref={iframeRef}
-          title={merged.title}
-          width="560"
-          height="315"
-          // @ts-expect-error youtube-embed
-          frameBorder="0"
-          allow={`accelerometer; ${merged.autoLoad ? "autoplay;" : ""} encrypted-media; gyroscope; picture-in-picture`}
-          allowFullScreen
-          src={iframeSource()}
-          class={cn(iframeState() === "on" ? "" : "invisible hidden", merged.iframeClass)}
-          onWheel={(e) => onPlayerScroll(e)}
-        />
+        <Show when={iframeAdded()}>
+          <iframe
+            id="youtube-player"
+            ref={iframeRef}
+            title={merged.title}
+            width="560"
+            height="315"
+            // @ts-expect-error youtube-embed
+            frameBorder="0"
+            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            src={iframeSource()}
+            // class={cn(iframeState() === "on" ? "" : "invisible hidden", merged.iframeClass)}
+            class={merged.iframeClass}
+            onWheel={(e) => onPlayerScroll(e)}
+            onLoad={() => {
+              setController(new YouTubeIFrameCtrl(iframeRef!));
+            }}
+          />
+        </Show>
       </div>
     </>
   );

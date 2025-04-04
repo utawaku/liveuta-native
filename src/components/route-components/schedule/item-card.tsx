@@ -7,6 +7,10 @@ import { youtubeChannelUrl, youtubeThumbnailUrl } from "~/lib/utils";
 
 type ScheduleItemCardProps = {
   item: ScheduleItem;
+  translateX: number;
+  translateY: number;
+  width: number;
+  height: number;
 };
 
 export function ScheduleItemCard(props: ScheduleItemCardProps) {
@@ -14,7 +18,12 @@ export function ScheduleItemCard(props: ScheduleItemCardProps) {
 
   return (
     <Card
-      class="hover:ring-ring p-4 transition-all duration-100 hover:cursor-pointer hover:ring-1"
+      class="hover:ring-ring h absolute left-0 top-0 p-4 transition-all duration-100 hover:cursor-pointer hover:ring-1"
+      style={{
+        transform: `translateX(${props.translateX}px) translateY(${props.translateY}px)`,
+        width: `${props.width}px`,
+        height: `${props.height}px`,
+      }}
       onClick={() => {
         pip?.setVideoData({
           title: props.item.title,
@@ -25,12 +34,12 @@ export function ScheduleItemCard(props: ScheduleItemCardProps) {
       }}
     >
       <CardHeader class="p-0">
-        <div class="w-80">
+        <div class="w-full">
           <AspectRatio ratio={16 / 9}>
             <img
               src={youtubeThumbnailUrl(props.item.videoId)}
               loading="lazy"
-              class="h-[180px] w-80 rounded-md object-cover"
+              class="aspect-video w-full rounded-md object-cover"
             />
           </AspectRatio>
         </div>
