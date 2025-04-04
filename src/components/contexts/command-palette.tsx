@@ -1,8 +1,6 @@
 import { useNavigate } from "@tanstack/solid-router";
-import { Accessor, createContext, createSignal, JSX, Show, useContext } from "solid-js";
-import { Portal } from "solid-js/web";
+import { Accessor, createContext, createSignal, JSX, useContext } from "solid-js";
 import {
-  Command,
   CommandDialog,
   CommandEmpty,
   CommandGroup,
@@ -54,12 +52,12 @@ function CommandPalette(props: { isCmdOpen: boolean; setIsCmdOpen: (value: boole
           <CommandItem onSelect={() => props.setIsCmdOpen(false)}>
             <span>커맨드 팔레트 토글</span>
             <span class="hidden">Toggle Command Palette</span>
-            <CommandShortcut>Ctrl-K</CommandShortcut>
+            <CommandShortcut>Ctrl-P</CommandShortcut>
           </CommandItem>
           <CommandItem onSelect={() => onSelect(() => toggleSidebar())}>
             <span>사이드바 토글</span>
             <span class="hidden">Toggle Sidebar</span>
-            <CommandShortcut>Ctrl-T</CommandShortcut>
+            <CommandShortcut>Ctrl-S</CommandShortcut>
           </CommandItem>
         </CommandGroup>
         <CommandSeparator />
