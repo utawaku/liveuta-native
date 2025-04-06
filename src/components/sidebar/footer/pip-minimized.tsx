@@ -13,6 +13,7 @@ import { IcRoundPause } from "~/icons/ic/round-pause";
 import { IcRoundPlayArrow } from "~/icons/ic/round-play-arrow";
 import { LogosYoutubeIcon } from "~/icons/logos/youtube-icon";
 import { MingcuteMiniplayerLine } from "~/icons/mingcute/miniplayer-line";
+import { TablerX } from "~/icons/tabler/x";
 
 export function PipMinimized() {
   const { pipState, setPipState } = useYoutubePipContext();
@@ -38,10 +39,14 @@ export function PipMinimized() {
               <MingcuteMiniplayerLine class="mr-2 size-4" />
               <span>PIP</span>
             </DropdownMenuItem>
-            <DropdownMenuItem onSelect={() => setPipState("fullscreen")}>
+            <DropdownMenuItem onSelect={() => setPipState("off")}>
+              <TablerX class="mr-2 size-4" />
+              <span>끄기</span>
+            </DropdownMenuItem>
+            {/* <DropdownMenuItem onSelect={() => setPipState("fullscreen")}>
               <FluentMaximize24Filled class="mr-2 size-4" />
               <span>최대화</span>
-            </DropdownMenuItem>
+            </DropdownMenuItem> */}
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarMenuItem>

@@ -57,8 +57,8 @@ export function ScheduleItemCard(props: ScheduleItemCardProps) {
               <h3 class="text-lg font-semibold">{props.item.channelName}</h3>
             </a>
             <span>
-              {props.item.scheduledTime.hour().toString().padStart(2, "0")}:
-              {props.item.scheduledTime.minute().toString().padStart(2, "0")}
+              {props.item.scheduledTime.hour.toString().padStart(2, "0")}:
+              {props.item.scheduledTime.minute.toString().padStart(2, "0")}
             </span>
           </div>
         </div>

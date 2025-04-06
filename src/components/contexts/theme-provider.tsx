@@ -40,6 +40,7 @@ export function ThemeProvider(props: ThemeProviderProps) {
   createEffect(() => {
     root.classList.remove("light", "dark");
     root.classList.add(value());
+    console.log("theme", value());
   });
 
   const setTheme = (theme: Theme) => {

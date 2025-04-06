@@ -1,7 +1,10 @@
 import type { ScheduleItem } from "~/types/mongodb";
+import { useStore } from "@tanstack/solid-store";
 import { createWindowVirtualizer } from "@tanstack/solid-virtual";
-import { createMemo, createSignal, For, onCleanup, onMount } from "solid-js";
+import { createMemo, createSignal, For, Index, onCleanup, onMount } from "solid-js";
+import { Temporal } from "temporal-polyfill";
 import { ScheduleItemCard } from "./item-card";
+import { scheduleFilterStore } from "./store";
 
 type ScheduleListProps = {
   schedule: ScheduleItem[];
@@ -16,6 +19,37 @@ const IMAGE_RATIO = 9 / 16;
 export function ScheduleGrid(props: ScheduleListProps) {
   let gridRef: HTMLDivElement | undefined;
 
+  const filter = useStore(scheduleFilterStore);
+  const filteredSchedule = () => {
+    const f = filter();
+    const now = Temporal.Now.plainDateTimeISO();
+
+    return props.schedule.filter((item) => {
+      if (f.type === "stream") {
+        if (item.isVideo) {
+          return false;
+        }
+
+        if (f.streamType === "live") {
+          return item.broadcastStatus;
+        } else if (f.streamType === "scheduled") {
+          return !item.broadcastStatus;
+        }
+      } else if (f.type === "video") {
+        if (!item.isVideo) {
+          return false;
+        }
+
+        if (f.videoType === "video") {
+          return Temporal.PlainDateTime.compare(item.scheduledTime, now) < 0;
+        } else if (f.videoType === "scheduled") {
+          return Temporal.PlainDateTime.compare(item.scheduledTime, now) >= 0;
+        }
+      }
+
+      return true;
+    });
+  };
   const [_, setResizeObserver] = createSignal<ResizeObserver | null>(null);
   const [containerWidth, setContainerWidth] = createSignal(window.innerWidth - SIDEBAR_WIDTH);
   const columnCount = createMemo(() => {
@@ -29,7 +63,7 @@ export function ScheduleGrid(props: ScheduleListProps) {
   );
 
   const grid = createWindowVirtualizer({
-    count: props.schedule.length,
+    count: filteredSchedule().length,
     estimateSize: () => (itemHeight() + ITEM_GAP) / columnCount(),
     overscan: 10,
   });
@@ -53,17 +87,17 @@ export function ScheduleGrid(props: ScheduleListProps) {
           height: `${grid.getTotalSize()}px`,
         }}
       >
-        <For each={grid.getVirtualItems()}>
+        <Index each={grid.getVirtualItems()}>
           {(item) => (
             <ScheduleItemCard
-              item={props.schedule[item.index]}
-              translateX={(item.index % columnCount()) * (itemWidth() + ITEM_GAP)}
-              translateY={Math.floor(item.index / columnCount()) * (itemHeight() + ITEM_GAP)}
+              item={filteredSchedule()[item().index]}
+              translateX={(item().index % columnCount()) * (itemWidth() + ITEM_GAP)}
+              translateY={Math.floor(item().index / columnCount()) * (itemHeight() + ITEM_GAP)}
               width={itemWidth()}
               height={itemHeight()}
             />
           )}
-        </For>
+        </Index>
       </div>
     </div>
   );

@@ -1,6 +1,7 @@
 import type { YoutubeChannelData } from "./youtube";
 import { Dayjs } from "dayjs";
 import { Schema } from "effect";
+import { Temporal } from "temporal-polyfill";
 
 export const ChannelSortSchema = Schema.Union(
   Schema.Literal("createdAt"),
@@ -33,7 +34,7 @@ export type ChannelsWithYoutubeData = {
 export const RawScheduleItemSchema = Schema.Struct({
   title: Schema.String,
   channelName: Schema.String,
-  scheduledTime: Schema.Date,
+  scheduledTime: Schema.String,
   broadcastStatus: Schema.UndefinedOr(Schema.Boolean),
   hide: Schema.Boolean,
   isVideo: Schema.Boolean,
@@ -41,10 +42,8 @@ export const RawScheduleItemSchema = Schema.Struct({
   videoId: Schema.String,
   channelId: Schema.String,
   tag: Schema.UndefinedOr(Schema.String),
-  /** 1: video, 2: scheduled-video, 3: ended-stream, 4: stream, 5: scheduled-stream */
-  type: Schema.Literal(1, 2, 3, 4, 5),
 });
 export type RawScheduleItem = typeof RawScheduleItemSchema.Type;
 export type ScheduleItem = Omit<RawScheduleItem, "scheduledTime"> & {
-  scheduledTime: Dayjs;
+  scheduledTime: Temporal.PlainDateTime;
 };

@@ -5,8 +5,6 @@ import { useCommandPalette } from "~/components/contexts/command-palette";
 import { useSidebar } from "../ui/sidebar";
 import { useTheme } from "./theme-provider";
 
-export function createGlobalShortcut() {}
-
 export function ShortcutProvider(props: { children: JSX.Element }) {
   const { toggleCmd } = useCommandPalette();
   const { toggleSidebar } = useSidebar();
@@ -15,22 +13,25 @@ export function ShortcutProvider(props: { children: JSX.Element }) {
 
   onMount(() => {
     // C: Ctrl, S: Shift, A: Alt, M: Meta
+    // Commands
     // <C-k> - Open command palette
     createShortcut(["Control", "P"], toggleCmd, { preventDefault: true });
+    // <C-s> - Toggle Sidebar
+    createShortcut(["Control", "S"], toggleSidebar);
+    // <C-S-h> - Home
+    createShortcut(["Control", "Shift", "H"], () => navigate({ to: "/" }));
+    // Navigate
+    // <C-S-s> - Schedule
+    createShortcut(["Control", "Shift", "A"], () => navigate({ to: "/schedule" }));
+    // <C-S-c> - Channel
+    createShortcut(["Control", "Shift", "C"], () => navigate({ to: "/channels" }));
+    // Settings
     // <C-t-l> - Light theme
     createShortcut(["Control", "T", "1"], () => setTheme("light"));
     // <C-t-d> - Dark theme
     createShortcut(["Control", "T", "2"], () => setTheme("dark"));
     // <C-t-s> - System theme
     createShortcut(["Control", "T", "3"], () => setTheme("system"));
-    // <C-S-h> - Home
-    createShortcut(["Control", "Shift", "H"], () => navigate({ to: "/" }));
-    // <C-S-s> - Schedule
-    createShortcut(["Control", "Shift", "A"], () => navigate({ to: "/schedule" }));
-    // <C-S-c> - Channel
-    createShortcut(["Control", "Shift", "C"], () => navigate({ to: "/channels" }));
-    // <C-s> - Toggle Sidebar
-    createShortcut(["Control", "S"], toggleSidebar);
   });
 
   return <>{props.children}</>;

@@ -5,6 +5,7 @@ import { Effect } from "effect";
 import { Match, Suspense, Switch } from "solid-js";
 import { ScheduleFilter } from "~/components/route-components/schedule/filter";
 import { ScheduleGrid } from "~/components/route-components/schedule/grid";
+import { scheduleFilterStore } from "~/components/route-components/schedule/store";
 import { getSchedule } from "~/lib/client/schedule";
 import { settingsStore } from "~/stores/settings";
 

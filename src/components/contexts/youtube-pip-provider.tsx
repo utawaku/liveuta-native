@@ -149,7 +149,7 @@ function PipPlayer() {
                   </TooltipContent>
                 </TooltipTrigger>
               </Tooltip>
-              <Tooltip placement="top">
+              {/* <Tooltip placement="top">
                 <TooltipTrigger>
                   <Button size="icon" variant="outline" onClick={() => setPipState("fullscreen")}>
                     <FluentMaximize24Filled />
@@ -158,7 +158,7 @@ function PipPlayer() {
                     <span>최대화</span>
                   </TooltipContent>
                 </TooltipTrigger>
-              </Tooltip>
+              </Tooltip> */}
               <Tooltip placement="top">
                 <TooltipTrigger>
                   <Button size="icon" variant="destructive" onClick={() => setPipState("off")}>
@@ -171,7 +171,7 @@ function PipPlayer() {
               </Tooltip>
             </div>
           </div>
-          <div class="h-[180px] w-[320px]">
+          <div class={cn("h-[180px] w-[320px]")}>
             <YoutubePlayer {...videoData()} autoLoad={true} />
           </div>
         </div>
