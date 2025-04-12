@@ -17,7 +17,7 @@ import { useTheme } from "./theme-provider";
 export type CommandItem = {
   onSelect: () => void;
   label: string;
-  labelEnglish: string;
+  keywords: string[];
   shortcut?: string;
 };
 
@@ -50,9 +50,8 @@ export function useCommandPalette() {
 
 function CommandItem(props: CommandItem) {
   return (
-    <CommandItemPrimitive onSelect={props.onSelect}>
+    <CommandItemPrimitive onSelect={props.onSelect} keywords={props.keywords}>
       <span>{props.label}</span>
-      <span class="hidden">{props.labelEnglish}</span>
       <Show when={props.shortcut}>
         <CommandShortcut>{props.shortcut}</CommandShortcut>
       </Show>
@@ -81,7 +80,7 @@ function CommandPalette(props: CommandPaletteProps) {
                     <CommandItem
                       onSelect={item.onSelect}
                       label={item.label}
-                      labelEnglish={item.labelEnglish}
+                      keywords={item.keywords}
                       shortcut={item.shortcut}
                     />
                   )}
@@ -123,14 +122,14 @@ export function CommandPaletteProvider(props: { children: JSX.Element }) {
           {
             onSelect: () => setIsCmdOpen(false),
             label: "커맨드 팔레트 토글",
-            labelEnglish: "Close Command Palette",
-            shortcut: "Ctrl-P",
+            keywords: ["Command", "Close Command Palette"],
+            shortcut: "⌘-P",
           },
           {
             onSelect: () => onSelect(() => toggleSidebar()),
             label: "사이드바 토글",
-            labelEnglish: "Toggle Sidebar",
-            shortcut: "Ctrl-S",
+            keywords: ["Command", "Toggle Sidebar"],
+            shortcut: "⌘-S",
           },
         ],
       },
@@ -140,20 +139,20 @@ export function CommandPaletteProvider(props: { children: JSX.Element }) {
           {
             onSelect: () => onSelect(() => navigate({ to: "/" })),
             label: "홈",
-            labelEnglish: "Home",
-            shortcut: "Ctrl-Shift-H",
+            keywords: ["Navigate", "Home"],
+            shortcut: "⌘-Shift-H",
           },
           {
             onSelect: () => onSelect(() => navigate({ to: "/schedule" })),
             label: "스케줄",
-            labelEnglish: "Schedule",
-            shortcut: "Ctrl-Shift-A",
+            keywords: ["Navigate", "Schedule"],
+            shortcut: "⌘-Shift-A",
           },
           {
             onSelect: () => onSelect(() => navigate({ to: "/channels" })),
             label: "채널",
-            labelEnglish: "Channels",
-            shortcut: "Ctrl-Shift-C",
+            keywords: ["Navigate", "Channels"],
+            shortcut: "⌘-Shift-C",
           },
         ],
       },
@@ -163,20 +162,20 @@ export function CommandPaletteProvider(props: { children: JSX.Element }) {
           {
             onSelect: () => onSelect(() => setTheme("light")),
             label: "라이트 테마",
-            labelEnglish: "Light Theme",
-            shortcut: "Ctrl-T-1",
+            keywords: ["Settings", "Light Theme"],
+            shortcut: "⌘-T-1",
           },
           {
             onSelect: () => onSelect(() => setTheme("dark")),
             label: "다크 테마",
-            labelEnglish: "Dark Theme",
-            shortcut: "Ctrl-T-2",
+            keywords: ["Settings", "Dark Theme"],
+            shortcut: "⌘-T-2",
           },
           {
             onSelect: () => onSelect(() => setTheme("system")),
             label: "시스템 테마 사용",
-            labelEnglish: "Use System Theme",
-            shortcut: "Ctrl-T-3",
+            keywords: ["Settings", "Use System Theme"],
+            shortcut: "⌘-T-3",
           },
         ],
       },
