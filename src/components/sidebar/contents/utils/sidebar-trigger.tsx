@@ -1,4 +1,9 @@
-import { SidebarMenuButton, SidebarMenuItem, useSidebar } from "~/components/ui/sidebar";
+import {
+  SidebarMenuButton,
+  SidebarMenuButtonInnerWithShortcut,
+  SidebarMenuItem,
+  useSidebar,
+} from "~/components/ui/sidebar";
 
 export function SidebarTrigger() {
   const { state, toggleSidebar } = useSidebar();
@@ -22,7 +27,9 @@ export function SidebarTrigger() {
           <rect width="18" height="18" x="3" y="3" rx="2" />
           <path d="M9 3v18" />
         </svg>
-        <span>사이드바 {expanded() ? "접기" : "열기"}</span>
+        <SidebarMenuButtonInnerWithShortcut shortcut="⌘+S">
+          <span>사이드바 {expanded() ? "접기" : "열기"}</span>
+        </SidebarMenuButtonInnerWithShortcut>
       </SidebarMenuButton>
     </SidebarMenuItem>
   );

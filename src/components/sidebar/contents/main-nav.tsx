@@ -4,6 +4,7 @@ import {
   SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
+  SidebarMenuButtonInnerWithShortcut,
   SidebarMenuItem,
 } from "~/components/ui/sidebar";
 import { MaterialSymbolsYoutubeTvOutline } from "~/icons/material-symbols/youtube-tv-outline";
@@ -17,13 +18,17 @@ export function MainNav() {
         <SidebarMenuItem>
           <SidebarMenuButton tooltip="스케줄" as={Link} to="/schedule">
             <RiCalendarScheduleLine class="mr-1 size-6" />
-            <span>스케줄</span>
+            <SidebarMenuButtonInnerWithShortcut shortcut="⌘+⇧+A">
+              <span>스케줄</span>
+            </SidebarMenuButtonInnerWithShortcut>
           </SidebarMenuButton>
         </SidebarMenuItem>
         <SidebarMenuItem>
           <SidebarMenuButton tooltip="채널" as={Link} to="/channels">
             <MaterialSymbolsYoutubeTvOutline class="mr-1 size-6" />
-            <span>채널</span>
+            <SidebarMenuButtonInnerWithShortcut shortcut="⌘+⇧+C">
+              <span>채널</span>
+            </SidebarMenuButtonInnerWithShortcut>
           </SidebarMenuButton>
         </SidebarMenuItem>
       </SidebarMenu>

@@ -13,11 +13,13 @@ import { IcRoundPause } from "~/icons/ic/round-pause";
 import { IcRoundPlayArrow } from "~/icons/ic/round-play-arrow";
 import { LogosYoutubeIcon } from "~/icons/logos/youtube-icon";
 import { MingcuteMiniplayerLine } from "~/icons/mingcute/miniplayer-line";
+import { RiVolumeMuteFill } from "~/icons/ri/volume-mute-fill";
+import { RiVolumeUpFill } from "~/icons/ri/volume-up-fill";
 import { TablerX } from "~/icons/tabler/x";
 
 export function PipMinimized() {
   const { pipState, setPipState } = useYoutubePipContext();
-  const { controller } = useYoutubePlayerControllerContext();
+  const { controller, volumeState, toggleMuted } = useYoutubePlayerControllerContext();
 
   return (
     <Show when={pipState() === "minimize"}>
@@ -34,6 +36,12 @@ export function PipMinimized() {
             <DropdownMenuItem onSelect={async () => controller()?.pause()}>
               <IcRoundPause class="mr-2 size-4" />
               <span>일시정지</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem onSelect={toggleMuted}>
+              <Show when={volumeState().muted} fallback={<RiVolumeUpFill class="mr-2 size-4" />}>
+                <RiVolumeMuteFill class="mr-2 size-4" />
+              </Show>
+              <span>{volumeState().muted ? "음소거 해제" : "음소거"}</span>
             </DropdownMenuItem>
             <DropdownMenuItem onSelect={() => setPipState("on")}>
               <MingcuteMiniplayerLine class="mr-2 size-4" />

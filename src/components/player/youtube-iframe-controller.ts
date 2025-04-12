@@ -170,6 +170,11 @@ export default class YouTubeIFrameCtrl {
     return this.command("unMute");
   }
 
+  async setVolume(volume: number) {
+    await this.unMute();
+    await this.command("setVolume", [volume]);
+  }
+
   get playerState() {
     return this.playerStates[this.currentPlayerStateCode];
   }

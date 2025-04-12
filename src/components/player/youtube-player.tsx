@@ -42,9 +42,11 @@ import {
   Accessor,
   batch,
   createContext,
+  createEffect,
   createSignal,
   JSX,
   mergeProps,
+  onCleanup,
   onMount,
   Show,
   useContext,
@@ -57,11 +59,23 @@ type Rel = "prefetch" | "preload";
 
 export type iframeStatus = "off" | "on";
 
+type VolumeState = {
+  muted: boolean;
+  volume: number;
+};
+
 type YoutubePlayerContextType = {
   iframeState: Accessor<iframeStatus>;
   setIframeState: (status: iframeStatus) => void;
   controller: Accessor<YouTubeIFrameCtrl | null>;
   setController: (controller: YouTubeIFrameCtrl | null) => void;
+  volumeState: Accessor<VolumeState>;
+  setVolumeState: (state: VolumeState) => void;
+  setVolume: (volume: number) => void;
+  incrementVolume: () => void;
+  decrementVolume: () => void;
+  setMuted: (muted: boolean) => void;
+  toggleMuted: () => void;
 };
 
 const YoutubePlayerControllerContext = createContext<YoutubePlayerContextType | null>(null);
@@ -81,6 +95,48 @@ export function useYoutubePlayerControllerContext() {
 export function YoutubePlayerControllerProvider(props: { children: JSX.Element }) {
   const [controller, setController] = createSignal<YouTubeIFrameCtrl | null>(null);
   const [iframeState, setIframeState] = createSignal<iframeStatus>("off");
+  const [volumeState, setVolumeState] = createSignal<VolumeState>({
+    muted: false,
+    volume: -1,
+  });
+
+  const setVolume = (volume: number) => {
+    if (!controller()) return;
+    controller()
+      ?.setVolume(volume)
+      .then(() => {
+        setVolumeState((prev) => ({ ...prev, volume }));
+      });
+  };
+
+  const incrementVolume = () => {
+    const targetVolume = volumeState().volume + 5 > 100 ? 100 : volumeState().volume + 5;
+    setVolume(targetVolume);
+  };
+
+  const decrementVolume = () => {
+    const targetVolume = volumeState().volume - 5 < 0 ? 0 : volumeState().volume - 5;
+    setVolume(targetVolume);
+  };
+
+  const setMuted = (muted: boolean) => {
+    if (!controller()) return;
+    if (muted) {
+      controller()
+        ?.mute()
+        .then(() => {
+          setVolumeState((prev) => ({ ...prev, muted }));
+        });
+    } else {
+      controller()
+        ?.unMute()
+        .then(() => {
+          setVolumeState((prev) => ({ ...prev, muted }));
+        });
+    }
+  };
+
+  const toggleMuted = () => setMuted(!volumeState().muted);
 
   return (
     <YoutubePlayerControllerContext.Provider
@@ -89,6 +145,13 @@ export function YoutubePlayerControllerProvider(props: { children: JSX.Element }
         setController,
         iframeState,
         setIframeState,
+        volumeState,
+        setVolumeState,
+        setVolume,
+        incrementVolume,
+        decrementVolume,
+        setMuted,
+        toggleMuted,
       }}
     >
       {props.children}
@@ -141,9 +204,11 @@ export function YoutubePlayer(props: YoutubePlayerProps) {
 
   const youtubeUrl = "https://www.youtube-nocookie.com";
 
+  let iframeWrapperRef: HTMLDivElement | undefined;
   let iframeRef: HTMLIFrameElement | undefined;
 
-  const { setController, iframeState, setIframeState } = useYoutubePlayerControllerContext();
+  const { setController, iframeState, setIframeState, setVolume, setVolumeState } =
+    useYoutubePlayerControllerContext();
   const [preConnected, setPreConnected] = createSignal(false);
   const [iframeAdded, setIframeAdded] = createSignal(false);
   const vi = () => (merged.thumbnailWebp ? "vi_webp" : "vi");
@@ -176,15 +241,35 @@ export function YoutubePlayer(props: YoutubePlayerProps) {
     merged.onIframeAdded();
   };
 
-  const onPlayerScroll = (e: WheelEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    console.log(1);
+  const volumeListener = async (event: MessageEvent) => {
+    const data = (await JSON.parse(event.data)) as {
+      event: string;
+      info: Record<string, unknown>;
+      channel: string;
+    };
+
+    if (data.event === "infoDelivery") {
+      if (data.info.volume !== undefined) {
+        setVolumeState({
+          volume: data.info.volume as number,
+          muted: data.info.muted as boolean,
+        });
+        window.removeEventListener("message", volumeListener);
+      }
+    }
   };
 
   onMount(() => {
     if (merged.autoLoad) {
       addIframe();
+    }
+  });
+
+  createEffect(() => {
+    if (!iframeAdded()) {
+      window.removeEventListener("message", volumeListener);
+      setVolumeState({ muted: false, volume: -1 });
+      setController(null);
     }
   });
 
@@ -204,6 +289,7 @@ export function YoutubePlayer(props: YoutubePlayerProps) {
           "background-image": `url(${thumbnailUrl()})`,
           "--aspect-ratio": `${(merged.aspectHeight / merged.aspectWidth) * 100}%`,
         }}
+        ref={iframeWrapperRef}
       >
         <button
           type="button"
@@ -222,11 +308,14 @@ export function YoutubePlayer(props: YoutubePlayerProps) {
             allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
             src={iframeSource()}
-            // class={cn(iframeState() === "on" ? "" : "invisible hidden", merged.iframeClass)}
             class={merged.iframeClass}
-            onWheel={(e) => onPlayerScroll(e)}
-            onLoad={() => {
+            onLoad={async (e) => {
               setController(new YouTubeIFrameCtrl(iframeRef!));
+              e.currentTarget.contentWindow?.postMessage(
+                '{"event":"command","func":"getVolume"}',
+                "*",
+              );
+              window.addEventListener("message", volumeListener);
             }}
           />
         </Show>

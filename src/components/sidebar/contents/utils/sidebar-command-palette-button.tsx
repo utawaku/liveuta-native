@@ -1,5 +1,9 @@
 import { useCommandPalette } from "~/components/contexts/command-palette";
-import { SidebarMenuButton, SidebarMenuItem } from "~/components/ui/sidebar";
+import {
+  SidebarMenuButton,
+  SidebarMenuButtonInnerWithShortcut,
+  SidebarMenuItem,
+} from "~/components/ui/sidebar";
 
 export function SidebarCommandPaletteButton() {
   const { toggleCmd, isCmdOpen } = useCommandPalette();
@@ -12,7 +16,9 @@ export function SidebarCommandPaletteButton() {
         onClick={() => toggleCmd()}
       >
         <span class="text-base">⌘</span>
-        <span>커맨드 팔레트 {isCmdOpen() ? "닫기" : "열기"}</span>
+        <SidebarMenuButtonInnerWithShortcut shortcut="⌘+P">
+          <span>커맨드 팔레트 {isCmdOpen() ? "닫기" : "열기"}</span>
+        </SidebarMenuButtonInnerWithShortcut>
       </SidebarMenuButton>
     </SidebarMenuItem>
   );

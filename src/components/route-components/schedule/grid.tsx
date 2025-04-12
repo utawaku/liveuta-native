@@ -87,17 +87,17 @@ export function ScheduleGrid(props: ScheduleListProps) {
           height: `${grid.getTotalSize()}px`,
         }}
       >
-        <Index each={grid.getVirtualItems()}>
+        <For each={grid.getVirtualItems()}>
           {(item) => (
             <ScheduleItemCard
-              item={filteredSchedule()[item().index]}
-              translateX={(item().index % columnCount()) * (itemWidth() + ITEM_GAP)}
-              translateY={Math.floor(item().index / columnCount()) * (itemHeight() + ITEM_GAP)}
+              item={filteredSchedule()[item.index]}
+              translateX={(item.index % columnCount()) * (itemWidth() + ITEM_GAP)}
+              translateY={Math.floor(item.index / columnCount()) * (itemHeight() + ITEM_GAP)}
               width={itemWidth()}
               height={itemHeight()}
             />
           )}
-        </Index>
+        </For>
       </div>
     </div>
   );

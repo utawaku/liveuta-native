@@ -16,8 +16,9 @@ import {
 } from "~/components/player/youtube-player";
 import { Button } from "~/components/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip";
-import { FluentMaximize24Filled } from "~/icons/fluent/maximize-24-filled";
 import { FluentMinimize24Regular } from "~/icons/fluent/minimize-24-regular";
+import { RiVolumeMuteFill } from "~/icons/ri/volume-mute-fill";
+import { RiVolumeUpFill } from "~/icons/ri/volume-up-fill";
 import { TablerBoxAlignBottomLeftFilled } from "~/icons/tabler/box-align-bottom-left-filled";
 import { TablerBoxAlignBottomRightFilled } from "~/icons/tabler/box-align-bottom-right-filled";
 import { TablerBoxAlignTopLeftFilled } from "~/icons/tabler/box-align-top-left-filled";
@@ -39,7 +40,8 @@ export const YoutubePipContext = createContext<YoutubePipContextType | null>(nul
 function PipPlayer() {
   let pipWrapperRef: HTMLDivElement | undefined;
 
-  const { setIframeState } = useYoutubePlayerControllerContext();
+  const { setIframeState, incrementVolume, decrementVolume, toggleMuted, volumeState } =
+    useYoutubePlayerControllerContext();
   const { videoData, pipState, setPipState } = useContext(YoutubePipContext)!;
 
   // 1: top-left, 2: top-right, 3: bottom-left, 4: bottom-right
@@ -75,12 +77,23 @@ function PipPlayer() {
     }
   });
 
+  const onWheel = (e: WheelEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (e.deltaY < 0) {
+      incrementVolume();
+    } else {
+      decrementVolume();
+    }
+  };
+
   return (
     <Show when={pipState() !== "off"}>
       <Portal>
         <div class={cn("z-9999 group fixed", locationClass(), pipStateClass())} ref={pipWrapperRef}>
           <div class="ease-expo-in-out-custom absolute -top-[35px] right-0 flex w-[320px] translate-y-4 justify-between transition-transform hover:translate-y-0">
-            <div class="">
+            <div>
               <Tooltip placement="top">
                 <TooltipTrigger>
                   <Button
@@ -170,6 +183,53 @@ function PipPlayer() {
                 </TooltipTrigger>
               </Tooltip>
             </div>
+          </div>
+          <div
+            class={cn(
+              "ease-expo-in-out-custom absolute flex h-[180px] flex-col transition-transform hover:translate-x-0",
+              location() === 1 || location() === 3
+                ? "right-[-35px] -translate-x-4"
+                : "left-[-35px] translate-x-4",
+            )}
+          >
+            <Tooltip placement={location() === 1 || location() === 3 ? "right" : "left"}>
+              <TooltipTrigger>
+                <Button size="icon" variant="outline" onClick={incrementVolume} onWheel={onWheel}>
+                  <span>+</span>
+                </Button>
+                <TooltipContent>
+                  <span>볼륨 증가</span>
+                </TooltipContent>
+              </TooltipTrigger>
+            </Tooltip>
+            <div
+              class="ring-offset-background focus-visible:ring-ring border-input bg-background hover:bg-accent hover:text-accent-foreground inline-flex size-10 cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-md border text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0"
+              onWheel={onWheel}
+            >
+              <span>{volumeState().volume}</span>
+            </div>
+            <Tooltip placement={location() === 1 || location() === 3 ? "right" : "left"}>
+              <TooltipTrigger>
+                <Button size="icon" variant="outline" onClick={decrementVolume} onWheel={onWheel}>
+                  <span>-</span>
+                </Button>
+                <TooltipContent>
+                  <span>볼륨 감소</span>
+                </TooltipContent>
+              </TooltipTrigger>
+            </Tooltip>
+            <Tooltip placement={location() === 1 || location() === 3 ? "right" : "left"}>
+              <TooltipTrigger>
+                <Button size="icon" variant="outline" onClick={toggleMuted}>
+                  <Show when={volumeState().muted} fallback={<RiVolumeUpFill />}>
+                    <RiVolumeMuteFill />
+                  </Show>
+                </Button>
+                <TooltipContent>
+                  <span>{volumeState().muted ? "음소거 해제" : "음소거하기"}</span>
+                </TooltipContent>
+              </TooltipTrigger>
+            </Tooltip>
           </div>
           <div class={cn("h-[180px] w-[320px]")}>
             <YoutubePlayer {...videoData()} autoLoad={true} />
