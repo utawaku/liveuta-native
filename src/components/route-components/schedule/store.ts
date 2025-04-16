@@ -1,10 +1,9 @@
-import { Derived, Store } from "@tanstack/store";
-import { Temporal } from "temporal-polyfill";
+import { Store } from "@tanstack/store";
 
 export type ScheduleType = "all" | "stream" | "video";
-export type ScheduleTime = "all" | "today" | "tomorrow" | "todayAndTomorrow" | "custom";
-export type ScheduleStreamType = "all" | "live" | "scheduled";
-export type ScheduleVideoType = "all" | "video" | "scheduled";
+export type ScheduleStreamType = "all" | "live" | "scheduled" | "24h";
+export type ScheduleVideoType = "all" | "video" | "scheduled" | "24h";
+export type ScheduleAllType = "all" | "isLive" | "scheduled" | "24h";
 
 export function scheduleTypeToString(type: ScheduleType): string {
   switch (type) {
@@ -17,21 +16,6 @@ export function scheduleTypeToString(type: ScheduleType): string {
   }
 }
 
-export function scheduleTimeToString(time: ScheduleTime): string {
-  switch (time) {
-    case "all":
-      return "전체";
-    case "today":
-      return "오늘";
-    case "tomorrow":
-      return "내일";
-    case "todayAndTomorrow":
-      return "오늘+내일";
-    case "custom":
-      return "24시간";
-  }
-}
-
 export function scheduleStreamTypeToString(streamType: ScheduleStreamType): string {
   switch (streamType) {
     case "all":
@@ -40,6 +24,8 @@ export function scheduleStreamTypeToString(streamType: ScheduleStreamType): stri
       return "실시간";
     case "scheduled":
       return "예정됨";
+    case "24h":
+      return "24시간";
   }
 }
 
@@ -51,29 +37,45 @@ export function scheduleVideoTypeToString(videoType: ScheduleVideoType): string 
       return "영상";
     case "scheduled":
       return "예정됨";
+    case "24h":
+      return "24시간";
+  }
+}
+
+export function scheduleAllTypeToString(allType: ScheduleAllType): string {
+  switch (allType) {
+    case "all":
+      return "전체";
+    case "isLive":
+      return "실시간";
+    case "scheduled":
+      return "예정됨";
+    case "24h":
+      return "24시간";
   }
 }
 
 export type ScheduleFilter = {
   type: ScheduleType;
-  time: ScheduleTime;
   streamType: ScheduleStreamType;
   videoType: ScheduleVideoType;
+  allType: ScheduleAllType;
 };
 
 function getInitialFilter(): ScheduleFilter {
   const type = (window.localStorage.getItem("schedule-filter-type") ?? "all") as ScheduleType;
-  const time = (window.localStorage.getItem("schedule-filter-time") ?? "all") as ScheduleTime;
   const streamType = (window.localStorage.getItem("schedule-filter-stream-type") ??
     "all") as ScheduleStreamType;
   const videoType = (window.localStorage.getItem("schedule-filter-video-type") ??
     "all") as ScheduleVideoType;
+  const allType = (window.localStorage.getItem("schedule-filter-all-type") ??
+    "all") as ScheduleAllType;
 
   return {
     type,
-    time,
     streamType,
     videoType,
+    allType,
   };
 }
 
@@ -85,14 +87,6 @@ export function setScheduleType(type: ScheduleType) {
     type,
   }));
   window.localStorage.setItem("schedule-filter-type", type);
-}
-
-export function setScheduleTime(time: ScheduleTime) {
-  scheduleFilterStore.setState((state) => ({
-    ...state,
-    time,
-  }));
-  window.localStorage.setItem("schedule-filter-time", time);
 }
 
 export function setScheduleStreamType(streamType: ScheduleStreamType) {
@@ -111,34 +105,10 @@ export function setScheduleVideoType(videoType: ScheduleVideoType) {
   window.localStorage.setItem("schedule-filter-video-type", videoType);
 }
 
-type ScheduleCustomTime = {
-  start: Temporal.PlainDateTime;
-  end: Temporal.PlainDateTime;
-};
-
-export const scheduleTimeStore = new Store<ScheduleCustomTime>({
-  start: Temporal.Now.plainDateTimeISO().round("minute"),
-  end: Temporal.Now.plainDateTimeISO().add({ days: 1 }).round("minute"),
-});
-
-export const scheduleTimeStringStore = new Derived({
-  fn: () => ({
-    start: scheduleTimeStore.state.start.toString(),
-    end: scheduleTimeStore.state.end.toString(),
-  }),
-  deps: [scheduleTimeStore],
-});
-
-export function setScheduleTimeStart(start: Temporal.PlainDateTime) {
-  scheduleTimeStore.setState((state) => ({
+export function setScheduleAllType(allType: ScheduleAllType) {
+  scheduleFilterStore.setState((state) => ({
     ...state,
-    start,
+    allType,
   }));
-}
-
-export function setScheduleTimeEnd(end: Temporal.PlainDateTime) {
-  scheduleTimeStore.setState((state) => ({
-    ...state,
-    end,
-  }));
+  window.localStorage.setItem("schedule-filter-all-type", allType);
 }
