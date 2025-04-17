@@ -8,7 +8,6 @@ import {
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 import { SidebarMenuButton, SidebarMenuItem } from "~/components/ui/sidebar";
-import { FluentMaximize24Filled } from "~/icons/fluent/maximize-24-filled";
 import { IcRoundPause } from "~/icons/ic/round-pause";
 import { IcRoundPlayArrow } from "~/icons/ic/round-play-arrow";
 import { LogosYoutubeIcon } from "~/icons/logos/youtube-icon";
@@ -24,7 +23,7 @@ export function PipMinimized() {
   return (
     <Show when={pipState() === "minimize"}>
       <SidebarMenuItem>
-        <DropdownMenu preventScroll={false} placement="right-end">
+        <DropdownMenu placement="right-end">
           <DropdownMenuTrigger as={SidebarMenuButton} tooltip="PIP">
             <LogosYoutubeIcon />
           </DropdownMenuTrigger>

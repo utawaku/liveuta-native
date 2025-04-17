@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/solid-router";
 import { useContext } from "solid-js";
+import { Temporal } from "temporal-polyfill";
 import { YoutubePipContext } from "~/components/contexts/youtube-pip-provider";
 import { YoutubePlayer } from "~/components/player/youtube-player";
 import { ScheduleItemCard } from "~/components/route-components/schedule/item-card";
@@ -19,11 +20,8 @@ function App() {
     concurrentViewers: 1,
     hide: false,
     isVideo: false,
-    scheduledTime: Dayjs(),
-    tag: "",
+    scheduledTime: Temporal.Now.plainDateTimeISO(),
     title: "【歌】深夜２６時くらいの歌枠　#vsinger",
-    type: "stream",
-    videoId: "0qGxHEbSve0",
   } as ScheduleItem;
   const item2 = {
     broadcastStatus: true,
@@ -32,10 +30,8 @@ function App() {
     concurrentViewers: 1,
     hide: false,
     isVideo: false,
-    scheduledTime: Dayjs(),
-    tag: "",
+    scheduledTime: Temporal.Now.plainDateTimeISO(),
     title: "test",
-    type: "stream",
     videoId: "6qMdw0U7GI0",
   } as ScheduleItem;
 

@@ -112,3 +112,6 @@ export function setScheduleAllType(allType: ScheduleAllType) {
   }));
   window.localStorage.setItem("schedule-filter-all-type", allType);
 }
+
+export const scheduleItemCount = new Store(0);
+export const scheduleFilteredItemsCount = new Store(0);

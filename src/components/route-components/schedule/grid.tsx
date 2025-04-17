@@ -2,10 +2,10 @@ import type { ScheduleItem } from "~/types/mongodb";
 import { debounce } from "@solid-primitives/scheduled";
 import { useStore } from "@tanstack/solid-store";
 import { createWindowVirtualizer } from "@tanstack/solid-virtual";
-import { createMemo, createSignal, For, onMount, Show } from "solid-js";
+import { createEffect, createMemo, createSignal, For, onMount, Show } from "solid-js";
 import { Temporal } from "temporal-polyfill";
 import { ScheduleItemCard } from "./item-card";
-import { scheduleFilterStore } from "./store";
+import { scheduleFilteredItemsCount, scheduleFilterStore, scheduleItemCount } from "./store";
 
 type ScheduleListProps = {
   schedule: ScheduleItem[];
@@ -24,19 +24,7 @@ export function ScheduleGrid(props: ScheduleListProps) {
   const filteredSchedule = createMemo(() => {
     const f = filter();
     const now = Temporal.Now.plainDateTimeISO();
-    const todayStart = now.with({ hour: 0, minute: 0, second: 0 });
     const tomorrowEnd = now.add({ days: 1 });
-
-    // Helper functions for filtering
-    const isLiveStream = (item: ScheduleItem) =>
-      item.broadcastStatus === true ||
-      (Temporal.PlainDateTime.compare(item.scheduledTime, todayStart) >= 0 &&
-        Temporal.PlainDateTime.compare(item.scheduledTime, now) <= 0 &&
-        item.scheduledTime.hour === now.hour);
-
-    const isScheduledStream = (item: ScheduleItem) =>
-      item.broadcastStatus === false &&
-      Temporal.PlainDateTime.compare(item.scheduledTime, now) >= 0;
 
     const isWithin24Hours = (item: ScheduleItem) =>
       Temporal.PlainDateTime.compare(item.scheduledTime, now) >= 0 &&
@@ -45,35 +33,30 @@ export function ScheduleGrid(props: ScheduleListProps) {
     const isWithin24HoursLive = (item: ScheduleItem) =>
       item.broadcastStatus === true || isWithin24Hours(item);
 
-    const isLiveVideo = (item: ScheduleItem) =>
-      Temporal.PlainDateTime.compare(item.scheduledTime, todayStart) >= 0 &&
-      Temporal.PlainDateTime.compare(item.scheduledTime, now) <= 0;
-
-    const isScheduledVideo = (item: ScheduleItem) =>
-      Temporal.PlainDateTime.compare(item.scheduledTime, now) >= 1;
-
     return props.schedule.filter((item) => {
       if (f.type === "stream") {
         if (item.isVideo) return false;
 
-        if (f.streamType === "live") return isLiveStream(item);
-        else if (f.streamType === "scheduled") return isScheduledStream(item);
+        if (f.streamType === "live") return item.type === "stream-live";
+        else if (f.streamType === "scheduled") return item.type === "stream-scheduled";
         else if (f.streamType === "24h") return isWithin24HoursLive(item);
       } else if (f.type === "video") {
         if (!item.isVideo) return false;
 
-        if (f.videoType === "video") return isLiveVideo(item);
-        else if (f.videoType === "scheduled") return isScheduledVideo(item);
+        if (f.videoType === "video") return item.type === "video";
+        else if (f.videoType === "scheduled") return item.type === "video-scheduled";
         else if (f.videoType === "24h") return isWithin24Hours(item);
+      } else {
+        if (f.allType === "isLive") {
+          if (item.isVideo) return item.type === "video-live";
+          return item.type === "stream-live";
+        } else if (f.allType === "scheduled") {
+          if (item.isVideo) return item.type === "video-scheduled";
+          return item.type === "stream-scheduled";
+        } else if (f.allType === "24h") {
+          return isWithin24Hours(item);
+        }
       }
-
-      if (f.allType === "isLive") {
-        if (item.isVideo) return isLiveVideo(item);
-        return isLiveStream(item);
-      } else if (f.allType === "scheduled") {
-        if (item.isVideo) return isScheduledVideo(item);
-        return isScheduledStream(item);
-      } else if (f.allType === "24h") return isWithin24HoursLive(item);
 
       return true; // Default case
     });
@@ -103,7 +86,7 @@ export function ScheduleGrid(props: ScheduleListProps) {
   const row = () =>
     createWindowVirtualizer({
       count: Math.ceil(filteredSchedule().length / columnCount()),
-      estimateSize: () => itemHeight() + ITEM_GAP,
+      estimateSize: () => itemHeight(),
       overscan: 10,
       gap: ITEM_GAP,
     });
@@ -120,8 +103,13 @@ export function ScheduleGrid(props: ScheduleListProps) {
     setResizeObserver(observer);
   });
 
+  createEffect(() => {
+    scheduleItemCount.setState(() => props.schedule.length);
+    scheduleFilteredItemsCount.setState(() => filteredSchedule().length);
+  });
+
   return (
-    <div id="schedule-grid" ref={gridRef}>
+    <div id="schedule-grid" ref={gridRef} class="pb-4">
       <div
         class="relative w-full"
         style={{
@@ -132,7 +120,11 @@ export function ScheduleGrid(props: ScheduleListProps) {
           {(rowItem) => (
             <For each={column().getVirtualItems()}>
               {(columnItem) => (
-                <Show when={filteredSchedule()[rowItem.index * columnCount() + columnItem.index]}>
+                <Show
+                  when={
+                    rowItem.index * columnCount() + columnItem.index < filteredSchedule().length
+                  }
+                >
                   <ScheduleItemCard
                     item={filteredSchedule()[rowItem.index * columnCount() + columnItem.index]}
                     translateX={columnItem.start}

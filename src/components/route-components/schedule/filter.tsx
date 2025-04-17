@@ -1,5 +1,5 @@
 import { useStore } from "@tanstack/solid-store";
-import { createSignal, onCleanup, onMount, Show } from "solid-js";
+import { createSignal, Match, onCleanup, onMount, Show, Switch } from "solid-js";
 import { Button } from "~/components/ui/button";
 import {
   Dialog,
@@ -13,10 +13,14 @@ import { Label } from "~/components/ui/label";
 import { Tabs, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import {
   ScheduleAllType,
+  scheduleAllTypeToString,
   scheduleFilterStore,
   ScheduleStreamType,
+  scheduleStreamTypeToString,
   ScheduleType,
+  scheduleTypeToString,
   ScheduleVideoType,
+  scheduleVideoTypeToString,
   setScheduleAllType,
   setScheduleStreamType,
   setScheduleType,
@@ -29,7 +33,7 @@ function FilterContents() {
   return (
     <div class="flex flex-col gap-4">
       <div>
-        <Label>스케줄 필터</Label>
+        <Label>영상 타입</Label>
         <Tabs value={filter().type} onChange={(v) => setScheduleType(v as ScheduleType)}>
           <TabsList class="grid w-full grid-cols-3">
             <TabsTrigger value={"all" as ScheduleType}>전체</TabsTrigger>
@@ -103,7 +107,23 @@ function DesktopDialog() {
 
   return (
     <Dialog>
-      <DialogTrigger as={Button<"button">}>필터</DialogTrigger>
+      <DialogTrigger as={Button<"button">}>
+        <span>{scheduleTypeToString(filter().type)}</span>
+        <span>/</span>
+        <span>
+          <Switch>
+            <Match when={filter().type === "all"}>
+              {scheduleAllTypeToString(filter().allType)}
+            </Match>
+            <Match when={filter().type === "stream"}>
+              {scheduleStreamTypeToString(filter().streamType)}
+            </Match>
+            <Match when={filter().type === "video"}>
+              {scheduleVideoTypeToString(filter().videoType)}
+            </Match>
+          </Switch>
+        </span>
+      </DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>스케줄 필터</DialogTitle>
@@ -119,7 +139,6 @@ function DesktopDialog() {
 export function ScheduleFilter() {
   const [windowWidth, setWindowWidth] = createSignal(window.innerWidth);
   const isMobile = () => windowWidth() < 768;
-  const filter = useStore(scheduleFilterStore);
 
   const onResize = () => {
     setWindowWidth(window.innerWidth);
@@ -135,11 +154,6 @@ export function ScheduleFilter() {
 
   return (
     <div>
-      <div class="flex gap-2">
-        <span>Type: {filter().type}</span>
-        <span>StreamType: {filter().streamType}</span>
-        <span>VideoType: {filter().videoType}</span>
-      </div>
       <Show when={isMobile()} fallback={<DesktopDialog />}>
         <MobileDialog />
       </Show>

@@ -3,9 +3,8 @@ import { createFileRoute } from "@tanstack/solid-router";
 import { useStore } from "@tanstack/solid-store";
 import { Effect } from "effect";
 import { Match, Suspense, Switch } from "solid-js";
-import { ScheduleFilter } from "~/components/route-components/schedule/filter";
 import { ScheduleGrid } from "~/components/route-components/schedule/grid";
-import { scheduleFilterStore } from "~/components/route-components/schedule/store";
+import { ScheduleHeader } from "~/components/route-components/schedule/header";
 import { getSchedule } from "~/lib/client/schedule";
 import { settingsStore } from "~/stores/settings";
 
@@ -23,11 +22,9 @@ function RouteComponent() {
   }));
 
   return (
-    <div class="px-4">
-      <div>
-        <ScheduleFilter />
-      </div>
-      <div>
+    <div>
+      <ScheduleHeader />
+      <div class="px-4 pt-16">
         <Suspense>
           <Switch>
             <Match when={schedule.isLoading}>

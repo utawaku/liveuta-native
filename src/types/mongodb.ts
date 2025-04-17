@@ -31,6 +31,14 @@ export type ChannelsWithYoutubeData = {
   totalPage: number;
 };
 
+export type ScheduleItemType =
+  | "stream-live"
+  | "stream-scheduled"
+  | "stream-ended"
+  | "video-live"
+  | "video-scheduled"
+  | "video";
+
 export const RawScheduleItemSchema = Schema.Struct({
   title: Schema.String,
   channelName: Schema.String,
@@ -46,4 +54,5 @@ export const RawScheduleItemSchema = Schema.Struct({
 export type RawScheduleItem = typeof RawScheduleItemSchema.Type;
 export type ScheduleItem = Omit<RawScheduleItem, "scheduledTime"> & {
   scheduledTime: Temporal.PlainDateTime;
+  type: ScheduleItemType;
 };

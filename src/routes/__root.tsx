@@ -19,7 +19,9 @@ function RootComponent() {
             <AppSidebar />
             <SidebarInset>
               <Navbar />
-              <Outlet />
+              <div class="mt-16 md:group-has-[[data-collapsible=icon]]/sidebar-wrapper:mt-12">
+                <Outlet />
+              </div>
               {/* <TanStackRouterDevtools /> */}
             </SidebarInset>
           </ShortcutProvider>

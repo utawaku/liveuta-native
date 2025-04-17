@@ -1,12 +1,14 @@
-import { createRouter, RouterProvider } from "@tanstack/solid-router";
-import { render } from "solid-js/web";
-import { routeTree } from "./routeTree.gen";
-import "./styles.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/solid-query";
+import { createRouter, RouterProvider } from "@tanstack/solid-router";
+import { createOverlayScrollbars } from "overlayscrollbars-solid";
+import { onMount } from "solid-js";
+import { render } from "solid-js/web";
 import { EffectProvider } from "./components/contexts/effect-provider";
 import { ThemeProvider } from "./components/contexts/theme-provider";
+import { routeTree } from "./routeTree.gen";
+import "overlayscrollbars/overlayscrollbars.css";
+import "./styles.css";
 
-// import { onMount } from "solid-js";
 // import { resourceDir } from "@tauri-apps/api/path";
 // import { migrate } from "./lib/db/migration";
 
@@ -24,9 +26,11 @@ declare module "@tanstack/solid-router" {
 }
 
 function App() {
-  // onMount(async () => {
-  //   await migrate();
-  // });
+  const [initialize] = createOverlayScrollbars({});
+  onMount(() => {
+    initialize({ target: document.body });
+  });
+
   return (
     <>
       <EffectProvider>
