@@ -1,5 +1,4 @@
 import { useStore } from "@tanstack/solid-store";
-import { useSidebar } from "~/components/ui/sidebar";
 import { cn } from "~/lib/utils";
 import { ScheduleFilter } from "./filter";
 import { scheduleFilteredItemsCount, scheduleItemCount } from "./store";
