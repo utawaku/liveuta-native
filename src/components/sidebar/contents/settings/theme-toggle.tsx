@@ -1,3 +1,4 @@
+import { useTheme } from "~/components/contexts/theme-provider";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,7 +10,6 @@ import { TablerDeviceDesktop } from "~/icons/tabler/device-desktop";
 import { TablerMoon } from "~/icons/tabler/moon";
 import { TablerSun } from "~/icons/tabler/sun";
 import { themeToLabel } from "~/lib/utils";
-import { useTheme } from "../../../contexts/theme-provider";
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme();

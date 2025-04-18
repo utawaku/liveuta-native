@@ -1,13 +1,13 @@
 import { Link } from "@tanstack/solid-router";
-import { Separator } from "~/components/ui/separator";
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbSeparator,
-} from "../ui/breadcrumb";
-import { SidebarTrigger } from "../ui/sidebar";
+} from "~/components/ui/breadcrumb";
+import { Separator } from "~/components/ui/separator";
+import { SidebarTrigger } from "~/components/ui/sidebar";
 
 export function Navbar() {
   return (

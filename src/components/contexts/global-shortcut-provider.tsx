@@ -2,7 +2,7 @@ import { createShortcut } from "@solid-primitives/keyboard";
 import { useNavigate } from "@tanstack/solid-router";
 import { JSX, onMount } from "solid-js";
 import { useCommandPalette } from "~/components/contexts/command-palette";
-import { useSidebar } from "../ui/sidebar";
+import { useSidebar } from "~/components/ui/sidebar";
 import { useTheme } from "./theme-provider";
 
 export function ShortcutProvider(props: { children: JSX.Element }) {

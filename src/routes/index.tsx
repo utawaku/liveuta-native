@@ -1,10 +1,9 @@
 import { createFileRoute } from "@tanstack/solid-router";
 import { useContext } from "solid-js";
 import { Temporal } from "temporal-polyfill";
+import { CopyButton } from "~/components/common/copy-button";
+import { OpenInBrowser } from "~/components/common/open-in-new";
 import { YoutubePipContext } from "~/components/contexts/youtube-pip-provider";
-import { YoutubePlayer } from "~/components/player/youtube-player";
-import { ScheduleItemCard } from "~/components/route-components/schedule/item-card";
-import Dayjs from "~/lib/dayjs";
 import { ScheduleItem } from "~/types/mongodb";
 
 export const Route = createFileRoute("/")({
@@ -69,6 +68,8 @@ function App() {
           Click2
         </button>
       </div>
+      <CopyButton text="hello" />
+      <OpenInBrowser href="https://www.youtube.com/watch?v=6qMdw0U7GI0" />
     </div>
   );
 }

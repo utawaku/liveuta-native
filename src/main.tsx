@@ -8,6 +8,7 @@ import { ThemeProvider } from "./components/contexts/theme-provider";
 import { routeTree } from "./routeTree.gen";
 import "overlayscrollbars/overlayscrollbars.css";
 import "./styles.css";
+import { Toaster } from "./components/ui/sonner";
 
 // import { resourceDir } from "@tauri-apps/api/path";
 // import { migrate } from "./lib/db/migration";
@@ -40,6 +41,7 @@ function App() {
           </ThemeProvider>
         </QueryClientProvider>
       </EffectProvider>
+      <Toaster />
     </>
   );
 }

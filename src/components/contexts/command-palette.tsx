@@ -11,7 +11,7 @@ import {
   CommandSeparator,
   CommandShortcut,
 } from "~/components/ui/command";
-import { useSidebar } from "../ui/sidebar";
+import { useSidebar } from "~/components/ui/sidebar";
 import { useTheme } from "./theme-provider";
 
 export type CommandItem = {

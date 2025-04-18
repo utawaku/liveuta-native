@@ -12,7 +12,7 @@ type ScheduleListProps = {
 };
 
 const ITEM_MIN_WIDTH = 340;
-const ITEM_MIN_HEIGHT = 350;
+const ITEM_MIN_HEIGHT = 340;
 const ITEM_GAP = 16;
 const SIDEBAR_WIDTH = 56;
 const IMAGE_RATIO = 9 / 16;
@@ -54,7 +54,7 @@ export function ScheduleGrid(props: ScheduleListProps) {
           if (item.isVideo) return item.type === "video-scheduled";
           return item.type === "stream-scheduled";
         } else if (f.allType === "24h") {
-          return isWithin24Hours(item);
+          return isWithin24Hours(item) || item.type === "stream-live" || item.type === "video-live";
         }
       }
 
