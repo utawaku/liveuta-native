@@ -240,11 +240,11 @@ function PipPlayer() {
   );
 }
 
-export function useYoutubePipContext() {
+export function useYoutubePip() {
   const context = useContext(YoutubePipContext);
 
   if (context === null) {
-    throw new Error("useTheme must be used within a ThemeProvider");
+    throw new Error("useYoutubePip must be used within a YoutubePipProvider");
   }
 
   return context;

@@ -4,6 +4,7 @@ import { useStore } from "@tanstack/solid-store";
 import { createWindowVirtualizer } from "@tanstack/solid-virtual";
 import { createEffect, createMemo, createSignal, For, onMount, Show } from "solid-js";
 import { Temporal } from "temporal-polyfill";
+import { useSettings } from "~/components/contexts/settings-provider";
 import { ScheduleItemCard } from "./item-card";
 import { scheduleFilteredItemsCount, scheduleFilterStore, scheduleItemCount } from "./store";
 
@@ -20,6 +21,7 @@ const IMAGE_RATIO = 9 / 16;
 export function ScheduleGrid(props: ScheduleListProps) {
   let gridRef: HTMLDivElement | undefined;
 
+  const { settings } = useSettings();
   const filter = useStore(scheduleFilterStore);
   const filteredSchedule = createMemo(() => {
     const f = filter();
@@ -131,6 +133,7 @@ export function ScheduleGrid(props: ScheduleListProps) {
                     translateY={rowItem.start}
                     width={itemWidth()}
                     height={itemHeight()}
+                    usePersonal={settings.personal}
                   />
                 </Show>
               )}

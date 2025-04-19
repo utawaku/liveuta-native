@@ -1,24 +1,23 @@
 import { createQuery } from "@tanstack/solid-query";
 import { createFileRoute } from "@tanstack/solid-router";
-import { useStore } from "@tanstack/solid-store";
 import { Effect } from "effect";
 import { Match, Suspense, Switch } from "solid-js";
+import { useSettings } from "~/components/contexts/settings-provider";
 import { ScheduleGrid } from "~/components/route-components/schedule/grid";
 import { ScheduleHeader } from "~/components/route-components/schedule/header";
 import { getSchedule } from "~/lib/client/schedule";
-import { settingsStore } from "~/stores/settings";
 
 export const Route = createFileRoute("/schedule")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  const settings = useStore(settingsStore);
+  const { settings } = useSettings();
   const schedule = createQuery(() => ({
     queryKey: ["schedule"],
     queryFn: () => Effect.runPromise(getSchedule),
-    gcTime: settings().syncPeriod * 60 * 1000,
-    staleTime: settings().syncPeriod * 60 * 1000,
+    gcTime: settings.syncPeriod * 60 * 1000,
+    staleTime: settings.syncPeriod * 60 * 1000,
   }));
 
   return (

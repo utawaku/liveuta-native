@@ -12,8 +12,8 @@ export const Route = createRootRouteWithContext()({
 
 function RootComponent() {
   return (
-    <YoutubePipProvider>
-      <SidebarProvider>
+    <SidebarProvider>
+      <YoutubePipProvider>
         <CommandPaletteProvider>
           <ShortcutProvider>
             <AppSidebar />
@@ -26,7 +26,7 @@ function RootComponent() {
             </SidebarInset>
           </ShortcutProvider>
         </CommandPaletteProvider>
-      </SidebarProvider>
-    </YoutubePipProvider>
+      </YoutubePipProvider>
+    </SidebarProvider>
   );
 }

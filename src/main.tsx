@@ -4,10 +4,10 @@ import { createOverlayScrollbars } from "overlayscrollbars-solid";
 import { onMount } from "solid-js";
 import { render } from "solid-js/web";
 import { EffectProvider } from "./components/contexts/effect-provider";
-import { ThemeProvider } from "./components/contexts/theme-provider";
 import { routeTree } from "./routeTree.gen";
 import "overlayscrollbars/overlayscrollbars.css";
 import "./styles.css";
+import { SettingsProvider } from "./components/contexts/settings-provider";
 import { Toaster } from "./components/ui/sonner";
 
 // import { resourceDir } from "@tauri-apps/api/path";
@@ -18,6 +18,7 @@ const router = createRouter({
   defaultPreload: "intent",
   scrollRestoration: true,
   defaultPreloadStaleTime: 0,
+  defaultViewTransition: true,
 });
 
 declare module "@tanstack/solid-router" {
@@ -36,9 +37,9 @@ function App() {
     <>
       <EffectProvider>
         <QueryClientProvider client={new QueryClient()}>
-          <ThemeProvider>
+          <SettingsProvider>
             <RouterProvider router={router} />
-          </ThemeProvider>
+          </SettingsProvider>
         </QueryClientProvider>
       </EffectProvider>
       <Toaster />

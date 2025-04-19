@@ -1,5 +1,5 @@
 import { Show } from "solid-js";
-import { useYoutubePipContext } from "~/components/contexts/youtube-pip-provider";
+import { useYoutubePip } from "~/components/contexts/youtube-pip-provider";
 import { useYoutubePlayerControllerContext } from "~/components/player/youtube-player";
 import {
   DropdownMenu,
@@ -17,7 +17,7 @@ import { RiVolumeUpFill } from "~/icons/ri/volume-up-fill";
 import { TablerX } from "~/icons/tabler/x";
 
 export function PipMinimized() {
-  const { pipState, setPipState } = useYoutubePipContext();
+  const { pipState, setPipState } = useYoutubePip();
   const { controller, volumeState, toggleMuted } = useYoutubePlayerControllerContext();
 
   return (

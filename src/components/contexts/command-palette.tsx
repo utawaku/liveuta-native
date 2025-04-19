@@ -12,12 +12,12 @@ import {
   CommandShortcut,
 } from "~/components/ui/command";
 import { useSidebar } from "~/components/ui/sidebar";
-import { useTheme } from "./theme-provider";
+import { useSettings } from "./settings-provider";
 
 export type CommandItem = {
   onSelect: () => void;
   label: string;
-  keywords: string[];
+  keywords?: string[];
   shortcut?: string;
 };
 
@@ -98,7 +98,7 @@ function CommandPalette(props: CommandPaletteProps) {
 }
 
 export function CommandPaletteProvider(props: { children: JSX.Element }) {
-  const { setTheme } = useTheme();
+  const { settings, setTheme, setPersonal } = useSettings();
   const { toggleSidebar } = useSidebar();
   const navigate = useNavigate();
   const [isCmdOpen, setIsCmdOpen] = createSignal(false);
@@ -122,13 +122,13 @@ export function CommandPaletteProvider(props: { children: JSX.Element }) {
           {
             onSelect: () => setIsCmdOpen(false),
             label: "커맨드 팔레트 토글",
-            keywords: ["Command", "Close Command Palette"],
+            keywords: ["커맨드", "커맨드 팔레트 토글", "Command", "Toggle Command Palette"],
             shortcut: "⌘-P",
           },
           {
             onSelect: () => onSelect(() => toggleSidebar()),
             label: "사이드바 토글",
-            keywords: ["Command", "Toggle Sidebar"],
+            keywords: ["커맨드", "사이드바 토글", "Command", "Toggle Sidebar"],
             shortcut: "⌘-S",
           },
         ],
@@ -139,19 +139,19 @@ export function CommandPaletteProvider(props: { children: JSX.Element }) {
           {
             onSelect: () => onSelect(() => navigate({ to: "/" })),
             label: "홈",
-            keywords: ["Navigate", "Home"],
+            keywords: ["페이지 이동", "홈", "Navigate", "Home"],
             shortcut: "⌘-Shift-H",
           },
           {
             onSelect: () => onSelect(() => navigate({ to: "/schedule" })),
             label: "스케줄",
-            keywords: ["Navigate", "Schedule"],
+            keywords: ["페이지 이동", "스케줄", "Navigate", "Schedule"],
             shortcut: "⌘-Shift-A",
           },
           {
             onSelect: () => onSelect(() => navigate({ to: "/channels" })),
             label: "채널",
-            keywords: ["Navigate", "Channels"],
+            keywords: ["페이지 이동", "채널", "Navigate", "Channels"],
             shortcut: "⌘-Shift-C",
           },
         ],
@@ -162,20 +162,24 @@ export function CommandPaletteProvider(props: { children: JSX.Element }) {
           {
             onSelect: () => onSelect(() => setTheme("light")),
             label: "라이트 테마",
-            keywords: ["Settings", "Light Theme"],
+            keywords: ["설정", "라이트 테마", "Settings", "Light Theme"],
             shortcut: "⌘-T-1",
           },
           {
             onSelect: () => onSelect(() => setTheme("dark")),
             label: "다크 테마",
-            keywords: ["Settings", "Dark Theme"],
+            keywords: ["설정", "다크 테마", "Settings", "Dark Theme"],
             shortcut: "⌘-T-2",
           },
           {
             onSelect: () => onSelect(() => setTheme("system")),
             label: "시스템 테마 사용",
-            keywords: ["Settings", "Use System Theme"],
+            keywords: ["설정", "시스템 테마", "Settings", "System Theme"],
             shortcut: "⌘-T-3",
+          },
+          {
+            onSelect: () => onSelect(() => setPersonal(!settings.personal)),
+            label: "개인용",
           },
         ],
       },

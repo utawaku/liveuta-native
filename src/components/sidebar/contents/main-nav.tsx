@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/solid-router";
+import { Link, useRouter } from "@tanstack/solid-router";
 import {
   SidebarGroup,
   SidebarGroupLabel,
@@ -11,12 +11,20 @@ import { MaterialSymbolsYoutubeTvOutline } from "~/icons/material-symbols/youtub
 import { RiCalendarScheduleLine } from "~/icons/remix-icon/calendar-schedule-line";
 
 export function MainNav() {
+  const router = useRouter();
+  const location = () => router.state.location;
+
   return (
     <SidebarGroup>
       <SidebarGroupLabel>목차</SidebarGroupLabel>
       <SidebarMenu>
         <SidebarMenuItem>
-          <SidebarMenuButton tooltip="스케줄" as={Link} to="/schedule">
+          <SidebarMenuButton
+            tooltip="스케줄"
+            as={Link}
+            to="/schedule"
+            variant={location().pathname.startsWith("/schedule") ? "invert" : "default"}
+          >
             <RiCalendarScheduleLine class="mr-1 size-6" />
             <SidebarMenuButtonInnerWithShortcut shortcut="⌘+⇧+A">
               <span>스케줄</span>
@@ -24,7 +32,12 @@ export function MainNav() {
           </SidebarMenuButton>
         </SidebarMenuItem>
         <SidebarMenuItem>
-          <SidebarMenuButton tooltip="채널" as={Link} to="/channels">
+          <SidebarMenuButton
+            tooltip="채널"
+            as={Link}
+            to="/channels"
+            variant={location().pathname.startsWith("/channels") ? "invert" : "default"}
+          >
             <MaterialSymbolsYoutubeTvOutline class="mr-1 size-6" />
             <SidebarMenuButtonInnerWithShortcut shortcut="⌘+⇧+C">
               <span>채널</span>

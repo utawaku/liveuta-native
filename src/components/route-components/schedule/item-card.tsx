@@ -14,6 +14,7 @@ type ScheduleItemCardProps = {
   translateY: number;
   width: number;
   height: number;
+  usePersonal: boolean;
 };
 
 export function ScheduleItemCard(props: ScheduleItemCardProps) {
@@ -85,11 +86,14 @@ export function ScheduleItemCard(props: ScheduleItemCardProps) {
           <div class="flex w-full justify-end">
             <Show
               when={
-                props.item.type === "video" || props.item.type === "video-scheduled" || "video-live"
+                props.usePersonal &&
+                (props.item.type === "video" ||
+                  props.item.type === "video-scheduled" ||
+                  "video-live")
               }
             >
               <ScheduleSpecialCopyButton
-                text={`${props.item.scheduledTime.hour}:${props.item.scheduledTime.minute} ${props.item.channelName}【】\n${url()}`}
+                text={`${props.item.scheduledTime.hour.toString().padStart(2, "0")}:${props.item.scheduledTime.minute.toString().padStart(2, "0")} ${props.item.channelName}【】\n${url()}`}
                 class="border-foreground size-8 hover:border hover:bg-transparent"
               />
             </Show>

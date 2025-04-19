@@ -1,4 +1,4 @@
-import { useTheme } from "~/components/contexts/theme-provider";
+import { useSettings } from "~/components/contexts/settings-provider";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,7 +12,7 @@ import { TablerSun } from "~/icons/tabler/sun";
 import { themeToLabel } from "~/lib/utils";
 
 export function ThemeToggle() {
-  const { theme, setTheme } = useTheme();
+  const { settings, setTheme } = useSettings();
 
   return (
     <SidebarMenuItem>
@@ -20,7 +20,7 @@ export function ThemeToggle() {
         <DropdownMenuTrigger as={SidebarMenuButton} tooltip="테마 변경">
           <TablerSun class="size-6 rotate-0 scale-100 transition-transform dark:-rotate-90 dark:scale-0" />
           <TablerMoon class="absolute size-6 rotate-90 scale-0 transition-transform dark:rotate-0 dark:scale-100" />
-          <span class="ml-1">{themeToLabel(theme())}</span>
+          <span class="ml-1">{themeToLabel(settings.theme)}</span>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuItem onSelect={() => setTheme("light")}>
