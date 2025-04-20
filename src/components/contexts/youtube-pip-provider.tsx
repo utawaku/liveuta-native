@@ -269,7 +269,10 @@ function PipPlayer() {
             </Tooltip>
           </div>
           <div
-            class={cn("h-[180px] w-[320px]", pipState() === "fullscreen" && "h-full w-full")}
+            class={cn(
+              "h-[180px] w-[320px]",
+              pipState() === "fullscreen" && "bg-background h-full w-full",
+            )}
             data-sidebar-expanded={sidebarState()}
           >
             <YoutubePlayer {...videoData()} autoLoad={true} />
@@ -395,7 +398,7 @@ function PipPlayer() {
                   </div>
                 </div>
               </div>
-              <div class="bg-background flex h-full flex-col gap-4 p-4">
+              <div class="flex h-full flex-col gap-4 p-4">
                 <h2 class="text-2xl">{videoData().title}</h2>
                 <div>
                   <p>{videoData().channelName}</p>
@@ -431,7 +434,7 @@ export function YoutubePipProvider(props: YoutubePipProviderProps) {
     scheduledTime: Temporal.Now.plainDateTimeISO(),
     channelId: "",
   });
-  const [pipState, setPipState] = createSignal<PipState>("fullscreen");
+  const [pipState, setPipState] = createSignal<PipState>("off");
 
   return (
     <YoutubePipContext.Provider
