@@ -48,6 +48,9 @@ function App() {
             pip?.setVideoData({
               title: item.title,
               videoId: item.videoId,
+              channelName: item.channelName,
+              scheduledTime: item.scheduledTime,
+              channelId: item.channelId,
               autoLoad: true,
             });
             pip?.setPipState("on");
@@ -60,6 +63,9 @@ function App() {
             pip?.setVideoData({
               title: item2.title,
               videoId: item2.videoId,
+              channelName: item.channelName,
+              scheduledTime: item.scheduledTime,
+              channelId: item.channelId,
               autoLoad: true,
             });
             pip?.setPipState("on");

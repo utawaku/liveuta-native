@@ -8,6 +8,7 @@ import {
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 import { SidebarMenuButton, SidebarMenuItem } from "~/components/ui/sidebar";
+import { FluentMaximize24Filled } from "~/icons/fluent/maximize-24-filled";
 import { IcRoundPause } from "~/icons/ic/round-pause";
 import { IcRoundPlayArrow } from "~/icons/ic/round-play-arrow";
 import { LogosYoutubeIcon } from "~/icons/logos/youtube-icon";
@@ -46,14 +47,14 @@ export function PipMinimized() {
               <MingcuteMiniplayerLine class="mr-2 size-4" />
               <span>PIP</span>
             </DropdownMenuItem>
+            <DropdownMenuItem onSelect={() => setPipState("fullscreen")}>
+              <FluentMaximize24Filled class="mr-2 size-4" />
+              <span>최대화</span>
+            </DropdownMenuItem>
             <DropdownMenuItem onSelect={() => setPipState("off")}>
               <TablerX class="mr-2 size-4" />
               <span>끄기</span>
             </DropdownMenuItem>
-            {/* <DropdownMenuItem onSelect={() => setPipState("fullscreen")}>
-              <FluentMaximize24Filled class="mr-2 size-4" />
-              <span>최대화</span>
-            </DropdownMenuItem> */}
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarMenuItem>

@@ -58,6 +58,9 @@ export function ScheduleItemCard(props: ScheduleItemCardProps) {
                 pip?.setVideoData({
                   title: props.item.title,
                   videoId: props.item.videoId,
+                  channelName: props.item.channelName,
+                  scheduledTime: props.item.scheduledTime,
+                  channelId: props.item.channelId,
                   autoLoad: true,
                 });
                 pip?.setPipState("on");

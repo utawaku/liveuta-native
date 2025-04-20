@@ -46,13 +46,13 @@ import {
   createSignal,
   JSX,
   mergeProps,
-  onCleanup,
   onMount,
   Show,
   useContext,
 } from "solid-js";
 import { YoutubeThumbnailQuality } from "~/lib/utils";
 import "./youtube-player.css";
+import { Temporal } from "temporal-polyfill";
 import YouTubeIFrameCtrl from "./youtube-iframe-controller";
 
 type Rel = "prefetch" | "preload";
@@ -162,6 +162,17 @@ export function YoutubePlayerControllerProvider(props: { children: JSX.Element }
 export type YoutubePlayerProps = {
   videoId: string;
   title: string;
+  channelName: string;
+  scheduledTime: Temporal.PlainDateTime;
+  channelId: string;
+  // channelName: Schema.String,
+  // scheduledTime: Schema.String,
+  // broadcastStatus: Schema.UndefinedOr(Schema.Boolean),
+  // hide: Schema.Boolean,
+  // isVideo: Schema.Boolean,
+  // concurrentViewers: Schema.Number,
+  // channelId: Schema.String,
+  // tag: Schema.UndefinedOr(Schema.String),
   activatedClass?: string;
   announce?: string;
   aspectWidth?: number;
@@ -207,7 +218,7 @@ export function YoutubePlayer(props: YoutubePlayerProps) {
   let iframeWrapperRef: HTMLDivElement | undefined;
   let iframeRef: HTMLIFrameElement | undefined;
 
-  const { setController, iframeState, setIframeState, setVolume, setVolumeState } =
+  const { setController, iframeState, setIframeState, setVolumeState } =
     useYoutubePlayerControllerContext();
   const [preConnected, setPreConnected] = createSignal(false);
   const [iframeAdded, setIframeAdded] = createSignal(false);
@@ -317,6 +328,7 @@ export function YoutubePlayer(props: YoutubePlayerProps) {
               );
               window.addEventListener("message", volumeListener);
             }}
+            credentialless
           />
         </Show>
       </div>
