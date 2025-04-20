@@ -8,7 +8,7 @@ export function ScrollToTop() {
         tooltip="맨 위로"
         onClick={() =>
           window.scrollTo({
-            behavior: "smooth",
+            behavior: "auto",
             top: 0,
           })
         }
