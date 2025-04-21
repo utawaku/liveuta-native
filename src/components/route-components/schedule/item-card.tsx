@@ -38,7 +38,7 @@ export function ScheduleItemCard(props: ScheduleItemCardProps) {
   return (
     <Card
       class={cn(
-        "hover:ring-ring h dark:bg-sidebar absolute left-0 top-0 p-4 transition-all duration-100 hover:ring-1",
+        "hover:ring-ring dark:bg-sidebar absolute left-0 top-0 p-4 transition-all duration-100 hover:ring-1",
         backgroundColor(),
       )}
       style={{

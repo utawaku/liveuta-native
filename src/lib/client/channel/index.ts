@@ -38,6 +38,15 @@ export const getChannels = Effect.gen(function* (_) {
   return channels;
 });
 
+export const getChannelsCount = Effect.gen(function* (_) {
+  const channelsCount = yield* _(fetchBackendAndParse("/channel/getCount", Schema.Number)).pipe(
+    Effect.retry({ times: 3 }),
+    Effect.catchAll(() => Effect.succeed(1)),
+  );
+
+  return channelsCount;
+});
+
 export const getChannelsWithYoutubeData = (
   size: number,
   page: number,

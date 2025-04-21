@@ -1,36 +1,68 @@
-import { createQuery } from "@tanstack/solid-query";
-import { createFileRoute } from "@tanstack/solid-router";
+import { createFileRoute, useNavigate } from "@tanstack/solid-router";
+import { useStore } from "@tanstack/solid-store";
 import { Effect } from "effect";
-import { Match, Suspense, Switch } from "solid-js";
-import { useSettings } from "~/components/contexts/settings-provider";
+import { createResource, Match, Suspense, Switch } from "solid-js";
+import { ChannelsFooter } from "~/components/route-components/channels/footer";
+import { ChannelsHeader } from "~/components/route-components/channels/header";
 import { ChannelList } from "~/components/route-components/channels/list";
-import { getChannelsWithYoutubeData } from "~/lib/client/channel";
+import { ChannelsSkeleton } from "~/components/route-components/channels/skeleton";
+import {
+  CHANNELS_MAX_ITEMS,
+  channelsSortStore,
+  pageStore,
+} from "~/components/route-components/channels/store";
+import { getChannelsCount, getChannelsWithYoutubeData } from "~/lib/client/channel";
+import { ChannelSort } from "~/types/mongodb";
 
 export const Route = createFileRoute("/channels")({
   component: RouteComponent,
 });
 
+async function fetchChannelsPages() {
+  return Math.ceil((await Effect.runPromise(getChannelsCount)) / CHANNELS_MAX_ITEMS);
+}
+
+async function fetchChannels(params: { page: number; sort: ChannelSort }) {
+  return await Effect.runPromise(
+    getChannelsWithYoutubeData(CHANNELS_MAX_ITEMS, params.page, params.sort),
+  );
+}
+
 function RouteComponent() {
-  const { settings } = useSettings();
-  const channel = createQuery(() => ({
-    queryKey: ["channel"],
-    queryFn: () => Effect.runPromise(getChannelsWithYoutubeData(10, 1, "name_kor")),
-    gcTime: settings.syncPeriod * 60 * 1000,
-    staleTime: settings.syncPeriod * 60 * 1000,
-  }));
+  const page = useStore(pageStore);
+  const channelsSort = useStore(channelsSortStore);
+  const fetchParams = () => ({
+    page: page(),
+    sort: channelsSort(),
+  });
+  const [channelsPages] = createResource(fetchChannelsPages);
+  const [channels] = createResource(fetchParams, fetchChannels);
 
   return (
-    <div>
+    <div class="@container p-4">
+      <Suspense>
+        <ChannelsHeader channelsPages={channelsPages()} />
+      </Suspense>
       <Suspense>
         <Switch>
-          <Match when={channel.isLoading}>
-            <div>Loading...</div>
+          <Match when={channels.loading}>
+            <ChannelsSkeleton />
           </Match>
-          <Match when={channel.isError}>
-            <div>Error: {channel.error?.message}</div>
+          <Match when={channels.error}>
+            <div>Error: {channels.error}</div>
           </Match>
-          <Match when={channel.data}>
-            <ChannelList channels={channel.data!.contents} />
+          <Match when={channels()}>
+            <ChannelList channels={channels()!.contents} />
+          </Match>
+        </Switch>
+      </Suspense>
+      <Suspense>
+        <Switch>
+          <Match when={channelsPages.loading}>
+            <div></div>
+          </Match>
+          <Match when={!channelsPages.loading}>
+            <ChannelsFooter pages={channelsPages()!} />
           </Match>
         </Switch>
       </Suspense>

@@ -38,3 +38,9 @@ export function youtubeVideoUrl(videoId: string) {
 export function youtubePlaylistUrl(playlistId: string) {
   return `https://www.youtube.com/playlist?list=${playlistId}`;
 }
+
+export const numberFormatter = new Intl.NumberFormat("ko-KR", {
+  compactDisplay: "short",
+  notation: "compact",
+  maximumSignificantDigits: 4,
+});

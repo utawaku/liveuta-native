@@ -186,6 +186,24 @@ body {
   --ease-default: cubic-bezier(0.8, 0, 0.25, 0.9);
   --ease-quart-in-out: cubic-bezier(0.77, 0, 0.175, 1);
   --ease-expo-in-out-custom: cubic-bezier(0.8, 0, 0.25, 0.9);
+
+  --container-8xl: 88rem;
+  --container-9xl: 96rem;
+  --container-10xl: 104rem;
+  --container-11xl: 112rem;
+  --container-12xl: 120rem;
+  --container-13xl: 128rem;
+  --container-14xl: 136rem;
+  --container-15xl: 144rem;
+  --container-16xl: 152rem;
+  --container-17xl: 160rem;
+  --container-18xl: 168rem;
+  --container-19xl: 176rem;
+  --container-20xl: 184rem;
+  --container-21xl: 192rem;
+  --container-22xl: 200rem;
+  --container-23xl: 208rem;
+  --container-24xl: 216rem;
 }
 
 @layer base {

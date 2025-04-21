@@ -1,7 +1,6 @@
-import type { RawChannelItem } from "~/types/mongodb";
 import { For } from "solid-js";
 import { YoutubeChannelData } from "~/types/youtube";
-import { ChannelItemCard } from "./list-card";
+import { ChannelItemCard } from "./item-card";
 
 type ScheduleListProps = {
   channels: YoutubeChannelData[];
@@ -9,7 +8,7 @@ type ScheduleListProps = {
 
 export function ChannelList(props: ScheduleListProps) {
   return (
-    <div class="grid grid-cols-2 gap-4">
+    <div class="@6xl:grid-cols-3 @3xl:grid-cols-2 @9xl:grid-cols-4 @12xl:grid-cols-5 @15xl:grid-cols-6 grid grid-cols-1 gap-4">
       <For each={props.channels}>{(item) => <ChannelItemCard item={item} />}</For>
     </div>
   );
