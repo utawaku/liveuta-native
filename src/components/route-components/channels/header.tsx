@@ -28,8 +28,11 @@ export function ChannelsHeader(props: ChannelsHeaderProps) {
   });
 
   return (
-    <div class="mb-4 flex justify-between">
-      <form onSubmit={onPageChangeSubmit} class="flex items-end gap-1">
+    <div class="ease-expo-in-out-custom fixed z-50 flex w-full justify-between px-4 transition-[width] duration-200 md:w-[calc(100%-var(--sidebar-width-icon))] md:group-has-[[data-state=expanded]]/sidebar-wrapper:w-[calc(100%-var(--sidebar-width))]">
+      <form
+        onSubmit={onPageChangeSubmit}
+        class="bg-background flex items-end gap-1 rounded-lg border p-2"
+      >
         <TextField
           class="relative"
           value={pageInput().toString()}
@@ -56,7 +59,7 @@ export function ChannelsHeader(props: ChannelsHeaderProps) {
         </TextField>
         <Button type="submit">이동</Button>
       </form>
-      <div>
+      <div class="bg-background rounded-lg border p-2">
         <Label class="text-center">영상 타입</Label>
         <Tabs value={channelsSort()} onChange={(v) => setChannelsSort(v as ChannelSort)}>
           <TabsList class="grid w-full grid-cols-2">

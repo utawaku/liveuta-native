@@ -39,7 +39,7 @@ function RouteComponent() {
   const [channels] = createResource(fetchParams, fetchChannels);
 
   return (
-    <div class="@container p-4">
+    <div class="@container py-4">
       <Suspense>
         <ChannelsHeader channelsPages={channelsPages()} />
       </Suspense>
