@@ -24,11 +24,11 @@ export function ScheduleItemCard(props: ScheduleItemCardProps) {
     switch (props.item.type) {
       case "video":
       case "stream-ended":
-        return "bg-shadcn-blue/20";
+        return "bg-shadcn-blue/20 dark:bg-shadcn-blue/30";
       case "stream-live":
-        return "bg-shadcn-yellow/20";
+        return "bg-shadcn-yellow/20 dark:bg-shadcn-yellow/30";
       case "video-live":
-        return "bg-shadcn-violet/20";
+        return "bg-shadcn-violet/20 dark:bg-shadcn-violet/30";
       case "stream-scheduled":
       case "video-scheduled":
         return "";
@@ -38,7 +38,7 @@ export function ScheduleItemCard(props: ScheduleItemCardProps) {
   return (
     <Card
       class={cn(
-        "hover:ring-ring dark:bg-sidebar absolute left-0 top-0 p-4 transition-all duration-100 hover:ring-1",
+        "hover:ring-ring dark:bg-sidebar absolute left-0 top-0 p-4 transition-all duration-100 hover:ring-2",
         backgroundColor(),
       )}
       style={{

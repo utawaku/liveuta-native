@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from "@tanstack/solid-router";
+import { createFileRoute } from "@tanstack/solid-router";
 import { useStore } from "@tanstack/solid-store";
 import { Effect } from "effect";
 import { createResource, Match, Suspense, Switch } from "solid-js";
