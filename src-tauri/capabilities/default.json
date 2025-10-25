@@ -16,10 +16,6 @@
         }
       ]
     },
-    "sql:default",
-    "fs:default",
-    "fs:read-all",
-    "fs:allow-resource-read-recursive",
     "store:default",
     "store:allow-get",
     "store:allow-set",
@@ -28,6 +24,7 @@
     "store:allow-clear",
     "clipboard-manager:default",
     "clipboard-manager:allow-read-text",
-    "clipboard-manager:allow-write-text"
+    "clipboard-manager:allow-write-text",
+    "sql:default"
   ]
 }
