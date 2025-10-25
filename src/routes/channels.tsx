@@ -1,9 +1,11 @@
+import { createResource, Match, Suspense, Switch } from "solid-js";
 import { createFileRoute } from "@tanstack/solid-router";
 import { useStore } from "@tanstack/solid-store";
 import { Effect } from "effect";
-import { createResource, Match, Suspense, Switch } from "solid-js";
+
 import { ChannelsFooter } from "~/components/route-components/channels/footer";
 import { ChannelsHeader } from "~/components/route-components/channels/header";
+import { ChannelsHeaderSkeleton } from "~/components/route-components/channels/header-skeleton";
 import { ChannelList } from "~/components/route-components/channels/list";
 import { ChannelsSkeleton } from "~/components/route-components/channels/skeleton";
 import {
@@ -41,7 +43,14 @@ function RouteComponent() {
   return (
     <div class="@container py-4">
       <Suspense>
-        <ChannelsHeader channelsPages={channelsPages()} />
+        <Switch>
+          <Match when={channels.loading}>
+            <ChannelsHeaderSkeleton />
+          </Match>
+          <Match when={channels()}>
+            <ChannelsHeader channelsPages={channelsPages()} />
+          </Match>
+        </Switch>
       </Suspense>
       <Suspense>
         <Switch>

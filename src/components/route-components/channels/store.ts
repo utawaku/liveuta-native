@@ -13,4 +13,5 @@ export const channelsSortStore = new Store<ChannelSort>("name_kor");
 
 export function setChannelsSort(sort: ChannelSort) {
   channelsSortStore.setState(() => sort);
+  window.localStorage.setItem("channel-sort", sort);
 }
