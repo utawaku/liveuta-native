@@ -1,16 +1,23 @@
 {
   "printWidth": 100,
   "importOrder": [
-    "<BUILTIN_MODULES>",
     "<TYPES>",
     "<TYPES>^[.]",
+    "",
+    "^(solid-js/(.*)|solid-js)$",
+    "^@tanstack/(.*)$",
+    "^@tauri/(.*)$",
+    "<BUILTIN_MODULES>",
     "<THIRD_PARTY_MODULES>",
+    "",
+    ".astro$",
     "^~/(.*)$",
     "^[.]",
+    "",
     ".css$"
   ],
   "svelteAllowShorthand": false,
-  "tailwindStylesheet": "./src/app.css",
+  "tailwindStylesheet": "./src/styles.css",
   "tailwindFunctions": [
     "cx"
   ],
