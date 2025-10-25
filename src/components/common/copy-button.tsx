@@ -1,7 +1,9 @@
 import type { ButtonProps } from "~/components/ui/button";
-import { writeText } from "@tauri-apps/plugin-clipboard-manager";
+
 import { createSignal, mergeProps, Show } from "solid-js";
+import { writeText } from "@tauri-apps/plugin-clipboard-manager";
 import { toast } from "solid-sonner";
+
 import { Button } from "~/components/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip";
 import { TablerCopy } from "~/icons/tabler/copy";

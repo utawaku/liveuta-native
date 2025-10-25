@@ -1,6 +1,7 @@
-import { createShortcut } from "@solid-primitives/keyboard";
-import { useNavigate } from "@tanstack/solid-router";
 import { JSX, onMount } from "solid-js";
+import { useNavigate } from "@tanstack/solid-router";
+import { createShortcut } from "@solid-primitives/keyboard";
+
 import { useCommandPalette } from "~/components/contexts/command-palette";
 import { useSidebar } from "~/components/ui/sidebar";
 import { useSettings } from "./settings-provider";

@@ -1,4 +1,5 @@
 import { Store } from "@tanstack/store";
+
 import { ChannelSort } from "~/types/mongodb";
 
 export const CHANNELS_MAX_ITEMS = 50;

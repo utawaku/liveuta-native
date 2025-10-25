@@ -1,6 +1,7 @@
 import Database from "@tauri-apps/plugin-sql";
 import { drizzle } from "drizzle-orm/sqlite-proxy";
 import { Context, Data, Effect, Layer } from "effect";
+
 import * as schema from "./schema";
 
 export class SQLiteError extends Data.TaggedError("SQLiteError")<{

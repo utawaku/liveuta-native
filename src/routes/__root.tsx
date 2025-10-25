@@ -1,4 +1,5 @@
 import { createRootRouteWithContext, Outlet } from "@tanstack/solid-router";
+
 import { CommandPaletteProvider } from "~/components/contexts/command-palette";
 import { ShortcutProvider } from "~/components/contexts/global-shortcut-provider";
 import { YoutubePipProvider } from "~/components/contexts/youtube-pip-provider";

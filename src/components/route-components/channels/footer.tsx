@@ -1,5 +1,6 @@
-import { useStore } from "@tanstack/solid-store";
 import { createSignal } from "solid-js";
+import { useStore } from "@tanstack/solid-store";
+
 import {
   Pagination,
   PaginationEllipsis,

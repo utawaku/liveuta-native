@@ -1,6 +1,7 @@
-import { useNavigate } from "@tanstack/solid-router";
 import { Accessor, createContext, createSignal, For, JSX, Show, useContext } from "solid-js";
 import { createStore } from "solid-js/store";
+import { useNavigate } from "@tanstack/solid-router";
+
 import {
   CommandDialog,
   CommandEmpty,

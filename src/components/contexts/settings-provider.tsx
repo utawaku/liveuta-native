@@ -1,6 +1,8 @@
 import type { Theme } from "~/types/settings";
+
 import { createContext, createEffect, JSX, useContext } from "solid-js";
 import { createStore, SetStoreFunction } from "solid-js/store";
+
 import { siteConfig } from "~/site-config";
 import { Settings } from "~/types/settings";
 

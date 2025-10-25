@@ -1,4 +1,3 @@
-import { writeText } from "@tauri-apps/plugin-clipboard-manager";
 import {
   Accessor,
   createContext,
@@ -9,9 +8,11 @@ import {
   useContext,
 } from "solid-js";
 import { Portal } from "solid-js/web";
+import { writeText } from "@tauri-apps/plugin-clipboard-manager";
 import createPreventScroll from "solid-prevent-scroll";
 import { toast } from "solid-sonner";
 import { Temporal } from "temporal-polyfill";
+
 import {
   useYoutubePlayerControllerContext,
   YoutubePlayer,
@@ -121,13 +122,13 @@ function PipPlayer() {
             pipState() === "minimize" && "hidden",
             locationClass(),
             pipState() === "fullscreen" &&
-              "ease-expo-in-out-custom fixed inset-0 top-16 flex w-full justify-end transition-[width,left,top] duration-200 md:left-12 md:top-12 md:w-[calc(100%-3rem)] md:data-[sidebar-expanded=expanded]:left-64 md:data-[sidebar-expanded=expanded]:top-16 md:data-[sidebar-expanded=expanded]:w-[calc(100%-16rem)]",
+              "fixed inset-0 top-16 flex w-full justify-end transition-[width,left,top] duration-200 ease-expo-in-out-custom md:top-12 md:left-12 md:w-[calc(100%-3rem)] md:data-[sidebar-expanded=expanded]:top-16 md:data-[sidebar-expanded=expanded]:left-64 md:data-[sidebar-expanded=expanded]:w-[calc(100%-16rem)]",
           )}
           ref={pipWrapperRef}
           data-sidebar-expanded={sidebarState()}
         >
           <Show when={pipState() !== "fullscreen"}>
-            <div class="ease-expo-in-out-custom absolute -top-[35px] right-0 flex w-[320px] translate-y-4 justify-between transition-transform hover:translate-y-0">
+            <div class="absolute -top-[35px] right-0 flex w-[320px] translate-y-4 justify-between transition-transform ease-expo-in-out-custom hover:translate-y-0">
               <div>
                 <Tooltip placement="top">
                   <TooltipTrigger>
@@ -222,7 +223,7 @@ function PipPlayer() {
           </Show>
           <div
             class={cn(
-              "ease-expo-in-out-custom absolute flex h-[180px] flex-col transition-transform hover:translate-x-0",
+              "absolute flex h-[180px] flex-col transition-transform ease-expo-in-out-custom hover:translate-x-0",
               location() === 1 || location() === 3
                 ? "right-[-35px] -translate-x-4"
                 : "left-[-35px] translate-x-4",
@@ -240,7 +241,7 @@ function PipPlayer() {
               </TooltipTrigger>
             </Tooltip>
             <div
-              class="ring-offset-background focus-visible:ring-ring border-input bg-background hover:bg-accent hover:text-accent-foreground inline-flex size-10 cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-md border text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0"
+              class="inline-flex size-10 cursor-pointer items-center justify-center gap-2 rounded-md border border-input bg-background text-sm font-medium whitespace-nowrap ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0"
               onWheel={onWheel}
             >
               <span>{volumeState().volume}</span>
@@ -271,7 +272,7 @@ function PipPlayer() {
           <div
             class={cn(
               "h-[180px] w-[320px]",
-              pipState() === "fullscreen" && "bg-background h-full w-full",
+              pipState() === "fullscreen" && "h-full w-full bg-background",
             )}
             data-sidebar-expanded={sidebarState()}
           >
@@ -279,7 +280,7 @@ function PipPlayer() {
             <Show when={pipState() === "fullscreen"}>
               <div class="mt-2 flex justify-center gap-2">
                 <div class="flex flex-col items-center gap-0.5 rounded-md border p-2">
-                  <div class="text-muted-foreground text-xs">공유</div>
+                  <div class="text-xs text-muted-foreground">공유</div>
                   <div class="flex items-center gap-2">
                     <Button
                       variant="outline"
@@ -302,7 +303,7 @@ function PipPlayer() {
                   </div>
                 </div>
                 <div class="flex flex-col items-center gap-0.5 rounded-md border p-2">
-                  <div class="text-muted-foreground text-xs">볼륨 조절</div>
+                  <div class="text-xs text-muted-foreground">볼륨 조절</div>
                   <div class="flex items-center">
                     <Tooltip placement="bottom">
                       <TooltipTrigger>
@@ -320,7 +321,7 @@ function PipPlayer() {
                       </TooltipTrigger>
                     </Tooltip>
                     <div
-                      class="ring-offset-background focus-visible:ring-ring border-input bg-background hover:bg-accent hover:text-accent-foreground inline-flex size-10 cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-md border text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0"
+                      class="inline-flex size-10 cursor-pointer items-center justify-center gap-2 rounded-md border border-input bg-background text-sm font-medium whitespace-nowrap ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0"
                       onWheel={onWheel}
                     >
                       <span>{volumeState().volume}</span>
@@ -355,7 +356,7 @@ function PipPlayer() {
                   </div>
                 </div>
                 <div class="flex flex-col items-center gap-0.5 rounded-md border p-2">
-                  <div class="text-muted-foreground text-xs">플레이어</div>
+                  <div class="text-xs text-muted-foreground">플레이어</div>
                   <div class="flex items-center">
                     <Tooltip placement="bottom">
                       <TooltipTrigger>

@@ -1,5 +1,7 @@
 import type { ScheduleItem } from "~/types/mongodb";
+
 import { createMemo, Show, useContext } from "solid-js";
+
 import { CopyButton } from "~/components/common/copy-button";
 import { OpenInBrowser } from "~/components/common/open-in-new";
 import { ScheduleSpecialCopyButton } from "~/components/common/schedule-special-copy";
@@ -38,7 +40,7 @@ export function ScheduleItemCard(props: ScheduleItemCardProps) {
   return (
     <Card
       class={cn(
-        "hover:ring-ring dark:bg-sidebar absolute left-0 top-0 p-4 transition-all duration-100 hover:ring-2",
+        "absolute top-0 left-0 p-4 transition-all duration-100 hover:ring-2 hover:ring-ring dark:bg-sidebar",
         backgroundColor(),
       )}
       style={{
@@ -97,18 +99,18 @@ export function ScheduleItemCard(props: ScheduleItemCardProps) {
             >
               <ScheduleSpecialCopyButton
                 text={`${props.item.scheduledTime.hour.toString().padStart(2, "0")}:${props.item.scheduledTime.minute.toString().padStart(2, "0")} ${props.item.channelName}【】\n${url()}`}
-                class="border-foreground size-8 hover:border hover:bg-transparent"
+                class="size-8 border-foreground hover:border hover:bg-transparent"
               />
             </Show>
             <CopyButton
               text={url()}
               tooltip="링크 복사하기"
               tooltipCopied="링크 복사됨"
-              class="border-foreground size-8 hover:border hover:bg-transparent"
+              class="size-8 border-foreground hover:border hover:bg-transparent"
             />
             <OpenInBrowser
               href={url()}
-              class="border-foreground size-8 hover:border hover:bg-transparent"
+              class="size-8 border-foreground hover:border hover:bg-transparent"
             />
           </div>
         </div>

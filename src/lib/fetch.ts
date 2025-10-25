@@ -1,6 +1,8 @@
 import type { ClientOptions } from "@tauri-apps/plugin-http";
+
 import { fetch as tauriFetch } from "@tauri-apps/plugin-http";
 import { Effect, Schema } from "effect";
+
 import { env } from "./env";
 import { FetchError, JSONParseError } from "./error";
 

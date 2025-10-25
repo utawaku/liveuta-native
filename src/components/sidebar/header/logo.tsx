@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/solid-router";
+
 import logo from "~/assets/logo_64x64.png";
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "~/components/ui/sidebar";
 

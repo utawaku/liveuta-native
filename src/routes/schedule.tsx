@@ -1,7 +1,8 @@
+import { Match, Suspense, Switch } from "solid-js";
 import { createQuery } from "@tanstack/solid-query";
 import { createFileRoute } from "@tanstack/solid-router";
 import { Effect } from "effect";
-import { Match, Suspense, Switch } from "solid-js";
+
 import { useSettings } from "~/components/contexts/settings-provider";
 import { ScheduleGrid } from "~/components/route-components/schedule/grid";
 import { ScheduleHeader } from "~/components/route-components/schedule/header";

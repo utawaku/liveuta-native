@@ -1,12 +1,15 @@
+import { onMount } from "solid-js";
+import { render } from "solid-js/web";
 import { QueryClient, QueryClientProvider } from "@tanstack/solid-query";
 import { createRouter, RouterProvider } from "@tanstack/solid-router";
 import { createOverlayScrollbars } from "overlayscrollbars-solid";
-import { onMount } from "solid-js";
-import { render } from "solid-js/web";
+
 import { EffectProvider } from "./components/contexts/effect-provider";
 import { routeTree } from "./routeTree.gen";
+
 import "overlayscrollbars/overlayscrollbars.css";
 import "./styles.css";
+
 import { SettingsProvider } from "./components/contexts/settings-provider";
 import { Toaster } from "./components/ui/sonner";
 

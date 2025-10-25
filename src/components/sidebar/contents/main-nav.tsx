@@ -1,4 +1,5 @@
 import { Link, useRouter } from "@tanstack/solid-router";
+
 import {
   SidebarGroup,
   SidebarGroupLabel,
@@ -9,6 +10,7 @@ import {
 } from "~/components/ui/sidebar";
 import { MaterialSymbolsYoutubeTvOutline } from "~/icons/material-symbols/youtube-tv-outline";
 import { RiCalendarScheduleLine } from "~/icons/remix-icon/calendar-schedule-line";
+import { TablerDownload } from "~/icons/tabler/download";
 
 export function MainNav() {
   const router = useRouter();
@@ -41,6 +43,19 @@ export function MainNav() {
             <MaterialSymbolsYoutubeTvOutline class="mr-1 size-6" />
             <SidebarMenuButtonInnerWithShortcut shortcut="⌘+⇧+C">
               <span>채널</span>
+            </SidebarMenuButtonInnerWithShortcut>
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+        <SidebarMenuItem>
+          <SidebarMenuButton
+            tooltip="다운로더"
+            as={Link}
+            to="/downloader"
+            variant={location().pathname.startsWith("/downloader") ? "invert" : "default"}
+          >
+            <TablerDownload class="mr-1 size-6" />
+            <SidebarMenuButtonInnerWithShortcut shortcut="⌘+⇧+D">
+              <span>다운로더</span>
             </SidebarMenuButtonInnerWithShortcut>
           </SidebarMenuButton>
         </SidebarMenuItem>
