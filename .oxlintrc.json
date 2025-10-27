@@ -6,12 +6,7 @@
   },
   "globals": {},
   "ignorePatterns": [],
-  "plugins": [
-    "unicorn",
-    "typescript",
-    "oxc",
-    "import"
-  ],
+  "plugins": ["unicorn", "typescript", "oxc", "import"],
   "rules": {
     "for-direction": "warn",
     "no-async-promise-executor": "warn",
