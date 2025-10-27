@@ -1,3 +1,4 @@
+// oxlint-disable no-empty-file
 // import { resourceDir } from "@tauri-apps/api/path";
 // import { readDir, readTextFile } from "@tauri-apps/plugin-fs";
 // import { sqlite } from ".";

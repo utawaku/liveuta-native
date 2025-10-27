@@ -1,4 +1,5 @@
 import { Effect, Schema } from "effect";
+
 import Dayjs from "~/lib/dayjs";
 import { fetchBackend, fetchBackendAndParse, parseJSON } from "~/lib/fetch";
 import {
@@ -6,7 +7,7 @@ import {
   ChannelSort,
   ChannelsWithYoutubeData,
   RawChannelItemSchema,
-} from "~/types/mongodb";
+} from "~/types/mongodb.type";
 
 export const getChannelById = (id: string) =>
   Effect.gen(function* (_) {

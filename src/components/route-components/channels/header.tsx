@@ -1,11 +1,12 @@
-import { useStore } from "@tanstack/solid-store";
 import { createEffect, createSignal, Show } from "solid-js";
+import { useStore } from "@tanstack/solid-store";
+
 import { Button } from "~/components/ui/button";
 import { Label } from "~/components/ui/label";
 import { Tabs, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { TextField, TextFieldInput, TextFieldLabel } from "~/components/ui/text-field";
-import { ChannelSort } from "~/types/mongodb";
-import { cn } from "../../../lib/utils";
+import { cn } from "~/lib/utils";
+import { ChannelSort } from "~/types/mongodb.type";
 import css from "./header.module.css";
 import { channelsSortStore, pageStore, setChannelsSort, setPage } from "./store";
 
@@ -28,10 +29,10 @@ export function ChannelsHeader(props: ChannelsHeaderProps) {
   });
 
   return (
-    <div class="ease-expo-in-out-custom fixed z-50 flex w-full justify-between px-4 transition-[width] duration-200 md:w-[calc(100%-var(--sidebar-width-icon))] md:group-has-[[data-state=expanded]]/sidebar-wrapper:w-[calc(100%-var(--sidebar-width))]">
+    <div class="fixed z-50 flex w-full justify-between px-4 transition-[width] duration-200 ease-expo-in-out-custom md:w-[calc(100%-var(--sidebar-width-icon))] md:group-has-data-[state=expanded]/sidebar-wrapper:w-[calc(100%-var(--sidebar-width))]">
       <form
         onSubmit={onPageChangeSubmit}
-        class="bg-background flex items-end gap-1 rounded-lg border p-2"
+        class="flex items-end gap-1 rounded-lg border bg-background p-2"
       >
         <TextField
           class="relative"
@@ -49,17 +50,17 @@ export function ChannelsHeader(props: ChannelsHeaderProps) {
             max={props.channelsPages || 1}
           />
           <Show when={props.channelsPages !== undefined}>
-            <span class="text-muted-foreground pointer-events-none absolute bottom-2.5 left-1/2 -translate-x-1/2 text-sm">
+            <span class="pointer-events-none absolute bottom-2.5 left-1/2 -translate-x-1/2 text-sm text-muted-foreground">
               /
             </span>
-            <span class="text-muted-foreground pointer-events-none absolute bottom-2.5 right-3 text-sm">
+            <span class="pointer-events-none absolute right-3 bottom-2.5 text-sm text-muted-foreground">
               {props.channelsPages!}
             </span>
           </Show>
         </TextField>
         <Button type="submit">이동</Button>
       </form>
-      <div class="bg-background rounded-lg border p-2">
+      <div class="rounded-lg border bg-background p-2">
         <Label class="text-center">영상 타입</Label>
         <Tabs value={channelsSort()} onChange={(v) => setChannelsSort(v as ChannelSort)}>
           <TabsList class="grid w-full grid-cols-2">

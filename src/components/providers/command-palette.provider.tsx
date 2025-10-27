@@ -1,6 +1,7 @@
-import { useNavigate } from "@tanstack/solid-router";
 import { Accessor, createContext, createSignal, For, JSX, Show, useContext } from "solid-js";
 import { createStore } from "solid-js/store";
+import { useNavigate } from "@tanstack/solid-router";
+
 import {
   CommandDialog,
   CommandEmpty,
@@ -12,7 +13,7 @@ import {
   CommandShortcut,
 } from "~/components/ui/command";
 import { useSidebar } from "~/components/ui/sidebar";
-import { useSettings } from "./settings-provider";
+import { useSettings } from "./settings.provider";
 
 export type CommandItem = {
   onSelect: () => void;
@@ -153,6 +154,12 @@ export function CommandPaletteProvider(props: { children: JSX.Element }) {
             label: "채널",
             keywords: ["페이지 이동", "채널", "Navigate", "Channels"],
             shortcut: "⌘-Shift-C",
+          },
+          {
+            onSelect: () => onSelect(() => navigate({ to: "/settings" })),
+            label: "설정",
+            keywords: ["페이지 이동", "채널", "Navigate", "Settings"],
+            shortcut: "⌘-Shift-S",
           },
         ],
       },

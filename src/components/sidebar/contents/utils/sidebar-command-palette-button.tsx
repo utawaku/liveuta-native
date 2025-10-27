@@ -1,4 +1,4 @@
-import { useCommandPalette } from "~/components/contexts/command-palette";
+import { useCommandPalette } from "~/components/providers/command-palette.provider";
 import {
   SidebarMenuButton,
   SidebarMenuButtonInnerWithShortcut,

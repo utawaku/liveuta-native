@@ -1,9 +1,11 @@
 import type { PolymorphicProps } from "@kobalte/core/polymorphic";
 import type { VariantProps } from "class-variance-authority";
 import type { Component, ComponentProps, JSX, ValidComponent } from "solid-js";
+
+import { splitProps } from "solid-js";
 import * as SheetPrimitive from "@kobalte/core/dialog";
 import { cva } from "class-variance-authority";
-import { splitProps } from "solid-js";
+
 import { cn } from "~/lib/utils";
 
 const Sheet = SheetPrimitive.Root;
@@ -44,7 +46,7 @@ const SheetOverlay = <T extends ValidComponent = "div">(
   return (
     <SheetPrimitive.Overlay
       class={cn(
-        "data-[expanded=]:animate-in data-[closed=]:animate-out data-[closed=]:fade-out-0 data-[expanded=]:fade-in-0 fixed inset-0 z-50 bg-black/80",
+        "fixed inset-0 z-50 bg-black/80 data-[closed=]:animate-out data-[closed=]:fade-out-0 data-[expanded=]:animate-in data-[expanded=]:fade-in-0",
         local.class,
       )}
       {...others}
@@ -94,7 +96,7 @@ const SheetContent = <T extends ValidComponent = "div">(
         {...others}
       >
         {local.children}
-        <SheetPrimitive.CloseButton class="ring-offset-background focus:ring-ring data-[state=open]:bg-secondary absolute right-4 top-4 rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:pointer-events-none">
+        <SheetPrimitive.CloseButton class="absolute top-4 right-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:outline-none disabled:pointer-events-none data-[state=open]:bg-secondary">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -142,7 +144,7 @@ const SheetTitle = <T extends ValidComponent = "h2">(
   const [local, others] = splitProps(props as DialogTitleProps, ["class"]);
   return (
     <SheetPrimitive.Title
-      class={cn("text-foreground text-lg font-semibold", local.class)}
+      class={cn("text-lg font-semibold text-foreground", local.class)}
       {...others}
     />
   );
@@ -157,7 +159,7 @@ const SheetDescription = <T extends ValidComponent = "p">(
   const [local, others] = splitProps(props as DialogDescriptionProps, ["class"]);
   return (
     <SheetPrimitive.Description
-      class={cn("text-muted-foreground text-sm", local.class)}
+      class={cn("text-sm text-muted-foreground", local.class)}
       {...others}
     />
   );

@@ -38,6 +38,7 @@ limitations under the License.
 */
 
 import "lite-youtube-embed/src/lite-yt-embed.css";
+
 import {
   Accessor,
   batch,
@@ -50,9 +51,13 @@ import {
   Show,
   useContext,
 } from "solid-js";
-import { YoutubeThumbnailQuality } from "~/lib/utils";
+
+import { YoutubeThumbnailQuality } from "~/lib/youtube";
+
 import "./youtube-player.css";
+
 import { Temporal } from "temporal-polyfill";
+
 import YouTubeIFrameCtrl from "./youtube-iframe-controller";
 
 type Rel = "prefetch" | "preload";

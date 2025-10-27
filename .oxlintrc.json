@@ -6,12 +6,7 @@
   },
   "globals": {},
   "ignorePatterns": [],
-  "plugins": [
-    "unicorn",
-    "typescript",
-    "oxc",
-    "import"
-  ],
+  "plugins": ["unicorn", "typescript", "oxc", "import"],
   "rules": {
     "for-direction": "warn",
     "no-async-promise-executor": "warn",
@@ -49,12 +44,13 @@
     "no-shadow-restricted-names": "warn",
     "no-sparse-arrays": "warn",
     "no-this-before-super": "warn",
+    "no-unassigned-vars": "off",
     "no-unsafe-finally": "warn",
     "no-unsafe-negation": "warn",
     "no-unsafe-optional-chaining": "warn",
     "no-unused-labels": "warn",
     "no-unused-private-class-members": "warn",
-    "no-unused-vars": "warn",
+    "no-unused-vars": "off",
     "no-useless-catch": "warn",
     "no-useless-escape": "warn",
     "no-useless-rename": "warn",

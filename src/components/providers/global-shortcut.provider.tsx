@@ -1,9 +1,10 @@
-import { createShortcut } from "@solid-primitives/keyboard";
-import { useNavigate } from "@tanstack/solid-router";
 import { JSX, onMount } from "solid-js";
-import { useCommandPalette } from "~/components/contexts/command-palette";
+import { useNavigate } from "@tanstack/solid-router";
+import { createShortcut } from "@solid-primitives/keyboard";
+
+import { useCommandPalette } from "~/components/providers/command-palette.provider";
 import { useSidebar } from "~/components/ui/sidebar";
-import { useSettings } from "./settings-provider";
+import { useSettings } from "./settings.provider";
 
 export function ShortcutProvider(props: { children: JSX.Element }) {
   const { toggleCmd } = useCommandPalette();
@@ -21,10 +22,12 @@ export function ShortcutProvider(props: { children: JSX.Element }) {
     // <C-S-h> - Home
     createShortcut(["Control", "Shift", "H"], () => navigate({ to: "/" }));
     // Navigate
-    // <C-S-s> - Schedule
+    // <C-S-a> - Schedule
     createShortcut(["Control", "Shift", "A"], () => navigate({ to: "/schedule" }));
     // <C-S-c> - Channel
     createShortcut(["Control", "Shift", "C"], () => navigate({ to: "/channels" }));
+    // <C-S-s> - Settings
+    createShortcut(["Control", "Shift", "S"], () => navigate({ to: "/settings" }));
     // Settings
     // <C-t-l> - Light theme
     createShortcut(["Control", "T", "1"], () => setTheme("light"));

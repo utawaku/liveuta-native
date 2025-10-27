@@ -1,7 +1,8 @@
 import { Effect, Schema } from "effect";
 import { Temporal } from "temporal-polyfill";
+
 import { fetchBackendAndParse } from "~/lib/fetch";
-import { RawScheduleItemSchema, ScheduleItem, ScheduleItemType } from "~/types/mongodb";
+import { RawScheduleItemSchema, ScheduleItem, ScheduleItemType } from "~/types/mongodb.type";
 
 export const getSchedule = Effect.gen(function* (_) {
   const scheduleList = yield* _(

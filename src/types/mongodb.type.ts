@@ -1,4 +1,5 @@
-import type { YoutubeChannelData } from "./youtube";
+import type { YoutubeChannelData } from "./youtube.type";
+
 import { Dayjs } from "dayjs";
 import { Schema } from "effect";
 import { Temporal } from "temporal-polyfill";
