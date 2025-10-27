@@ -1,7 +1,7 @@
 import { Show } from "solid-js";
 
-import { useYoutubePip } from "~/components/contexts/youtube-pip-provider";
 import { useYoutubePlayerControllerContext } from "~/components/player/youtube-player";
+import { useYoutubePip } from "~/components/providers/youtube-pip.provider";
 import {
   DropdownMenu,
   DropdownMenuContent,

@@ -1,4 +1,4 @@
-import { useSettings } from "~/components/contexts/settings-provider";
+import { useSettings } from "~/components/providers/settings.provider";
 import {
   DropdownMenu,
   DropdownMenuContent,

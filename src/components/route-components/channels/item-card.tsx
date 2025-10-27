@@ -1,11 +1,13 @@
+// oxlint-disable no-non-null-asserted-optional-chain
 import { createMemo, Show } from "solid-js";
 
 import { CopyButton } from "~/components/common/copy-button";
 import { OpenInBrowser } from "~/components/common/open-in-new";
 import { Avatar, AvatarImage } from "~/components/ui/avatar";
 import { Card, CardContent } from "~/components/ui/card";
-import { numberFormatter, youtubeChannelUrl } from "~/lib/utils";
-import { YoutubeChannelData } from "~/types/youtube";
+import { numberFormatter } from "~/lib/utils";
+import { youtubeChannelUrl } from "~/lib/youtube";
+import { YoutubeChannelData } from "~/types/youtube.type";
 
 type ChannelItemCardProps = {
   item: YoutubeChannelData;

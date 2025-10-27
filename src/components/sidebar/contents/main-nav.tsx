@@ -11,6 +11,8 @@ import {
 import { MaterialSymbolsYoutubeTvOutline } from "~/icons/material-symbols/youtube-tv-outline";
 import { RiCalendarScheduleLine } from "~/icons/remix-icon/calendar-schedule-line";
 import { TablerDownload } from "~/icons/tabler/download";
+import { TablerSettings } from "~/icons/tabler/settings";
+import { MainNavItem } from "./main-nav-item";
 
 export function MainNav() {
   const router = useRouter();
@@ -20,45 +22,38 @@ export function MainNav() {
     <SidebarGroup>
       <SidebarGroupLabel>목차</SidebarGroupLabel>
       <SidebarMenu>
-        <SidebarMenuItem>
-          <SidebarMenuButton
-            tooltip="스케줄"
-            as={Link}
-            to="/schedule"
-            variant={location().pathname.startsWith("/schedule") ? "invert" : "default"}
-          >
-            <RiCalendarScheduleLine class="mr-1 size-6" />
-            <SidebarMenuButtonInnerWithShortcut shortcut="⌘+⇧+A">
-              <span>스케줄</span>
-            </SidebarMenuButtonInnerWithShortcut>
-          </SidebarMenuButton>
-        </SidebarMenuItem>
-        <SidebarMenuItem>
-          <SidebarMenuButton
-            tooltip="채널"
-            as={Link}
-            to="/channels"
-            variant={location().pathname.startsWith("/channels") ? "invert" : "default"}
-          >
-            <MaterialSymbolsYoutubeTvOutline class="mr-1 size-6" />
-            <SidebarMenuButtonInnerWithShortcut shortcut="⌘+⇧+C">
-              <span>채널</span>
-            </SidebarMenuButtonInnerWithShortcut>
-          </SidebarMenuButton>
-        </SidebarMenuItem>
-        <SidebarMenuItem>
-          <SidebarMenuButton
-            tooltip="다운로더"
-            as={Link}
-            to="/downloader"
-            variant={location().pathname.startsWith("/downloader") ? "invert" : "default"}
-          >
-            <TablerDownload class="mr-1 size-6" />
-            <SidebarMenuButtonInnerWithShortcut shortcut="⌘+⇧+D">
-              <span>다운로더</span>
-            </SidebarMenuButtonInnerWithShortcut>
-          </SidebarMenuButton>
-        </SidebarMenuItem>
+        <MainNavItem
+          name="스케줄"
+          tooltip="스케줄"
+          path="/schedule"
+          location={location()}
+          icon={<RiCalendarScheduleLine />}
+          shortcut="⌘+⇧+A"
+        />
+        <MainNavItem
+          name="채널"
+          tooltip="채널"
+          path="/channels"
+          location={location()}
+          icon={<MaterialSymbolsYoutubeTvOutline />}
+          shortcut="⌘+⇧+C"
+        />
+        <MainNavItem
+          name="다운로더"
+          tooltip="다운로더"
+          path="/downloader"
+          location={location()}
+          icon={<TablerDownload />}
+          disabled
+        />
+        <MainNavItem
+          name="설정"
+          tooltip="설정"
+          path="/settings"
+          location={location()}
+          icon={<TablerSettings />}
+          shortcut="⌘+⇧+S"
+        />
       </SidebarMenu>
     </SidebarGroup>
   );

@@ -567,14 +567,16 @@ const SidebarMenuButton = <T extends ValidComponent = "button">(
 
 type SidebarMenuButtonWithShortcutProps = {
   children: JSX.Element;
-  shortcut: string;
+  shortcut?: string;
 };
 
 const SidebarMenuButtonInnerWithShortcut = (props: SidebarMenuButtonWithShortcutProps) => {
   return (
     <div class="flex w-full items-center justify-between">
       <div class="flex items-center gap-2">{props.children}</div>
-      <span>{props.shortcut}</span>
+      <Show when={props.shortcut}>
+        <span>{props.shortcut}</span>
+      </Show>
     </div>
   );
 };

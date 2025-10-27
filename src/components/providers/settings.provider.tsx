@@ -1,10 +1,18 @@
-import type { Theme } from "~/types/settings";
+import type { Theme } from "~/types/settings.type";
 
 import { createContext, createEffect, JSX, useContext } from "solid-js";
 import { createStore, SetStoreFunction } from "solid-js/store";
 
+import {
+  LOCAL_STORAGE_AUTO_SYNC,
+  LOCAL_STORAGE_DEFAULT_PAGE,
+  LOCAL_STORAGE_PERSONAL,
+  LOCAL_STORAGE_SYNC_PERIOD,
+  LOCAL_STORAGE_THEME,
+} from "~/constants/settings.constant";
 import { siteConfig } from "~/site-config";
-import { Settings } from "~/types/settings";
+import { Route } from "~/types/route-info.type";
+import { Settings } from "~/types/settings.type";
 
 export type SettingsContextType = {
   settings: Settings;
@@ -13,6 +21,7 @@ export type SettingsContextType = {
   setAutoSync: (autoSync: boolean) => void;
   setSyncPeriod: (syncPeriod: number) => void;
   setPersonal: (personal: boolean) => void;
+  setDefaultPage: (page: Route) => void;
 };
 
 export const SettingsContext = createContext<SettingsContextType>();
@@ -33,21 +42,21 @@ type SiteConfigProviderProps = {
 
 function getInitialSettings(): Settings {
   const theme =
-    (localStorage.getItem("theme") as Theme | null) ||
+    (localStorage.getItem(LOCAL_STORAGE_THEME) as Theme | null) ||
     ((window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light") as Theme);
 
-  const autoSync = localStorage.getItem("autoSync") === "true" || siteConfig.autoSync;
-  // const syncPeriod = parseInt(localStorage.getItem("syncPeriod") || "5", 10) || 5;
-  const syncPeriodStorage = localStorage.getItem("syncPeriod");
+  const autoSync = localStorage.getItem(LOCAL_STORAGE_AUTO_SYNC) === "true" || siteConfig.autoSync;
+  const syncPeriodStorage = localStorage.getItem(LOCAL_STORAGE_SYNC_PERIOD);
   const syncPeriod = syncPeriodStorage ? parseInt(syncPeriodStorage, 10) : siteConfig.syncPeriod;
-  const personal =
-    localStorage.getItem("vuta-gallery-wanjang-personal") === "true" || siteConfig.personal;
+  const personal = localStorage.getItem(LOCAL_STORAGE_PERSONAL) === "true" || siteConfig.personal;
+  const defaultPage = (localStorage.getItem(LOCAL_STORAGE_DEFAULT_PAGE) || "/") as Route;
 
   return {
     theme,
     autoSync,
     syncPeriod,
     personal,
+    defaultPage,
   };
 }
 
@@ -74,27 +83,40 @@ export function SettingsProvider(props: SiteConfigProviderProps) {
     setSettings("theme", t);
     document.documentElement.classList.remove("light", "dark");
     document.documentElement.classList.add(t);
-    localStorage.setItem("theme", theme);
+    localStorage.setItem(LOCAL_STORAGE_THEME, theme);
   };
 
   const setAutoSync = (autoSync: boolean) => {
     setSettings("autoSync", autoSync);
-    localStorage.setItem("autoSync", autoSync.toString());
+    localStorage.setItem(LOCAL_STORAGE_AUTO_SYNC, autoSync.toString());
   };
 
   const setSyncPeriod = (syncPeriod: number) => {
     setSettings("syncPeriod", syncPeriod);
-    localStorage.setItem("syncPeriod", syncPeriod.toString());
+    localStorage.setItem(LOCAL_STORAGE_SYNC_PERIOD, syncPeriod.toString());
   };
 
   const setPersonal = (personal: boolean) => {
     setSettings("personal", personal);
-    localStorage.setItem("vuta-gallery-wanjang-personal", personal.toString());
+    localStorage.setItem(LOCAL_STORAGE_PERSONAL, personal.toString());
+  };
+
+  const setDefaultPage = (page: Route) => {
+    setSettings("defaultPage", page);
+    localStorage.setItem(LOCAL_STORAGE_DEFAULT_PAGE, page);
   };
 
   return (
     <SettingsContext.Provider
-      value={{ settings, setSettings, setTheme, setAutoSync, setSyncPeriod, setPersonal }}
+      value={{
+        settings,
+        setSettings,
+        setTheme,
+        setAutoSync,
+        setSyncPeriod,
+        setPersonal,
+        setDefaultPage,
+      }}
     >
       {props.children}
     </SettingsContext.Provider>

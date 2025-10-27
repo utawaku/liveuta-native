@@ -9,89 +9,84 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as ScheduleRouteImport } from './routes/schedule'
-import { Route as DownloaderRouteImport } from './routes/downloader'
-import { Route as ChannelsRouteImport } from './routes/channels'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as SettingsIndexRouteImport } from './routes/settings/index'
+import { Route as ScheduleIndexRouteImport } from './routes/schedule/index'
+import { Route as DownloaderIndexRouteImport } from './routes/downloader/index'
+import { Route as ChannelsIndexRouteImport } from './routes/channels/index'
 
-const ScheduleRoute = ScheduleRouteImport.update({
-  id: '/schedule',
-  path: '/schedule',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DownloaderRoute = DownloaderRouteImport.update({
-  id: '/downloader',
-  path: '/downloader',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ChannelsRoute = ChannelsRouteImport.update({
-  id: '/channels',
-  path: '/channels',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SettingsIndexRoute = SettingsIndexRouteImport.update({
+  id: '/settings/',
+  path: '/settings/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ScheduleIndexRoute = ScheduleIndexRouteImport.update({
+  id: '/schedule/',
+  path: '/schedule/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DownloaderIndexRoute = DownloaderIndexRouteImport.update({
+  id: '/downloader/',
+  path: '/downloader/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ChannelsIndexRoute = ChannelsIndexRouteImport.update({
+  id: '/channels/',
+  path: '/channels/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/channels': typeof ChannelsRoute
-  '/downloader': typeof DownloaderRoute
-  '/schedule': typeof ScheduleRoute
+  '/channels': typeof ChannelsIndexRoute
+  '/downloader': typeof DownloaderIndexRoute
+  '/schedule': typeof ScheduleIndexRoute
+  '/settings': typeof SettingsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/channels': typeof ChannelsRoute
-  '/downloader': typeof DownloaderRoute
-  '/schedule': typeof ScheduleRoute
+  '/channels': typeof ChannelsIndexRoute
+  '/downloader': typeof DownloaderIndexRoute
+  '/schedule': typeof ScheduleIndexRoute
+  '/settings': typeof SettingsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/channels': typeof ChannelsRoute
-  '/downloader': typeof DownloaderRoute
-  '/schedule': typeof ScheduleRoute
+  '/channels/': typeof ChannelsIndexRoute
+  '/downloader/': typeof DownloaderIndexRoute
+  '/schedule/': typeof ScheduleIndexRoute
+  '/settings/': typeof SettingsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/channels' | '/downloader' | '/schedule'
+  fullPaths: '/' | '/channels' | '/downloader' | '/schedule' | '/settings'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/channels' | '/downloader' | '/schedule'
-  id: '__root__' | '/' | '/channels' | '/downloader' | '/schedule'
+  to: '/' | '/channels' | '/downloader' | '/schedule' | '/settings'
+  id:
+    | '__root__'
+    | '/'
+    | '/channels/'
+    | '/downloader/'
+    | '/schedule/'
+    | '/settings/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  ChannelsRoute: typeof ChannelsRoute
-  DownloaderRoute: typeof DownloaderRoute
-  ScheduleRoute: typeof ScheduleRoute
+  ChannelsIndexRoute: typeof ChannelsIndexRoute
+  DownloaderIndexRoute: typeof DownloaderIndexRoute
+  ScheduleIndexRoute: typeof ScheduleIndexRoute
+  SettingsIndexRoute: typeof SettingsIndexRoute
 }
 
 declare module '@tanstack/solid-router' {
   interface FileRoutesByPath {
-    '/schedule': {
-      id: '/schedule'
-      path: '/schedule'
-      fullPath: '/schedule'
-      preLoaderRoute: typeof ScheduleRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/downloader': {
-      id: '/downloader'
-      path: '/downloader'
-      fullPath: '/downloader'
-      preLoaderRoute: typeof DownloaderRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/channels': {
-      id: '/channels'
-      path: '/channels'
-      fullPath: '/channels'
-      preLoaderRoute: typeof ChannelsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/': {
       id: '/'
       path: '/'
@@ -99,14 +94,43 @@ declare module '@tanstack/solid-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/settings/': {
+      id: '/settings/'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/schedule/': {
+      id: '/schedule/'
+      path: '/schedule'
+      fullPath: '/schedule'
+      preLoaderRoute: typeof ScheduleIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/downloader/': {
+      id: '/downloader/'
+      path: '/downloader'
+      fullPath: '/downloader'
+      preLoaderRoute: typeof DownloaderIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/channels/': {
+      id: '/channels/'
+      path: '/channels'
+      fullPath: '/channels'
+      preLoaderRoute: typeof ChannelsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  ChannelsRoute: ChannelsRoute,
-  DownloaderRoute: DownloaderRoute,
-  ScheduleRoute: ScheduleRoute,
+  ChannelsIndexRoute: ChannelsIndexRoute,
+  DownloaderIndexRoute: DownloaderIndexRoute,
+  ScheduleIndexRoute: ScheduleIndexRoute,
+  SettingsIndexRoute: SettingsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

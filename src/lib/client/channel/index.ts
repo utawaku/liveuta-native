@@ -7,7 +7,7 @@ import {
   ChannelSort,
   ChannelsWithYoutubeData,
   RawChannelItemSchema,
-} from "~/types/mongodb";
+} from "~/types/mongodb.type";
 
 export const getChannelById = (id: string) =>
   Effect.gen(function* (_) {

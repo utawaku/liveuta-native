@@ -1,6 +1,6 @@
 import { For } from "solid-js";
 
-import { YoutubeChannelData } from "~/types/youtube";
+import { YoutubeChannelData } from "~/types/youtube.type";
 import { ChannelItemCard } from "./item-card";
 
 type ScheduleListProps = {

@@ -11,7 +11,7 @@ export function ScheduleHeader() {
   return (
     <div
       class={cn(
-        "fixed z-50 mt-2 flex w-full items-center justify-between px-4 transition-[width] duration-200 ease-expo-in-out-custom md:w-[calc(100%-var(--sidebar-width-icon))] md:group-has-[[data-state=expanded]]/sidebar-wrapper:w-[calc(100%-var(--sidebar-width))]",
+        "fixed z-50 mt-2 flex w-full items-center justify-between px-4 transition-[width] duration-200 ease-expo-in-out-custom md:w-[calc(100%-var(--sidebar-width-icon))] md:group-has-data-[state=expanded]/sidebar-wrapper:w-[calc(100%-var(--sidebar-width))]",
       )}
     >
       <ScheduleFilter />

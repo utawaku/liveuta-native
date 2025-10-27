@@ -1,4 +1,4 @@
-import type { ScheduleItem } from "~/types/mongodb";
+import type { ScheduleItem } from "~/types/mongodb.type";
 
 import { createEffect, createMemo, createSignal, For, onMount, Show } from "solid-js";
 import { useStore } from "@tanstack/solid-store";
@@ -6,7 +6,7 @@ import { createWindowVirtualizer } from "@tanstack/solid-virtual";
 import { debounce } from "@solid-primitives/scheduled";
 import { Temporal } from "temporal-polyfill";
 
-import { useSettings } from "~/components/contexts/settings-provider";
+import { useSettings } from "~/components/providers/settings.provider";
 import { ScheduleItemCard } from "./item-card";
 import { scheduleFilteredItemsCount, scheduleFilterStore, scheduleItemCount } from "./store";
 

@@ -52,7 +52,7 @@ import {
   useContext,
 } from "solid-js";
 
-import { YoutubeThumbnailQuality } from "~/lib/utils";
+import { YoutubeThumbnailQuality } from "~/lib/youtube";
 
 import "./youtube-player.css";
 

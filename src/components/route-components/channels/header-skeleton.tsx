@@ -4,7 +4,7 @@ import { Button } from "~/components/ui/button";
 import { Label } from "~/components/ui/label";
 import { Tabs, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { TextField, TextFieldInput, TextFieldLabel } from "~/components/ui/text-field";
-import { ChannelSort } from "~/types/mongodb";
+import { ChannelSort } from "~/types/mongodb.type";
 import { cn } from "../../../lib/utils";
 import css from "./header.module.css";
 import { channelsSortStore, pageStore, setChannelsSort } from "./store";

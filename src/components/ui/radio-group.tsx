@@ -12,8 +12,18 @@ type RadioGroupRootProps<T extends ValidComponent = "div"> =
 const RadioGroup = <T extends ValidComponent = "div">(
   props: PolymorphicProps<T, RadioGroupRootProps<T>>,
 ) => {
-  const [local, others] = splitProps(props as RadioGroupRootProps, ["class"]);
-  return <RadioGroupPrimitive.Root class={cn("grid gap-2", local.class)} {...others} />;
+  const [local, others] = splitProps(props as RadioGroupRootProps, ["class", "orientation"]);
+  return (
+    <RadioGroupPrimitive.Root
+      class={cn(
+        "flex",
+        local.orientation === "horizontal" ? "flex-wrap gap-4" : "flex-col gap-2",
+        local.class,
+      )}
+      orientation={local.orientation}
+      {...others}
+    />
+  );
 };
 
 type RadioGroupItemProps<T extends ValidComponent = "div"> =

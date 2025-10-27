@@ -204,6 +204,8 @@ body {
   --container-22xl: 200rem;
   --container-23xl: 208rem;
   --container-24xl: 216rem;
+
+  --spacing-header: 3rem;
 }
 
 @layer base {

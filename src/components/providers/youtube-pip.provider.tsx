@@ -31,7 +31,8 @@ import { TablerBoxAlignBottomRightFilled } from "~/icons/tabler/box-align-bottom
 import { TablerBoxAlignTopLeftFilled } from "~/icons/tabler/box-align-top-left-filled";
 import { TablerBoxAlignTopRightFilled } from "~/icons/tabler/box-align-top-right-filled";
 import { TablerX } from "~/icons/tabler/x";
-import { cn, youtubeChannelUrl, youtubeLivestreamUrl } from "~/lib/utils";
+import { cn } from "~/lib/utils";
+import { youtubeChannelUrl, youtubeLivestreamUrl } from "~/lib/youtube";
 import { useSidebar } from "../ui/sidebar";
 
 type PipState = "off" | "on" | "minimize" | "fullscreen";

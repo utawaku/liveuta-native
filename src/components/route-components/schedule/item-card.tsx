@@ -1,14 +1,15 @@
-import type { ScheduleItem } from "~/types/mongodb";
+import type { ScheduleItem } from "~/types/mongodb.type";
 
 import { createMemo, Show, useContext } from "solid-js";
 
 import { CopyButton } from "~/components/common/copy-button";
 import { OpenInBrowser } from "~/components/common/open-in-new";
 import { ScheduleSpecialCopyButton } from "~/components/common/schedule-special-copy";
-import { YoutubePipContext } from "~/components/contexts/youtube-pip-provider";
+import { YoutubePipContext } from "~/components/providers/youtube-pip.provider";
 import { AspectRatio } from "~/components/ui/aspect-ratio";
 import { Card, CardContent, CardHeader } from "~/components/ui/card";
-import { cn, youtubeChannelUrl, youtubeThumbnailUrl, youtubeVideoUrl } from "~/lib/utils";
+import { cn } from "~/lib/utils";
+import { youtubeChannelUrl, youtubeThumbnailUrl, youtubeVideoUrl } from "~/lib/youtube";
 
 type ScheduleItemCardProps = {
   item: ScheduleItem;
@@ -98,7 +99,7 @@ export function ScheduleItemCard(props: ScheduleItemCardProps) {
               }
             >
               <ScheduleSpecialCopyButton
-                text={`${props.item.scheduledTime.hour.toString().padStart(2, "0")}:${props.item.scheduledTime.minute.toString().padStart(2, "0")} ${props.item.channelName}【】\n${url()}`}
+                text={`\n\n${props.item.scheduledTime.hour.toString().padStart(2, "0")}:${props.item.scheduledTime.minute.toString().padStart(2, "0")} ${props.item.channelName}【】\n${url()}`}
                 class="size-8 border-foreground hover:border hover:bg-transparent"
               />
             </Show>
