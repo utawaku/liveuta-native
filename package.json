@@ -1,7 +1,7 @@
 {
   "name": "liveuta-native",
   "version": "0.0.1",
-  "description": "",
+  "description": "Liveuta Native",
   "type": "module",
   "scripts": {
     "dev": "vite dev",
