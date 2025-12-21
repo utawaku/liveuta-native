@@ -1,10 +1,7 @@
 import { createContext, JSX, useContext } from "solid-js";
-import { Layer, ManagedRuntime } from "effect";
+import { ManagedRuntime } from "effect";
 
-import { DB_NAME } from "~/constants/sqlite.constant";
-import { sqliteLayer } from "~/lib/db";
-
-const effectRuntime = ManagedRuntime.make(Layer.mergeAll(sqliteLayer(DB_NAME)));
+const effectRuntime = ManagedRuntime;
 
 // type EffectRuntime = ManagedRuntime.ManagedRuntime<SQLite, SQLiteError>;
 type EffectRuntime = typeof effectRuntime;

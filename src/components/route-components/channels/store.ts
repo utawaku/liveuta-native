@@ -1,6 +1,6 @@
 import { Store } from "@tanstack/store";
 
-import { ChannelSort } from "~/types/mongodb.type";
+import { ChannelSort, type ChannelsDirection } from "~/types/mongodb.type";
 
 export const CHANNELS_MAX_ITEMS = 50;
 
@@ -11,8 +11,15 @@ export function setPage(page: number) {
 }
 
 export const channelsSortStore = new Store<ChannelSort>("name_kor");
-
 export function setChannelsSort(sort: ChannelSort) {
   channelsSortStore.setState(() => sort);
   window.localStorage.setItem("channel-sort", sort);
 }
+
+
+export const channelsDirectionStore = new Store<ChannelsDirection>("1")
+export function setChannelsDirection(direction: ChannelsDirection) {
+  channelsDirectionStore.setState(() => direction);
+  window.localStorage.setItem("channels-direction", direction)
+}
+

@@ -1,4 +1,4 @@
-import { mergeProps } from "solid-js";
+import { mergeProps, Show } from "solid-js";
 
 import { Button, ButtonProps } from "~/components/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip";
@@ -6,6 +6,7 @@ import { MaterialSymbolsOpenInNew } from "~/icons/material-symbols/open-in-new";
 
 type OpenInBrowserProps = {
   href: string;
+  hrefTooltip?: boolean;
   variant?: ButtonProps["variant"];
   class?: string;
   iconClass?: string;
@@ -36,7 +37,11 @@ export function OpenInBrowser(props: OpenInBrowserProps) {
         </Button>
       </TooltipTrigger>
       <TooltipContent>
-        <span>브라우저에서 열기</span>
+        <span>
+          <Show when={props.hrefTooltip !== true} fallback={props.href}>
+            브라우저에서 열기
+          </Show>
+        </span>
       </TooltipContent>
     </Tooltip>
   );
