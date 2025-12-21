@@ -10,10 +10,7 @@ export const ChannelSortSchema = Schema.Union(
 );
 export type ChannelSort = typeof ChannelSortSchema.Type;
 
-export const ChannelsDirectionSchema = Schema.Union(
-  Schema.Literal("1"),
-  Schema.Literal("-1"),
-)
+export const ChannelsDirectionSchema = Schema.Union(Schema.Literal("1"), Schema.Literal("-1"));
 export type ChannelsDirection = typeof ChannelsDirectionSchema.Type;
 
 export const RawChannelItemSchema = Schema.Struct({

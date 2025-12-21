@@ -1,14 +1,15 @@
+import type { Channel } from "~/types/channel.type";
+import type { ChannelsDirection } from "~/types/mongodb.type";
+
 import { Effect, Schema } from "effect";
 
 import Dayjs from "~/lib/dayjs";
 import { fetchBackend, fetchBackendAndParse, parseJSON } from "~/lib/fetch";
-import type { Channel } from "~/types/channel.type";
 import {
   ChannelItem,
   ChannelSort,
   ChannelsWithYoutubeData,
   RawChannelItemSchema,
-  type ChannelsDirection,
 } from "~/types/mongodb.type";
 
 export const getChannelById = (id: string) =>
@@ -70,10 +71,11 @@ export const getPagedChannels = (
   sort: ChannelSort = "name_kor",
   direction: ChannelsDirection = "1",
   query: string = "",
-) => Effect.gen(function* () {
-  const path = `/channel/getPagedChannels?size=${size}&page=${page}&sort=${sort}&direction=${direction}${query === "" ? "" : `&query=${query}`}`;
-  const raw = yield* fetchBackend(path)
-  const channels = yield* parseJSON<Channel[]>(raw)
+) =>
+  Effect.gen(function* () {
+    const path = `/channel/getPagedChannels?size=${size}&page=${page}&sort=${sort}&direction=${direction}${query === "" ? "" : `&query=${query}`}`;
+    const raw = yield* fetchBackend(path);
+    const channels = yield* parseJSON<Channel[]>(raw);
 
-  return channels;
-});
+    return channels;
+  });
