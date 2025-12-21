@@ -1,5 +1,4 @@
 mod commands;
-mod env;
 
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
@@ -28,7 +27,6 @@ pub fn run() {
         .plugin(tauri_plugin_opener::init())
         // .plugin(tauri_plugin_fs::init())
         .plugin(tauri_plugin_store::Builder::new().build())
-        .plugin(tauri_plugin_sql::Builder::new().build())
         .plugin(tauri_plugin_clipboard_manager::init())
         .invoke_handler(tauri::generate_handler![commands::greet,])
         .run(tauri::generate_context!())
