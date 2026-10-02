@@ -10,29 +10,14 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as SettingsIndexRouteImport } from './routes/settings/index'
-import { Route as ScheduleIndexRouteImport } from './routes/schedule/index'
-import { Route as DownloaderIndexRouteImport } from './routes/downloader/index'
 import { Route as ChannelsIndexRouteImport } from './routes/channels/index'
+import { Route as DownloaderIndexRouteImport } from './routes/downloader/index'
+import { Route as ScheduleIndexRouteImport } from './routes/schedule/index'
+import { Route as SettingsIndexRouteImport } from './routes/settings/index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SettingsIndexRoute = SettingsIndexRouteImport.update({
-  id: '/settings/',
-  path: '/settings/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ScheduleIndexRoute = ScheduleIndexRouteImport.update({
-  id: '/schedule/',
-  path: '/schedule/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DownloaderIndexRoute = DownloaderIndexRouteImport.update({
-  id: '/downloader/',
-  path: '/downloader/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ChannelsIndexRoute = ChannelsIndexRouteImport.update({
@@ -40,13 +25,28 @@ const ChannelsIndexRoute = ChannelsIndexRouteImport.update({
   path: '/channels/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DownloaderIndexRoute = DownloaderIndexRouteImport.update({
+  id: '/downloader/',
+  path: '/downloader/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ScheduleIndexRoute = ScheduleIndexRouteImport.update({
+  id: '/schedule/',
+  path: '/schedule/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsIndexRoute = SettingsIndexRouteImport.update({
+  id: '/settings/',
+  path: '/settings/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/channels': typeof ChannelsIndexRoute
-  '/downloader': typeof DownloaderIndexRoute
-  '/schedule': typeof ScheduleIndexRoute
-  '/settings': typeof SettingsIndexRoute
+  '/channels/': typeof ChannelsIndexRoute
+  '/downloader/': typeof DownloaderIndexRoute
+  '/schedule/': typeof ScheduleIndexRoute
+  '/settings/': typeof SettingsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -65,7 +65,7 @@ export interface FileRoutesById {
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/channels' | '/downloader' | '/schedule' | '/settings'
+  fullPaths: '/' | '/channels/' | '/downloader/' | '/schedule/' | '/settings/'
   fileRoutesByTo: FileRoutesByTo
   to: '/' | '/channels' | '/downloader' | '/schedule' | '/settings'
   id:
@@ -94,32 +94,32 @@ declare module '@tanstack/solid-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/settings/': {
-      id: '/settings/'
-      path: '/settings'
-      fullPath: '/settings'
-      preLoaderRoute: typeof SettingsIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/schedule/': {
-      id: '/schedule/'
-      path: '/schedule'
-      fullPath: '/schedule'
-      preLoaderRoute: typeof ScheduleIndexRouteImport
+    '/channels/': {
+      id: '/channels/'
+      path: '/channels'
+      fullPath: '/channels/'
+      preLoaderRoute: typeof ChannelsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/downloader/': {
       id: '/downloader/'
       path: '/downloader'
-      fullPath: '/downloader'
+      fullPath: '/downloader/'
       preLoaderRoute: typeof DownloaderIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/channels/': {
-      id: '/channels/'
-      path: '/channels'
-      fullPath: '/channels'
-      preLoaderRoute: typeof ChannelsIndexRouteImport
+    '/schedule/': {
+      id: '/schedule/'
+      path: '/schedule'
+      fullPath: '/schedule/'
+      preLoaderRoute: typeof ScheduleIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings/': {
+      id: '/settings/'
+      path: '/settings'
+      fullPath: '/settings/'
+      preLoaderRoute: typeof SettingsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
   }

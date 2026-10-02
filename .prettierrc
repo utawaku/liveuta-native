@@ -16,7 +16,6 @@
     "",
     ".css$"
   ],
-  "svelteAllowShorthand": false,
   "tailwindStylesheet": "./src/styles.css",
   "tailwindFunctions": [
     "cx"

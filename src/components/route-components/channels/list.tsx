@@ -1,10 +1,11 @@
+import type { Channel } from "~/types/channel.type";
+
 import { For } from "solid-js";
 
-import { YoutubeChannelData } from "~/types/youtube.type";
 import { ChannelItemCard } from "./item-card";
 
 type ScheduleListProps = {
-  channels: YoutubeChannelData[];
+  channels: ReadonlyArray<Channel>;
 };
 
 export function ChannelList(props: ScheduleListProps) {

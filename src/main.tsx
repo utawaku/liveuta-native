@@ -1,11 +1,8 @@
 import { onMount } from "solid-js";
 import { render } from "solid-js/web";
-import { QueryClient, QueryClientProvider } from "@tanstack/solid-query";
-import { createRouter, RouterProvider } from "@tanstack/solid-router";
 import { createOverlayScrollbars } from "overlayscrollbars-solid";
 
 import { EffectProvider } from "./components/providers/effect,provider";
-import { routeTree } from "./routeTree.gen";
 
 import "overlayscrollbars/overlayscrollbars.css";
 import "./styles.css";
@@ -15,16 +12,6 @@ import { CustomRouterProvider, router } from "./components/providers/router.prov
 import { SettingsProvider } from "./components/providers/settings.provider";
 import { Toaster } from "./components/ui/sonner";
 
-// import { resourceDir } from "@tauri-apps/api/path";
-// import { migrate } from "./lib/db/migration";
-
-// const router = createRouter({
-//   routeTree,
-//   defaultPreload: "intent",
-//   scrollRestoration: true,
-//   defaultPreloadStaleTime: 0,
-//   defaultViewTransition: true,
-// });
 
 declare module "@tanstack/solid-router" {
   interface Register {
@@ -43,7 +30,6 @@ function App() {
       <EffectProvider>
         <SettingsProvider>
           <QueryProvider>
-            {/* <RouterProvider router={router} /> */}
             <CustomRouterProvider />
           </QueryProvider>
         </SettingsProvider>

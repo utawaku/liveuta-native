@@ -8,7 +8,14 @@ import { TextField, TextFieldInput, TextFieldLabel } from "~/components/ui/text-
 import { cn } from "~/lib/utils";
 import { ChannelSort } from "~/types/mongodb.type";
 import css from "./header.module.css";
-import { channelsSortStore, pageStore, setChannelsSort, setPage } from "./store";
+import {
+  channelsDirectionStore,
+  channelsSortStore,
+  pageStore,
+  setChannelsDirection,
+  setChannelsSort,
+  setPage,
+} from "./store";
 
 type ChannelsHeaderProps = {
   channelsPages: number | undefined;
@@ -18,6 +25,7 @@ export function ChannelsHeader(props: ChannelsHeaderProps) {
   const page = useStore(pageStore);
   const [pageInput, setPageInput] = createSignal<number>(1);
   const channelsSort = useStore(channelsSortStore);
+  const direction = useStore(channelsDirectionStore);
 
   const onPageChangeSubmit = (e: SubmitEvent) => {
     e.preventDefault();
@@ -60,14 +68,25 @@ export function ChannelsHeader(props: ChannelsHeaderProps) {
         </TextField>
         <Button type="submit">이동</Button>
       </form>
-      <div class="rounded-lg border bg-background p-2">
-        <Label class="text-center">영상 타입</Label>
-        <Tabs value={channelsSort()} onChange={(v) => setChannelsSort(v as ChannelSort)}>
-          <TabsList class="grid w-full grid-cols-2">
-            <TabsTrigger value={"name_kor" as ChannelSort}>이름순</TabsTrigger>
-            <TabsTrigger value={"createdAt" as ChannelSort}>생성일자순</TabsTrigger>
-          </TabsList>
-        </Tabs>
+      <div class="flex gap-4">
+        <div class="rounded-lg border bg-background p-2">
+          <Label>정렬</Label>
+          <Tabs value={direction()} onChange={(v) => setChannelsDirection(v as "1" | "-1")}>
+            <TabsList class="grid w-full grid-cols-2">
+              <TabsTrigger value="1">오름차순</TabsTrigger>
+              <TabsTrigger value="-1">내림차순</TabsTrigger>
+            </TabsList>
+          </Tabs>
+        </div>
+        <div class="rounded-lg border bg-background p-2">
+          <Label class="text-center">영상 타입</Label>
+          <Tabs value={channelsSort()} onChange={(v) => setChannelsSort(v as ChannelSort)} disabled>
+            <TabsList class="grid w-full grid-cols-2">
+              <TabsTrigger value={"name_kor" as ChannelSort}>이름순</TabsTrigger>
+              <TabsTrigger value={"createdAt" as ChannelSort}>생성일자순</TabsTrigger>
+            </TabsList>
+          </Tabs>
+        </div>
       </div>
     </div>
   );

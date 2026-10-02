@@ -2,11 +2,13 @@ import { Effect, Schema } from "effect";
 import { Temporal } from "temporal-polyfill";
 
 import { fetchBackendAndParse } from "~/lib/fetch";
+import { toTemporalInstant } from "~/lib/temporal";
 import { RawScheduleItemSchema, ScheduleItem, ScheduleItemType } from "~/types/mongodb.type";
 
-export const getSchedule = Effect.gen(function* (_) {
-  const scheduleList = yield* _(
-    fetchBackendAndParse("/schedule/get", Schema.Array(RawScheduleItemSchema)),
+export const getSchedule = Effect.gen(function* () {
+  const scheduleList = yield* fetchBackendAndParse(
+    "/schedule/get",
+    Schema.Array(RawScheduleItemSchema),
   );
 
   const now = Temporal.Now.plainDateTimeISO();
@@ -35,12 +37,16 @@ export const getSchedule = Effect.gen(function* (_) {
     Temporal.PlainDateTime.compare(item.scheduledTime, now) === 1;
 
   return scheduleList
-    .map((item) => ({
-      ...item,
-      scheduledTime: Temporal.Instant.from(item.scheduledTime)
-        .toZonedDateTimeISO("Asia/Seoul")
-        .toPlainDateTime(),
-    }))
+    .map((item) => {
+      const instant = toTemporalInstant(item.scheduledTime);
+      if (!instant) return null;
+
+      return {
+        ...item,
+        scheduledTime: instant.toZonedDateTimeISO("Asia/Seoul").toPlainDateTime(),
+      };
+    })
+    .filter((item) => item !== null)
     .sort((a, b) => Temporal.PlainDateTime.compare(a.scheduledTime, b.scheduledTime))
     .map((item) => {
       let type: ScheduleItemType = "stream-live";
@@ -67,5 +73,5 @@ export const getSchedule = Effect.gen(function* (_) {
         ...item,
         type,
       };
-    }) as ScheduleItem[];
+    });
 });

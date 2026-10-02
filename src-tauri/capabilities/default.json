@@ -11,6 +11,9 @@
       "allow": [
         {
           "url": "https://liveuta-native-backend.pekochan069.workers.dev"
+        },
+        {
+          "url": "http://localhost:8787"
         }
       ]
     },
@@ -22,7 +25,6 @@
     "store:allow-clear",
     "clipboard-manager:default",
     "clipboard-manager:allow-read-text",
-    "clipboard-manager:allow-write-text",
-    "sql:default"
+    "clipboard-manager:allow-write-text"
   ]
 }

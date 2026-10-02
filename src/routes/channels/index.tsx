@@ -1,3 +1,5 @@
+import type { ChannelsDirection } from "~/types/mongodb.type";
+
 import { createResource, Match, onMount, Suspense, Switch } from "solid-js";
 import { createFileRoute } from "@tanstack/solid-router";
 import { useStore } from "@tanstack/solid-store";
@@ -11,10 +13,11 @@ import { ChannelList } from "~/components/route-components/channels/list";
 import { ChannelsSkeleton } from "~/components/route-components/channels/skeleton";
 import {
   CHANNELS_MAX_ITEMS,
+  channelsDirectionStore,
   channelsSortStore,
   pageStore,
 } from "~/components/route-components/channels/store";
-import { getChannelsCount, getChannelsWithYoutubeData } from "~/lib/client/channel";
+import { getChannelsCount, getPagedChannels } from "~/lib/client/channel";
 import { ChannelSort } from "~/types/mongodb.type";
 
 export const Route = createFileRoute("/channels/")({
@@ -25,9 +28,13 @@ async function fetchChannelsPages() {
   return Math.ceil((await Effect.runPromise(getChannelsCount)) / CHANNELS_MAX_ITEMS);
 }
 
-async function fetchChannels(params: { page: number; sort: ChannelSort }) {
+async function fetchChannels(params: {
+  page: number;
+  sort: ChannelSort;
+  direction: ChannelsDirection;
+}) {
   return await Effect.runPromise(
-    getChannelsWithYoutubeData(CHANNELS_MAX_ITEMS, params.page, params.sort),
+    getPagedChannels(CHANNELS_MAX_ITEMS, params.page, params.sort, params.direction),
   );
 }
 
@@ -36,9 +43,11 @@ function RouteComponent() {
 
   const page = useStore(pageStore);
   const channelsSort = useStore(channelsSortStore);
+  const channelsDirection = useStore(channelsDirectionStore);
   const fetchParams = () => ({
     page: page(),
     sort: channelsSort(),
+    direction: channelsDirection(),
   });
   const [channelsPages] = createResource(fetchChannelsPages);
   const [channels] = createResource(fetchParams, fetchChannels);
@@ -72,7 +81,7 @@ function RouteComponent() {
             <div>Error: {channels.error}</div>
           </Match>
           <Match when={channels()}>
-            <ChannelList channels={channels()!.contents} />
+            <ChannelList channels={channels()!} />
           </Match>
         </Switch>
       </Suspense>

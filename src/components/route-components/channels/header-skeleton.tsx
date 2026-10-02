@@ -7,11 +7,12 @@ import { TextField, TextFieldInput, TextFieldLabel } from "~/components/ui/text-
 import { ChannelSort } from "~/types/mongodb.type";
 import { cn } from "../../../lib/utils";
 import css from "./header.module.css";
-import { channelsSortStore, pageStore, setChannelsSort } from "./store";
+import { channelsDirectionStore, channelsSortStore, pageStore } from "./store";
 
 export function ChannelsHeaderSkeleton() {
   const page = useStore(pageStore);
   const channelsSort = useStore(channelsSortStore);
+  const direction = useStore(channelsDirectionStore);
 
   return (
     <div class="fixed z-50 flex w-full justify-between px-4 transition-[width] duration-200 ease-expo-in-out-custom md:w-[calc(100%-var(--sidebar-width-icon))] md:group-has-data-[state=expanded]/sidebar-wrapper:w-[calc(100%-var(--sidebar-width))]">
@@ -30,14 +31,25 @@ export function ChannelsHeaderSkeleton() {
         </TextField>
         <Button type="submit">이동</Button>
       </div>
-      <div class="rounded-lg border bg-background p-2">
-        <Label class="text-center">영상 타입</Label>
-        <Tabs disabled value={channelsSort()} onChange={(v) => setChannelsSort(v as ChannelSort)}>
-          <TabsList class="grid w-full grid-cols-2">
-            <TabsTrigger value={"name_kor" as ChannelSort}>이름순</TabsTrigger>
-            <TabsTrigger value={"createdAt" as ChannelSort}>생성일자순</TabsTrigger>
-          </TabsList>
-        </Tabs>
+      <div class="flex gap-4">
+        <div class="rounded-lg border bg-background p-2">
+          <Label>정렬</Label>
+          <Tabs disabled value={direction()}>
+            <TabsList class="grid w-full grid-cols-2">
+              <TabsTrigger value="1">오름차순</TabsTrigger>
+              <TabsTrigger value="-1">내림차순</TabsTrigger>
+            </TabsList>
+          </Tabs>
+        </div>
+        <div class="rounded-lg border bg-background p-2">
+          <Label class="text-center">영상 타입</Label>
+          <Tabs disabled value={channelsSort()}>
+            <TabsList class="grid w-full grid-cols-2">
+              <TabsTrigger value={"name_kor" as ChannelSort}>이름순</TabsTrigger>
+              <TabsTrigger value={"createdAt" as ChannelSort}>생성일자순</TabsTrigger>
+            </TabsList>
+          </Tabs>
+        </div>
       </div>
     </div>
   );

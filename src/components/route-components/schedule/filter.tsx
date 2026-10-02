@@ -93,8 +93,6 @@ function FilterContents() {
 }
 
 function MobileDialog() {
-  const filter = useStore(scheduleFilterStore);
-
   return (
     <Drawer>
       <DrawerTrigger as={Button<"button">}>필터</DrawerTrigger>
