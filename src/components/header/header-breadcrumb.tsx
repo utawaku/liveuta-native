@@ -1,5 +1,5 @@
 import { For, Show } from "solid-js";
-import { Link, useNavigate, useRouter } from "@tanstack/solid-router";
+import { Link } from "@tanstack/solid-router";
 
 import {
   Breadcrumb,

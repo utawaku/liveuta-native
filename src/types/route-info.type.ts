@@ -1,6 +1,6 @@
-import { RegisteredRouter } from "@tanstack/solid-router";
+import type { FileRoutesByTo } from "~/routeTree.gen";
 
-export type Route = keyof RegisteredRouter["routesByPath"];
+export type Route = keyof FileRoutesByTo;
 
 export type RouteInfo = {
   path: Route;

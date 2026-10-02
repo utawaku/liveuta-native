@@ -1,6 +1,4 @@
-import { ParentProps } from "solid-js";
 import {
-  createBrowserHistory,
   createMemoryHistory,
   createRouter,
   RouterProvider,

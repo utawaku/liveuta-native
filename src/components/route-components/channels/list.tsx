@@ -1,10 +1,11 @@
+import type { Channel } from "~/types/channel.type";
+
 import { For } from "solid-js";
 
 import { ChannelItemCard } from "./item-card";
-import type { Channel } from "~/types/channel.type";
 
 type ScheduleListProps = {
-  channels: Channel[];
+  channels: ReadonlyArray<Channel>;
 };
 
 export function ChannelList(props: ScheduleListProps) {

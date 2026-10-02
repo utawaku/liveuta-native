@@ -1,13 +1,6 @@
-import { Link, useRouter } from "@tanstack/solid-router";
+import { useRouter } from "@tanstack/solid-router";
 
-import {
-  SidebarGroup,
-  SidebarGroupLabel,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuButtonInnerWithShortcut,
-  SidebarMenuItem,
-} from "~/components/ui/sidebar";
+import { SidebarGroup, SidebarGroupLabel, SidebarMenu } from "~/components/ui/sidebar";
 import { MaterialSymbolsYoutubeTvOutline } from "~/icons/material-symbols/youtube-tv-outline";
 import { RiCalendarScheduleLine } from "~/icons/remix-icon/calendar-schedule-line";
 import { TablerDownload } from "~/icons/tabler/download";
